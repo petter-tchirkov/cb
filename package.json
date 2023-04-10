@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@animxyz/vue3": "^0.6.7",
+        "@kyvg/vue3-notification": "^2.9.0",
         "@pinia/nuxt": "^0.4.7",
         "chart.js": "^3.9.1",
         "pinia": "^2.0.33",

@@ -25,11 +25,12 @@
                 >Вже маєте аккаунт?
                 <NuxtLink
                     class="text-sm text-blue-900 transition-all hover:text-blue-500"
-                    to="/auth/register"
+                    to="/auth/login"
                     >Увійдіть</NuxtLink
                 >
                 до його</p
             >
+            <ui-toast/>
         </form>
     </section>
 </template>

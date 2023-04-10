@@ -5,19 +5,26 @@
         </Header>
         <div class="p-5">
             <LineChart
+            @click="ok"
                 :chart-data="testData"
                 :options="chartOptions" />
         </div>
+        <ui-toast/>
     </section>
 </template>
 
 <script lang="ts" setup>
 import { LineChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
-import { useAuthStore } from '~/store/auth';
+import { useNotification } from '@kyvg/vue3-notification'
+const {notify} = useNotification()
 
-
-await useAuthStore().test()
+const ok = () => {
+    notify({
+        text: 'ok',
+        type: 'success'
+    })
+}
 
 Chart.register(...registerables)
 
