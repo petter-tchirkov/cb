@@ -30,6 +30,8 @@ export const useAuthStore = defineStore('auth', () => {
               }
             if(resData._rawValue) {
                 token.value = resData._rawValue
+                console.log(123);
+                
                 router.push('/')
             }
         })
@@ -61,10 +63,16 @@ export const useAuthStore = defineStore('auth', () => {
         router.push('/auth/login')
     }
 
+    // const currentUser = async () => {
+    //     if (!token.value) {
+    //         await logout()
+    //         return
+    //       }
+    // }
+
     const logout = async () => {
         token.value = ''
         router.push('/auth/login')
-        console.log('logged out');
     }
 
     return { token, getToken, test, isLogin, logout, register }

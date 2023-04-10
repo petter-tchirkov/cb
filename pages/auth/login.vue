@@ -53,7 +53,7 @@ import { useAuthStore } from '~/store/auth';
 import { IUser } from '~/types/user';
 definePageMeta({
     layout: 'auth',
-    middleware: 'login'
+  
 })
 
 const isPasswordRevealed = ref<boolean>(false)
