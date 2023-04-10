@@ -110,6 +110,10 @@
 import { useBotsStore } from '~/store/bots'
 const bots = useBotsStore().bots
 
+definePageMeta({
+    middleware: 'login'
+})
+
 const isAddBotModalVisible = ref(false)
 const isBotDeleteModalVisible = ref(false)
 

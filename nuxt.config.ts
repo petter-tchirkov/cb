@@ -12,6 +12,10 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-icon',
     ],
+
     css: ['~/assets/css/index.scss'],
     ssr: false,
+    plugins: [
+        '~/plugins/animxyz.ts',
+    ]
 })

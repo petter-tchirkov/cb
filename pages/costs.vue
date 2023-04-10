@@ -66,6 +66,10 @@
 import { useCostsStore } from '~/store/costs'
 import { useArrayFilter } from '@vueuse/core'
 
+definePageMeta({
+    middleware: 'login'
+})
+
 const costsStore = useCostsStore()
 
 const searchBotName = ref<string>('')

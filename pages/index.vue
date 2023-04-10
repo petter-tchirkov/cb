@@ -14,8 +14,16 @@
 <script lang="ts" setup>
 import { LineChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
+import { useAuthStore } from '~/store/auth';
+
+
+await useAuthStore().test()
 
 Chart.register(...registerables)
+
+definePageMeta({
+    middleware: 'login'
+})
 
 const chartLabels = ref([
     '2023-01-01',

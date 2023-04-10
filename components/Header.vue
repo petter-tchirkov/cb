@@ -1,6 +1,6 @@
 <template>
     <header
-        class="border-b border-b-gray-100 px-5 py-2 flex justify-between items-center">
+        class="flex items-center justify-between px-5 py-2 border-b border-b-gray-100">
         <span class="text-2xl font-bold"><slot name="pageTitle" /></span>
 
         <div class="flex items-center gap-5">
@@ -8,10 +8,10 @@
                 <Icon
                     name="bxs:dollar-circle"
                     class="w-5 h-5 text-green-500" />
-                {{ user.balance }}</span
+                БАЛАНС</span
             >
             <div
-                class="bg-blue-500 text-white font-medium cursor-pointer w-10 h-10 text-xl rounded-full relative flex justify-center items-center"
+                class="relative flex items-center justify-center w-10 h-10 text-xl font-medium text-white bg-blue-500 rounded-full cursor-pointer"
                 :class="{ 'has-notifications': isNotification }"
                 @click="isNotification = !isNotification">
                 <span class="text-sm">{{ getUserAcronym }}</span>
@@ -21,13 +21,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '~/store/user'
-const user = useUserStore().user
+import { useAuthStore } from '~/store/auth.js'
+const user = useAuthStore().user
 
 const isNotification = ref<boolean>(true)
 
 const getUserAcronym = computed(() => {
-    let userName: string = `${user.firstName} ${user.lastName}`
+    let userName: string = 'User Userov'
     let words = userName.split(' ')
     let acronym: string = words
         .map((word) => word[0])

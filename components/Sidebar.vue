@@ -60,7 +60,7 @@
                     @click="isSidebarShown = !isSidebarShown" />
             </div>
             <NuxtLink
-                to="/auth/login"
+            @click="useAuthStore().logout()"
                 class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100">
                 <Icon
                     name="bxs:log-out"
@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useAuthStore } from '~/store/auth';
 const isSidebarShown = ref<boolean>(true)
 </script>
 

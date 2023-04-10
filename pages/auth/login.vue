@@ -1,14 +1,14 @@
 <template>
-    <div class="min-h-screen flex justify-center items-center">
-        <form class="w-96 border-2 border-blue-600 p-5 rounded-lg">
-            <h2 class="text-center text-3xl mb-8 font-bold">Вхід</h2>
+    <div class="relative flex items-center justify-center min-h-screen">
+        <form class="p-5 border-2 border-blue-600 rounded-lg w-96">
+            <h2 class="mb-8 text-3xl font-bold text-center">Вхід</h2>
             <ui-input
-                v-model="credentials.email"
+                v-model="login"
                 label="Пошта"
                 type="text"
                 icon="mdi:email" />
             <ui-input
-                v-model="credentials.password"
+                v-model="password"
                 label="Пароль"
                 :type="isPasswordRevealed ? 'text' : 'password'"
                 icon="mdi:eye">
@@ -20,8 +20,8 @@
             ></ui-input>
             <ui-button
                 label="Увійти"
-                full />
-            <div class="flex items-start mb-6 pl-4">
+                full @click.prevent="useAuthStore().getToken(login, password)" />
+            <div class="flex items-start pl-4 mb-6">
                 <div class="flex items-center h-5">
                     <input
                         id="remember"
@@ -38,7 +38,7 @@
             <p class="text-sm text-center"
                 >Ще не маєте аккаунту?
                 <NuxtLink
-                    class="font-semibold text-blue-600 hover:underline transition-all"
+                    class="font-semibold text-blue-600 transition-all hover:underline"
                     to="/auth/register"
                     >Зареєструйте</NuxtLink
                 >
@@ -49,16 +49,17 @@
 </template>
 
 <script lang="ts" setup>
+import { useAuthStore } from '~/store/auth';
+import { IUser } from '~/types/user';
 definePageMeta({
     layout: 'auth',
+    middleware: 'login'
 })
 
 const isPasswordRevealed = ref<boolean>(false)
 
-const credentials: { email: string; password: string } = reactive({
-    email: '',
-    password: '',
-})
+const login = ref('')
+const password = ref('')
 </script>
 
 <style lang="scss" scoped></style>
