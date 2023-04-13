@@ -17,7 +17,9 @@
 import { LineChart } from 'vue-chart-3'
 import { Chart, registerables } from 'chart.js'
 import { useNotification } from '@kyvg/vue3-notification'
+import { useAuthStore } from '~/store/auth';
 const {notify} = useNotification()
+const user = useAuthStore().user
 
 const ok = () => {
     notify({
@@ -29,7 +31,7 @@ const ok = () => {
 Chart.register(...registerables)
 
 definePageMeta({
-    middleware: 'login'
+    middleware:[ 'login', 'auth']
 })
 
 const chartLabels = ref([

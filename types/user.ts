@@ -1,4 +1,6 @@
 export interface IUser {
-  login: string,
-  password: string
+  ballance: number,
+  user_id: number,
+  user_login: string,
+  user_role: 'string'
 }

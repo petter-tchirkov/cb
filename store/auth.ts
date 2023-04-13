@@ -33,11 +33,24 @@ export const useAuthStore = defineStore('auth', () => {
               }
             if(resData) {
                 token.value = resData
+                currentUser()
                 router.push('/')
             }
     }
 
-    
+    const currentUser = async () => {
+        const {data, error } = await useFetch('http://10.0.98.105/Users/user', {
+            headers: {
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        const resData = data?.value as IUser
+        const resError = error?.value as Record<string,any>
+        
+        if(resData) {            
+            user.value = resData
+        }
+    }
 
     const register = async (login: string, password: string) => {
         const {data, error} = await useFetch('http://10.0.98.105/Users/signup', {
@@ -67,18 +80,11 @@ export const useAuthStore = defineStore('auth', () => {
         router.push('/auth/login')
     }
 
-    // const currentUser = async () => {
-    //     if (!token.value) {
-    //         await logout()
-    //         return
-    //       }
-    // }
-
     const logout = async () => {
         token.value = ''
         router.push('/auth/login')
     }
 
-    return { token, getToken, isLogin, logout, register }
+    return { token, getToken, isLogin, logout, register, user, currentUser }
 })
 

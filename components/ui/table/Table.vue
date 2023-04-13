@@ -11,7 +11,7 @@
         </thead>
         <slot />
     </table>
-    <ui-table-pagination :items="items" />
+    <!-- <ui-table-pagination :items="items" /> -->
 </template>
 
 <script setup lang="ts">

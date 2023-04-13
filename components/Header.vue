@@ -8,13 +8,13 @@
                 <Icon
                     name="bxs:dollar-circle"
                     class="w-5 h-5 text-green-500" />
-                БАЛАНС</span
+                {{user.ballance}}</span
             >
             <div
                 class="relative flex items-center justify-center w-10 h-10 text-xl font-medium text-white bg-blue-500 rounded-full cursor-pointer"
                 :class="{ 'has-notifications': isNotification }"
                 @click="isNotification = !isNotification">
-                <span class="text-sm">{{ getUserAcronym }}</span>
+                <span class="text-sm">{{ user.user_id }}</span>
             </div>
         </div>
     </header>
@@ -22,7 +22,9 @@
 
 <script lang="ts" setup>
 import { useAuthStore } from '~/store/auth.js'
-const user = useAuthStore().user
+import { IUser } from '~/types/user';
+const user = useAuthStore().user as IUser
+
 
 const isNotification = ref<boolean>(true)
 
