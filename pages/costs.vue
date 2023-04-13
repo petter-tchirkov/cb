@@ -1,15 +1,15 @@
 <template>
     <section class="w-full">
-        <!-- <Header>
+        <Header>
             <template #pageTitle> Витрати </template>
-        </Header> -->
-        <div class="p-5">
+        </Header>
+        <div class="flex flex-col items-center p-5">
             <div class="flex items-center gap-10">
                 <ui-input
                     class="grow"
                     label="Пошук по боту"
                     type="text"
-                    v-model="searchBotName">
+                    v-model="filterParams.bot_name">
                     <template #icon>
                         <Icon name="ant-design:search-outlined" />
                     </template>
@@ -18,24 +18,25 @@
                     class="grow"
                     label="Пошук по країні"
                     type="text"
-                    v-model="searchCountry">
+                    v-model="filterParams.country">
                     <template #icon>
                         <Icon name="ant-design:search-outlined" />
                     </template>
                 </ui-input>
                 <div class="flex gap-5">
                     <ui-datepicker
-                        v-model="startDate"
+                        v-model="filterParams.date_from"
                         label="Дата" />
                     <ui-datepicker
-                        v-model="dueDate"
+                        v-model="filterParams.date_to"
                         label="Дата" />
                 </div>
+                <ui-button label="Відфільтрувати" @click="filterData" class="mt-[9px]"/>
             </div>
             <ui-table
-                :items="costs"
+                :items="costsStore.costs"
                 :headers="headers">
-                <ui-table-row v-for="row in costs">
+                <ui-table-row v-for="row in costsStore.costs">
                     <ui-table-column>{{ row.date }}</ui-table-column>
                     <ui-table-column>{{ row.bot_uri }}</ui-table-column>
                     <ui-table-column>{{ row.bot_name }}</ui-table-column>
@@ -49,44 +50,66 @@
                     <ui-table-column>{{ row.charged }}</ui-table-column>
                 </ui-table-row>
             </ui-table>
+            <p class="mt-5">Всього стягнуто: <span class="text-xl font-bold">{{ chargesSum }}</span></p>
+            <ui-table-pagination :current-page="filterParams.page" :per-page="filterParams.per_page"  :total-pages="costsStore.pages" @next-page="nextPage" @previous-page="previousPage" @update="(page) => goToPage(page)"/>
         </div>
     </section>
 </template>
 
 <script lang="ts" setup>
 import { useCostsStore } from '~/store/costs'
+import { useAuthStore } from '~/store/auth';
+import { ICosts } from '~/types/costs';
 definePageMeta({
     middleware:[ 'login', 'auth']
 })
-const costsStore = useCostsStore()
-await costsStore.getCosts(3,1)
-await refreshNuxtData()
-const costs = costsStore.costs.data
+
+const user: number = useAuthStore().user?.user_id!
+const costsStore = useCostsStore() as any
+
+
+const filterParams: ICosts = reactive({
+    id: user,
+    page: 1,
+    per_page: 10,
+    bot_name: '',
+    country: '',
+    date_from: '',
+    date_to: ''
+})
+
+const filterData = async () => {
+    await costsStore.getCosts(filterParams)
+}
+
+
+const nextPage = async () => {
+    filterParams.page++
+    await costsStore.getCosts(filterParams)
+}
+const previousPage = async () => {
+    filterParams.page--
+    await costsStore.getCosts(filterParams)
+}
+const goToPage = async (page: number) => {
+    filterParams.page = page
+    await costsStore.getCosts(filterParams)
+}
 
 
 
+await costsStore.getCosts(filterParams)
 
-
-
-
-const searchBotName = ref<string>('')
-const searchCountry = ref<string>('')
-
-//bot, country and date filters
-const startDate = ref('1970-01-01')
-const dueDate = ref('2050-01-01')
-
-
-// const chargesSum = computed(() => {
-//     const charges: number[] = []
-//     filteredCosts.value.map((item) => {
-//         charges.push(item.charged)
-//     })
-//     return (
-//         Math.round(charges.reduce((partialSum, a) => partialSum + a, 0) * 100) /
-//         100
-//     )
-// })
+const chargesSum = computed(() => {
+    const charges: number[] = []
+    costsStore.costs.map((item: any) => {
+        charges.push(item.charged)
+    })
+    return (
+        Math.round(charges.reduce((partialSum, a) => partialSum + a, 0) * 100) /
+        100
+    )
+})
 
 const headers = [
     'DATE',

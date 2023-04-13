@@ -1,6 +1,6 @@
 <template>
     <button
-        class="mb-2 mr-2 font-medium text-white rounded-lg focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        class="font-medium text-white rounded-lg  focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         :class="[{ 'w-full': full }, `btn-${color}`, `btn-${size}`]"
         :disabled="disabled"
         >{{ label }}

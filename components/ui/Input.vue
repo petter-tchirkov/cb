@@ -1,6 +1,6 @@
 <template>
-    <label class="flex flex-col relative mb-5">
-        <span class="block mb-2 text-sm font-medium pl-4">{{ label }}</span>
+    <label class="relative flex flex-col mb-5">
+        <span class="block pl-4 mb-2 text-sm font-medium">{{ label }}</span>
         <input
             @input="$emit('update:modelValue', ($event.target as any).value)"
             :type="type"
@@ -21,7 +21,7 @@ defineProps<{
     label: string
     type: string
     icon?: string
-    modelValue: string
+    modelValue: string | undefined 
 }>()
 
 const emit = defineEmits<{
