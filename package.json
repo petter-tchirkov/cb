@@ -1,0 +1,35 @@
+{
+    "name": "nuxt-app",
+    "private": true,
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare"
+    },
+    "devDependencies": {
+        "@nuxtjs/tailwindcss": "^6.6.5",
+        "@vueuse/core": "^9.13.0",
+        "@vueuse/nuxt": "^9.13.0",
+        "eslint": "^8.36.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-vue": "^9.10.0",
+        "nuxt": "^3.3.3",
+        "nuxt-icon": "^0.3.3",
+        "prettier": "^2.8.7",
+        "sass": "^1.60.0"
+    },
+    "dependencies": {
+        "@animxyz/vue3": "^0.6.7",
+        "@kyvg/vue3-notification": "^2.9.0",
+        "@pinia/nuxt": "^0.4.7",
+        "chart.js": "^3.9.1",
+        "pinia": "^2.0.33",
+        "vue-chart-3": "^3.1.8"
+    },
+    "overrides": {
+        "vue": "latest"
+    }
+}
