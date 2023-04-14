@@ -1,5 +1,5 @@
 <template>
-    <div class="inline-flex mt-5 -space-x-px">
+    <div class="inline-flex -space-x-px">
         <div @click="$emit('previousPage')" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 cursor-pointer first:rounded-l-lg last:rounded-r-lg hover:bg-gray-100 hover:text-gray-700">Назад</div>
         <div @click="$emit('update', page)" v-for="page in calculatePages" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 cursor-pointer first:rounded-l-lg last:rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
             :class="{'current' : currentPage === page}"

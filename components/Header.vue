@@ -5,9 +5,7 @@
 
         <div class="flex items-center gap-5">
             <span class="flex items-center gap-1 text-xl font-semibold">
-                <Icon
-                    name="bxs:dollar-circle"
-                    class="w-5 h-5 text-green-500" />
+                    <Icon name="ic:baseline-euro" class="w-5 h-5"/>
                 {{user.ballance}}</span
             >
             <div
