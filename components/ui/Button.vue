@@ -1,6 +1,6 @@
 <template>
     <button
-        class="font-medium text-white rounded-lg  focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        class="font-medium text-white rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none"
         :class="[{ 'w-full': full }, `btn-${color}`, `btn-${size}`]"
         :disabled="disabled"
         >{{ label }}
@@ -55,7 +55,7 @@ button {
         @apply px-3 py-2 text-sm;
     }
     &-base {
-        @apply text-sm px-5 py-2.5;
+        @apply text-sm px-5 py-3;
     }
     &-lg {
         @apply px-5 py-3 text-base;

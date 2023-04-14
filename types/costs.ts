@@ -2,8 +2,9 @@ export interface ICosts {
   id: number,
   page: number,
   per_page?: number,
-  name_bot?: string,
+  bot_name?: string,
   country?: string,
   date_from?: string,
-  date_to?: string
+  date_to?: string,
+  show_all?: boolean
 }
