@@ -9,7 +9,7 @@
                     class="grow"
                     label="Пошук по боту"
                     type="text"
-                    v-model="filterParams.bot_name">
+                    v-model="filterParams.name_bot">
                     <template #icon>
                         <Icon name="ant-design:search-outlined" />
                     </template>
@@ -39,7 +39,7 @@
                 <ui-table-row v-for="row in costsStore.costs">
                     <ui-table-column>{{ row.date }}</ui-table-column>
                     <ui-table-column>{{ row.bot_uri }}</ui-table-column>
-                    <ui-table-column>{{ row.bot_name }}</ui-table-column>
+                    <ui-table-column>{{ row.name_bot }}</ui-table-column>
                     <ui-table-column>{{ row.country }}</ui-table-column>
                     <ui-table-column>{{ row.rate_type }}</ui-table-column>
                     <ui-table-column>{{ row.rate }}</ui-table-column>
@@ -72,7 +72,7 @@ const filterParams: ICosts = reactive({
     id: user,
     page: 1,
     per_page: 10,
-    bot_name: '',
+    name_bot: '',
     country: '',
     date_from: '',
     date_to: ''
@@ -85,15 +85,15 @@ const filterData = async () => {
 
 const nextPage = async () => {
     filterParams.page++
-    await costsStore.getCosts(filterParams)
+    await filterData()
 }
 const previousPage = async () => {
     filterParams.page--
-    await costsStore.getCosts(filterParams)
+    await filterData()
 }
 const goToPage = async (page: number) => {
     filterParams.page = page
-    await costsStore.getCosts(filterParams)
+    await filterData()
 }
 
 

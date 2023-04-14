@@ -61,7 +61,7 @@
             </div>
             <NuxtLink
             @click="useAuthStore().logout()"
-                class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100">
+                class="flex items-center gap-2 p-2 font-semibold rounded-lg cursor-pointer group hover:bg-gray-100">
                 <Icon
                     name="bxs:log-out"
                     class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" />
