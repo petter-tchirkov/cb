@@ -1,25 +1,26 @@
 <template>
-    <label class="relative flex flex-col mb-5">
-        <span class="block pl-4 mb-2 text-sm font-medium">{{ label }}</span>
-        <input
-            type="date"
-            ref="datepicker"
-            :value="modelValue"
-            @input="$emit('update:modelValue', ($event.target as any).value)"
-            class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 flex grow" />
-    </label>
+  <label class="relative flex flex-col mb-5">
+    <span class="block pl-4 mb-2 text-sm font-medium">{{ label }}</span>
+    <input
+      ref="datepicker"
+      type="date"
+      :value="modelValue"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+      @input="$emit('update:modelValue', ($event.target as any).value)"
+    />
+  </label>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+  defineProps<{
     modelValue: string | undefined
-    label: String
-}>()
-const emit = defineEmits<{
+    label: string
+  }>()
+  defineEmits<{
     (e: 'update:modelValue', value: string | number): void
-}>()
+  }>()
 
-const datepicker = ref()
+  const datepicker = ref()
 </script>
 
 <style lang="scss" scoped></style>
