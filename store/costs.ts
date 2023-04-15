@@ -4,12 +4,13 @@ import { ICostsItem } from '~/types/costsItem'
 import { ICosts } from '~/types/costs'
 
 export const useCostsStore = defineStore('costs', () => {
+  const url = useRuntimeConfig().public.baseURL
   const costs: Ref<ICostsItem[]> = ref([])
   const pages = ref(1)
   const totalCharged = ref(1)
 
   const getCosts = async (filterParams: ICosts) => {
-    await useFetch(() => 'http://10.0.98.105/Users/costs', {
+    await useFetch(`${url}/Users/costs`, {
       headers: {
         Authorization: `Bearer ${useAuthStore().token}`,
       },

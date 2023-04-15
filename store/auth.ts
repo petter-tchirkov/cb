@@ -3,6 +3,7 @@ import { useNotification } from '@kyvg/vue3-notification'
 import { IUser } from '~/types/user'
 
 export const useAuthStore = defineStore('auth', () => {
+  const url = useRuntimeConfig().public.baseURL
   const router = useRouter()
   const token = useCookie('access_token', { default: () => '' })
   const user = ref<IUser | null>(null)
@@ -11,7 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogin = computed<boolean>(() => !!token.value)
 
   const login = async (login: string, password: string) => {
-    await useFetch('http://10.0.98.105/Users/get-token', {
+    await useFetch(`${url}/Users/get-token`, {
       body: {
         login,
         password,
@@ -36,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const currentUser = async () => {
-    await useFetch('http://10.0.98.105/Users/user', {
+    await useFetch(`${url}/Users/user`, {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
@@ -47,7 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const register = async (login: string, password: string) => {
-    await useFetch('http://10.0.98.105/Users/signup', {
+    await useFetch(`${url}/Users/signup`, {
       body: {
         login,
         password,

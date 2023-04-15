@@ -18,4 +18,9 @@ export default defineNuxtConfig({
     '~/plugins/animxyz.ts',
     { src: '~/plugins/notifications.client.ts', mode: 'client' },
   ],
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL,
+    },
+  },
 })
