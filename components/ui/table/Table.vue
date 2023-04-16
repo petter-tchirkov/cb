@@ -1,6 +1,6 @@
 <template>
   <table class="w-full text-sm text-left text-gray-500">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
       <th
         v-for="header in headers"
         :key="header"
@@ -12,7 +12,12 @@
     </thead>
     <slot />
   </table>
-  <!-- <ui-table-pagination :items="items" /> -->
+  <p
+    v-if="!items.length"
+    class="w-full pt-5 text-center text-gray-500"
+  >
+    Дані відсутні
+  </p>
 </template>
 
 <script setup lang="ts">

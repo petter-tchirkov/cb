@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section>
     <HeaderLite>
       <template #pageTitle> Боти Viber </template>
     </HeaderLite>
@@ -12,7 +12,7 @@
         :is-modal-visible="isAddBotModalVisible"
         @modal-close="isAddBotModalVisible = false"
       >
-        <template #modalHeading>Додавання бота</template>
+        <template #modalHeading>Новий бот</template>
         <template #modalBody>
           <ui-input
             label="Назва"
@@ -42,45 +42,35 @@
     </div>
     <div class="flex flex-wrap gap-3 px-5">
       <BotCard
-        v-for="bot in bots"
+        v-for="bot in botsStore.bots"
         :key="bot.botName"
+        @click.stop="router.push(`/bots/${bot.id}`)"
       >
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
           {{ bot.botName }}
         </h5>
         <ul class="text-xs font-normal text-gray-700">
           <li class="mb-1">
-            Free: <span class="font-bold">{{ bot.free }}</span>
+            Billing Status:
+            <span class="font-bold">{{ bot.billingStatuses }}</span>
           </li>
           <li class="mb-1">
-            in Session Non Billable Bot:
-            <span class="font-bold">{{ bot.inSessionNonBillableBot }}</span>
+            Bot URI:
+            <span class="font-bold">{{ bot.botURI }}</span>
           </li>
           <li class="mb-1">
-            in Session For Billable Bot:
-            <span class="font-bold">{{ bot.inSessionForBillableBot }}</span>
+            Created Date:
+            <span class="font-bold">{{ bot.createdDate }}</span>
           </li>
           <li class="mb-1">
-            out Of Session Free Message Non Billable Bot:
-            <span class="font-bold">{{
-              bot.outOfSessionFreeMessageNonBillableBot
-            }}</span>
-          </li>
-          <li class="mb-1">
-            out Of Session Free Message For Billable Bot:
-            <span class="font-bold">{{
-              bot.outOfSessionFreeMessageForBillableBot
-            }}</span>
-          </li>
-          <li class="mb-7">
-            out Of Session Billed Messages:
-            <span class="font-bold">{{ bot.outOfSessionBilledMessages }}</span>
+            Bot ID:
+            <span class="font-bold">{{ bot.id }}</span>
           </li>
           <ui-button
             label="Видалити"
             size="xs"
             color="danger"
-            @click="isBotDeleteModalVisible = true"
+            @click.stop="isBotDeleteModalVisible = true"
           />
         </ul>
         <ui-modal
@@ -96,12 +86,12 @@
             <ui-button
               label="Видалити"
               color="danger"
-              @click="isBotDeleteModalVisible = false"
+              @click.stop="isBotDeleteModalVisible = false"
             />
             <ui-button
               label="Відміна"
               color="light"
-              @click="isBotDeleteModalVisible = false"
+              @click.stop="isBotDeleteModalVisible = false"
             />
           </template>
         </ui-modal>
@@ -112,7 +102,9 @@
 
 <script setup lang="ts">
   import { useBotsStore } from '~/store/bots'
-  const bots = useBotsStore().bots
+  const router = useRouter()
+  const botsStore = useBotsStore()
+  await botsStore.fetchBots()
 
   definePageMeta({
     middleware: ['login', 'auth'],

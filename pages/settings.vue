@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section>
     <HeaderLite>
       <template #pageTitle> Налаштування </template>
     </HeaderLite>

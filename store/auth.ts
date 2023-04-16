@@ -41,6 +41,9 @@ export const useAuthStore = defineStore('auth', () => {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
+      onResponseError() {
+        logout()
+      },
       onResponse({ response }) {
         user.value = response._data
       },

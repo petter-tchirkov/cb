@@ -34,7 +34,8 @@
   defineProps<{ isModalVisible: boolean }>()
 
   const modal = ref(null)
-  onClickOutside(modal, () => {
+  onClickOutside(modal, (event: Event) => {
+    event.stopPropagation()
     emits('modalClose')
   })
 </script>

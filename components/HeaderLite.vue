@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex items-center justify-between px-5 py-2 border-b border-b-gray-100"
+    class="flex items-center justify-between px-5 py-2 border-b border-b-gray-200"
   >
     <span class="text-2xl font-bold"><slot name="pageTitle" /></span>
     <div class="flex items-center gap-5">

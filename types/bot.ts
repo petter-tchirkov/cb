@@ -1,9 +1,11 @@
 export interface IBot {
+  billingStatuses?: number
   botName: string
-  free: number
-  inSessionNonBillableBot: number
-  inSessionForBillableBot: number
-  outOfSessionFreeMessageNonBillableBot: number
-  outOfSessionFreeMessageForBillableBot: number
-  outOfSessionBilledMessages: number
+  botURI: string
+  createdDate?: string
+  id?: string
+  isActive: boolean
+  isDelete?: boolean
+  userID?: number
+  token: string
 }

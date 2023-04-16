@@ -1,10 +1,12 @@
 <template>
   <button
-    class="font-medium text-white rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none"
+    class="flex items-center justify-between gap-2 font-medium text-white rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none"
     :class="[{ 'w-full': full }, `btn-${color}`, `btn-${size}`]"
     :disabled="disabled"
   >
+    <slot name="prependIcon" />
     {{ label }}
+    <slot name="appendIcon" />
   </button>
 </template>
 

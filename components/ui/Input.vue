@@ -3,8 +3,13 @@
     <span class="block pl-4 mb-2 text-sm font-medium">{{ label }}</span>
     <input
       :type="type"
+      :disabled="disabled"
       :value="modelValue"
       class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-4"
+      :class="{
+        'bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-300':
+          disabled,
+      }"
       @input="$emit('update:modelValue', ($event.target as any).value)"
     />
     <span
@@ -25,6 +30,7 @@
     type: string
     icon?: string
     modelValue: string | undefined
+    disabled?: boolean
   }>()
 
   defineEmits<{
