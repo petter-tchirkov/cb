@@ -76,7 +76,7 @@
           label="Видалити"
           size="s"
           color="danger"
-          @click="isDelete = !isDelete"
+          @click="initBotRemove"
         >
         </ui-button>
         <ui-button
@@ -117,6 +117,11 @@
     } else {
       isEdit.value = true
     }
+  }
+
+  const initBotRemove = () => {
+    useBotsStore().removeBot(botParams)
+    isDelete.value = false
   }
 </script>
 

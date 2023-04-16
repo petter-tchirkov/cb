@@ -8,6 +8,7 @@ export const useBotsStore = defineStore('bots', () => {
   const token = useAuthStore().token
   const bots: Ref<IBot[]> = ref([])
   const bot: Ref<IBot> = ref({} as IBot)
+  const router = useRouter()
   const { notify } = useNotification()
 
   const fetchBots = async () => {
@@ -28,6 +29,35 @@ export const useBotsStore = defineStore('bots', () => {
       },
       onResponse({ response }) {
         bot.value = response._data as IBot
+      },
+    })
+  }
+
+  const addBot = async (newBot: IBot) => {
+    await useFetch(`${url}/Users/add-bot`, {
+      method: 'POST',
+      headers: {
+        accept: 'text/plain',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: {
+        botName: newBot.botName,
+        botURI: newBot.botURI,
+        token: newBot.token,
+      },
+      onRequestError({ response }) {
+        notify({
+          text: response?._data.errors,
+          type: 'error',
+        })
+      },
+      onResponse({ response }) {
+        reloadNuxtApp()
+        notify({
+          text: `Бота ${response._data.botName} успішно створено`,
+          type: 'success',
+        })
       },
     })
   }
@@ -55,5 +85,24 @@ export const useBotsStore = defineStore('bots', () => {
     })
   }
 
-  return { fetchBots, bots, bot, fetchBot, updateBot }
+  const removeBot = async (botParams: IBot) => {
+    const { refresh } = await useFetch(`${url}/Users/bot/${botParams.id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      onResponse() {
+        notify({
+          title: 'Видалення',
+          text: `Бота ${botParams.botName} успішно видалено`,
+          type: 'success',
+        })
+        router.push('/')
+        console.log(123)
+        reloadNuxtApp()
+      },
+    })
+  }
+
+  return { fetchBots, bots, bot, fetchBot, addBot, updateBot, removeBot }
 })

@@ -64,15 +64,17 @@
                 >{{ bot.botName }}</NuxtLink
               >
             </li>
-            <li
-              class="flex items-center justify-between w-full p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 rounded-lg cursor-pointer group hover:bg-gray-100"
-            >
-              Додати бота
-              <Icon
-                name="material-symbols:add"
-                class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
-              />
-            </li>
+            <NuxtLink to="/bots/new-bot">
+              <li
+                class="flex items-center justify-between w-full p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 rounded-lg cursor-pointer group hover:bg-gray-100"
+              >
+                Додати бота
+                <Icon
+                  name="material-symbols:add"
+                  class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                />
+              </li>
+            </NuxtLink>
           </ul>
         </XyzTransition>
         <NuxtLink
