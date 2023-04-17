@@ -1,7 +1,7 @@
 <template>
-    <tr class="bg-white border-b">
-        <slot />
-    </tr>
+  <tr class="bg-white border-b">
+    <slot />
+  </tr>
 </template>
 
 <script setup lang="ts"></script>

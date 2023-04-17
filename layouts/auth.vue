@@ -1,7 +1,7 @@
 <template>
-    <main class="min-h-screen min-w-screen flex justify-center items-center">
-        <NuxtPage />
-    </main>
+  <main class="flex items-center justify-center min-h-screen min-w-screen">
+    <NuxtPage />
+  </main>
 </template>
 
 <script setup></script>
