@@ -46,8 +46,8 @@
         :headers="headers"
       >
         <ui-table-row
-          v-for="row in costsStore.costs"
-          :key="row.rate"
+          v-for="(row, index) in costsStore.costs"
+          :key="index"
         >
           <ui-table-column>{{ row.date }}</ui-table-column>
           <ui-table-column>{{ row.bot_uri }}</ui-table-column>
@@ -111,25 +111,30 @@
     show_all: false,
   })
 
+  const goToFirstPage = () => {
+    filterParams.page = 1
+  }
+
   const filterData = async () => {
+    goToFirstPage()
     await costsStore.getCosts(filterParams)
   }
 
   const nextPage = async () => {
     filterParams.page++
-    await filterData()
+    await costsStore.getCosts(filterParams)
   }
   const previousPage = async () => {
     filterParams.page--
-    await filterData()
+    await costsStore.getCosts(filterParams)
   }
   const goToPage = async (page: number) => {
     filterParams.page = page
-    await filterData()
+    await costsStore.getCosts(filterParams)
   }
   const showHideAllFields = async () => {
     filterParams.show_all = !filterParams.show_all
-    await filterData()
+    await costsStore.getCosts(filterParams)
   }
 
   await costsStore.getCosts(filterParams)

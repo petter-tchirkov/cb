@@ -26,8 +26,8 @@
         <div class="flex items-center justify-between">
           <ui-toggle
             v-model="botParams.isActive"
-            :disabled="!isEdit"
-            label="Ативний"
+            :default-check="botParams.isActive"
+            label="Активний"
           />
           <div class="flex gap-3">
             <ui-button

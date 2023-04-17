@@ -78,7 +78,7 @@
           </ul>
         </XyzTransition>
         <NuxtLink
-          to="/settings"
+          to="/admin"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
         >
           <Icon
