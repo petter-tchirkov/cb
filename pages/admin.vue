@@ -1,8 +1,13 @@
 <template>
   <section>
     <HeaderLite>
-      <template #pageTitle> Налаштування </template>
+      <template #pageTitle> Адміністрування </template>
     </HeaderLite>
+    <ui-file-upload
+      label="Завантажити CSV"
+      format=".csv"
+      path="/Users/upload-file"
+    />
   </section>
 </template>
 
