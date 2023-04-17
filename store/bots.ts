@@ -53,7 +53,6 @@ export const useBotsStore = defineStore('bots', () => {
         })
       },
       onResponse({ response }) {
-        reloadNuxtApp()
         notify({
           text: `Бота ${response._data.botName} успішно створено`,
           type: 'success',

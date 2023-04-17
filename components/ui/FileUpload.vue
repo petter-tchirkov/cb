@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+  import { notify } from '@kyvg/vue3-notification'
   import { useFileDialog } from '@vueuse/core'
   import { useAuthStore } from '~/store/auth'
 
@@ -42,25 +43,24 @@
   const uploadFile = async () => {
     const formData = new FormData()
     formData.append('file', (files.value as FileList)[0])
-    console.log(formData)
 
     await useFetch(url + props.path, {
       method: 'POST',
       headers: {
         accept: '*/*',
-        // 'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
       onResponse({ response }) {
         console.log(response)
+
+        notify({
+          text: 'Успішно завантажено',
+          type: 'success',
+        })
       },
     })
   }
 </script>
 
-<style lang="scss" scoped>
-  input#file-upload-button {
-    @apply text-red-500;
-  }
-</style>
+<style lang="scss" scoped></style>
