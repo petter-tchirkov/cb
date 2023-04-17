@@ -81,12 +81,13 @@ export const useBotsStore = defineStore('bots', () => {
           text: 'Бота успішно відредаговано',
           type: 'success',
         })
+        fetchBots()
       },
     })
   }
 
   const removeBot = async (botParams: IBot) => {
-    const { refresh } = await useFetch(`${url}/Users/bot/${botParams.id}`, {
+    await useFetch(`${url}/Users/bot/${botParams.id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -98,8 +99,7 @@ export const useBotsStore = defineStore('bots', () => {
           type: 'success',
         })
         router.push('/')
-        console.log(123)
-        reloadNuxtApp()
+        fetchBots()
       },
     })
   }
