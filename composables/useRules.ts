@@ -22,14 +22,6 @@ export const useRules = () => {
           }
         ),
       },
-      sameAs: {
-        sameAs: helpers.withMessage(
-          'Паролі не співпадають',
-          (v: string, c: string) => {
-            return v === c
-          }
-        ),
-      },
     }
   })
   return { rules }

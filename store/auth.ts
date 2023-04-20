@@ -50,18 +50,18 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  const register = async (fields: {
-    login: string
-    password: string
-    name: string
+  const register = async (
+    login: string,
+    password: string,
+    name: string,
     accord: string
-  }) => {
+  ) => {
     await useFetch(`${url}/Users/signup`, {
       body: {
-        login: fields.login,
-        password: fields.password,
-        name: fields.name,
-        accord: fields.accord,
+        login,
+        password,
+        name,
+        accord,
       },
       method: 'POST',
       onResponse({ response }) {
