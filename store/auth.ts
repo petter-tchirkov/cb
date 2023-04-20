@@ -11,11 +11,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isLogin = computed<boolean>(() => !!token.value)
 
-  const login = async (login: string, password: string) => {
+  const login = async (fields: { login: string; password: string }) => {
     await useFetch(`${url}/Users/get-token`, {
       body: {
-        login,
-        password,
+        login: fields.login,
+        password: fields.password,
       },
       method: 'POST',
       onResponse({ response }) {
@@ -50,11 +50,18 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  const register = async (login: string, password: string) => {
+  const register = async (fields: {
+    login: string
+    password: string
+    name: string
+    accord: string
+  }) => {
     await useFetch(`${url}/Users/signup`, {
       body: {
-        login,
-        password,
+        login: fields.login,
+        password: fields.password,
+        name: fields.name,
+        accord: fields.accord,
       },
       method: 'POST',
       onResponse({ response }) {
