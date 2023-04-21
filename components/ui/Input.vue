@@ -1,6 +1,10 @@
 <template>
   <label class="relative flex flex-col mb-5">
-    <span class="block pl-4 mb-2 text-sm font-medium">{{ label }}</span>
+    <span
+      class="block pl-4 mb-2 text-sm font-medium"
+      :class="{ 'text-red-500': error }"
+      >{{ label }}</span
+    >
     <input
       :type="type"
       :disabled="disabled"
@@ -9,6 +13,8 @@
       :class="{
         'bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-300':
           disabled,
+        'border-red-500': error,
+        'bg-transparent border-none p-0 pl-0': light,
       }"
       @input="$emit('update:modelValue', ($event.target as any).value)"
     />
@@ -21,16 +27,21 @@
         name="icon"
       />
     </span>
+    <div class="pl-4 mt-1 text-xs text-red-500">
+      {{ error }}
+    </div>
   </label>
 </template>
 
 <script lang="ts" setup>
   defineProps<{
-    label: string
+    label?: string
     type: string
     icon?: string
     modelValue: string | undefined
     disabled?: boolean
+    error?: string
+    light?: boolean
   }>()
 
   defineEmits<{

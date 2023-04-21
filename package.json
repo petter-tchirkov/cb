@@ -29,6 +29,8 @@
     "@animxyz/vue3": "^0.6.7",
     "@kyvg/vue3-notification": "^2.9.0",
     "@pinia/nuxt": "^0.4.7",
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
     "chart.js": "^3.9.1",
     "eslint-config-prettier": "^8.8.0",
     "pinia": "^2.0.33",

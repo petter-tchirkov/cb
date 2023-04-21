@@ -21,11 +21,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ICostsItem } from '~/types/costsItem'
-
   defineProps<{
     headers: string[]
-    items: ICostsItem[]
+    items: Record<string, any>[]
   }>()
 </script>
 

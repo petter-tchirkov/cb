@@ -14,7 +14,7 @@
         <ui-input
           v-model="botParams.botURI"
           type="text"
-          :disabled="!isEdit"
+          disabled
           label="URI"
         />
         <ui-input

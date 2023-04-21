@@ -3,13 +3,13 @@
     <form class="p-5 border-2 border-blue-600 rounded-lg w-96">
       <h2 class="mb-8 text-3xl font-bold text-center">Вхід</h2>
       <ui-input
-        v-model="login"
+        v-model="fields.login"
         label="Пошта"
         type="text"
         icon="mdi:email"
       />
       <ui-input
-        v-model="password"
+        v-model="fields.password"
         label="Пароль"
         :type="isPasswordRevealed ? 'text' : 'password'"
         icon="mdi:eye"
@@ -24,7 +24,7 @@
       <ui-button
         label="Увійти"
         full
-        @click.prevent="useAuthStore().login(login, password)"
+        @click.prevent="useAuthStore().login(fields)"
       />
 
       <p class="mt-5 text-sm text-center">
@@ -42,15 +42,28 @@
 </template>
 
 <script lang="ts" setup>
+  import { useVuelidate } from '@vuelidate/core'
+  import { useRules } from '~/composables/useRules'
   import { useAuthStore } from '~/store/auth'
   definePageMeta({
     layout: 'auth',
   })
 
+  const { rules } = useRules()
   const isPasswordRevealed = ref<boolean>(false)
 
-  const login = ref('')
-  const password = ref('')
+  const fields: { login: string; password: string } = reactive({
+    login: '',
+    password: '',
+  })
+
+  const v$ = useVuelidate(
+    {
+      login: rules.value.login,
+      password: rules.value.password,
+    },
+    fields
+  )
 </script>
 
 <style lang="scss" scoped></style>
