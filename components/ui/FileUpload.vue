@@ -1,5 +1,6 @@
 <template>
   <div class="p-5">
+    <label>{{ label }}</label>
     <div class="flex gap-3 mb-2">
       <ui-button
         label="Оберіть файли"
@@ -51,9 +52,7 @@
         Authorization: `Bearer ${token}`,
       },
       body: formData,
-      onResponse({ response }) {
-        console.log(response)
-
+      onResponse() {
         notify({
           text: 'Успішно завантажено',
           type: 'success',

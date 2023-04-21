@@ -14,6 +14,7 @@
         'bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-300':
           disabled,
         'border-red-500': error,
+        'bg-transparent border-none p-0 pl-0': light,
       }"
       @input="$emit('update:modelValue', ($event.target as any).value)"
     />
@@ -34,12 +35,13 @@
 
 <script lang="ts" setup>
   defineProps<{
-    label: string
+    label?: string
     type: string
     icon?: string
     modelValue: string | undefined
     disabled?: boolean
     error?: string
+    light?: boolean
   }>()
 
   defineEmits<{
