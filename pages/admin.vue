@@ -19,7 +19,14 @@
       path="/Users/upload-file"
     />
     <div class="p-5">
-      <admin-rates-table />
+      <Tabs
+        :items="tabs"
+        :selected-tab="selectedTab"
+        @change="(item) => (selectedTab = item)"
+      >
+        <admin-rates-table v-if="selectedTab === 'Рейти'" />
+        <admin-bots-table v-if="selectedTab === 'Боти'" />
+      </Tabs>
     </div>
     <ui-toast />
   </section>
@@ -29,6 +36,8 @@
   definePageMeta({
     middleware: ['login', 'auth'],
   })
+  const tabs = ['Рейти', 'Боти']
+  const selectedTab = ref('Рейти')
 </script>
 
 <style lang="scss" scoped></style>

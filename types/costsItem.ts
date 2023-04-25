@@ -7,7 +7,7 @@ export interface ICostsItem {
   country: number
   date: string
   delivered: number
-  rate: number
+  rate: Record<string, any>
   rate_type: string
   sent: number
 }

@@ -13,7 +13,7 @@
 <script lang="ts" setup>
   withDefaults(
     defineProps<{
-      label: string
+      label?: string
       full?: boolean
       disabled?: boolean | 'false' | 'true'
       warning?: boolean | 'false' | 'true'
@@ -22,6 +22,7 @@
       size?: string
     }>(),
     {
+      label: '',
       disabled: false,
       warning: false,
       danger: false,
@@ -51,6 +52,9 @@
     }
     &-light {
       @apply bg-white border border-gray-300 text-gray-900;
+    }
+    &-success {
+      @apply bg-green-700 hover:bg-green-800;
     }
 
     //size
