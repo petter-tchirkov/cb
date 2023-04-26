@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-end justify-center w-full gap-10 mb-5">
       <ui-input
-        v-model="search.bot"
+        v-model="search.botURI"
         class="grow"
         label="Пошук по боту"
         type="text"
@@ -14,7 +14,7 @@
       <ui-input
         v-model="search.country"
         class="grow"
-        label="Пошук по клієнту"
+        label="Пошук по країні"
         type="text"
       >
         <template #icon>
@@ -56,8 +56,8 @@
       :headers="headers"
     >
       <ui-table-row
-        v-for="(item, index) in filteredRates"
-        :key="index"
+        v-for="item in filteredRates"
+        :key="item.id"
       >
         <ui-table-column>{{ item.clientName }}</ui-table-column>
         <ui-table-column>{{ item.botURI }}</ui-table-column>
@@ -134,8 +134,10 @@
   import { IRate } from '~/types/rate'
   const adminStore = useAdminStore()
 
-  const search: { bot: string; country: string } = reactive({
-    bot: '',
+  await adminStore.getRates()
+
+  const search: { botURI: string; country: string } = reactive({
+    botURI: '',
     country: '',
   })
 
@@ -163,7 +165,7 @@
   const filteredRates = computed(() => {
     return adminStore.rates.filter(
       (item: IRate) =>
-        item.botURI.includes(search.bot) &&
+        item.botURI.includes(search.botURI) &&
         item.country.includes(search.country)
     )
   })

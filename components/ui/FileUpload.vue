@@ -40,8 +40,13 @@
   const uploadFile = () => {
     const formData = new FormData()
     formData.append('file', (files.value as FileList)[0])
+    if (props.path === '/Admin/upload-file-clients-rates') {
+      useAdminStore().fetchRates(props.path, formData)
+    }
 
-    useAdminStore().fetchRates(props.path, formData)
+    if (props.path === '/Admin/upload-file-verif-bots') {
+      useAdminStore().fetchBots(props.path, formData)
+    }
   }
 
   const { files, open, reset } = useFileDialog()
