@@ -8,4 +8,5 @@ export interface IBot {
   isDelete?: boolean
   userID?: number
   token: string
+  isVerified: boolean
 }

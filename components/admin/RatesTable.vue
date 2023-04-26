@@ -47,42 +47,44 @@
         </ui-button>
       </div>
     </div>
-    <ui-table
-      :items="adminStore.rates"
-      :headers="headers"
-    >
-      <ui-table-row
-        v-for="item in filteredRates"
-        :key="item.id"
+    <div class="overflow-y-auto h-80">
+      <ui-table
+        :items="adminStore.rates"
+        :headers="headers"
       >
-        <ui-table-column>{{ item.clientName }}</ui-table-column>
-        <ui-table-column>{{ item.botURI }}</ui-table-column>
-        <ui-table-column>{{ item.country }}</ui-table-column>
-        <ui-table-column>{{ item.contract }}</ui-table-column>
-        <ui-table-column class="flex">
-          <ui-input
-            ref="rate"
-            v-model.number="item.rate"
-            light
-            type="text"
-            class="grow"
-            @input="getUpdatedRate(item)"
-          >
-            <template #icon>
-              <Icon
-                name="material-symbols:edit"
-                class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-yellow-300"
-              />
-            </template>
-          </ui-input>
-          <Icon
-            name="material-symbols:delete-outline"
-            class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-red-500"
-            @click="adminStore.deleteRate(item)"
-          />
-        </ui-table-column>
-      </ui-table-row>
-    </ui-table>
+        <ui-table-row
+          v-for="item in filteredRates"
+          :key="item.id"
+        >
+          <ui-table-column>{{ item.clientName }}</ui-table-column>
+          <ui-table-column>{{ item.botURI }}</ui-table-column>
+          <ui-table-column>{{ item.country }}</ui-table-column>
+          <ui-table-column>{{ item.contract }}</ui-table-column>
+          <ui-table-column class="flex">
+            <ui-input
+              ref="rate"
+              v-model.number="item.rate"
+              light
+              type="text"
+              class="grow"
+              @input="getUpdatedRate(item)"
+            >
+              <template #icon>
+                <Icon
+                  name="material-symbols:edit"
+                  class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-yellow-300"
+                />
+              </template>
+            </ui-input>
+            <Icon
+              name="material-symbols:delete-outline"
+              class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-red-500"
+              @click="adminStore.deleteRate(item)"
+            />
+          </ui-table-column>
+        </ui-table-row>
+      </ui-table>
+    </div>
     <ui-modal :is-modal-visible="isAddingRate">
       <template #modalHeading> Додати рейт </template>
       <template #modalBody>

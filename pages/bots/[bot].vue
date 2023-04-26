@@ -1,7 +1,18 @@
 <template>
   <section>
     <HeaderLite>
-      <template #pageTitle> {{ nameBot }} </template>
+      <template #pageTitle>
+        {{ nameBot }}
+        <span
+          class="text-xs"
+          :class="
+            useBotsStore().bot.isVerified ? 'text-green-500' : 'text-red-500'
+          "
+          >{{
+            useBotsStore().bot.isVerified ? 'Верифікований' : 'Не верифікований'
+          }}</span
+        >
+      </template>
     </HeaderLite>
     <div class="flex w-full p-5">
       <div class="w-1/2">
@@ -31,6 +42,7 @@
             v-model="botParams.isActive"
             :default-check="botParams.isActive"
             label="Активний"
+            :disabled="!isEdit"
           />
           <div class="flex gap-3">
             <ui-button

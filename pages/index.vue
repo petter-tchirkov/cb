@@ -54,7 +54,7 @@
           <ui-table-column>{{ row.bot_name }}</ui-table-column>
           <ui-table-column>{{ row.country }}</ui-table-column>
           <ui-table-column>{{ row.rate_type }}</ui-table-column>
-          <ui-table-column>{{ row.rate.rate }}</ui-table-column>
+          <ui-table-column>{{ row.rate || '-' }}</ui-table-column>
           <ui-table-column>{{ row.attempts }}</ui-table-column>
           <ui-table-column>{{ row.sent }}</ui-table-column>
           <ui-table-column>{{ row.delivered }}</ui-table-column>
