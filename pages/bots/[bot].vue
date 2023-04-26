@@ -10,18 +10,21 @@
           type="text"
           :disabled="!isEdit"
           label="Ім'я"
+          class="mb-5"
         />
         <ui-input
           v-model="botParams.botURI"
           type="text"
           disabled
           label="URI"
+          class="mb-5"
         />
         <ui-input
           v-model="botParams.token"
           type="text"
           :disabled="!isEdit"
           label="Токен"
+          class="mb-5"
         />
         <div class="flex items-center justify-between">
           <ui-toggle

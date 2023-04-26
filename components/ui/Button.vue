@@ -3,6 +3,7 @@
     class="flex items-center justify-between gap-2 font-medium text-white rounded-lg focus:ring-4 focus:ring-blue-300 focus:outline-none"
     :class="[{ 'w-full': full }, `btn-${color}`, `btn-${size}`]"
     :disabled="disabled"
+    :title="title"
   >
     <slot name="prependIcon" />
     {{ label }}
@@ -20,6 +21,7 @@
       danger?: boolean | 'false' | 'true'
       color?: string
       size?: string
+      title?: string
     }>(),
     {
       label: '',
@@ -28,6 +30,7 @@
       danger: false,
       color: 'primary',
       size: 'base',
+      title: 'Button',
     }
   )
 </script>

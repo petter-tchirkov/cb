@@ -2,16 +2,6 @@
   <div class="flex flex-col">
     <div class="flex items-end justify-center w-full gap-10 mb-5">
       <ui-input
-        v-model="search.botURI"
-        class="grow"
-        label="Пошук по боту"
-        type="text"
-      >
-        <template #icon>
-          <Icon name="ant-design:search-outlined" />
-        </template>
-      </ui-input>
-      <ui-input
         v-model="search.contract"
         class="grow"
         label="Пошук по договору"
@@ -21,13 +11,26 @@
           <Icon name="ant-design:search-outlined" />
         </template>
       </ui-input>
+      <ui-input
+        v-model="search.botURI"
+        class="grow"
+        label="Пошук по боту"
+        type="text"
+      >
+        <template #icon>
+          <Icon name="ant-design:search-outlined" />
+        </template>
+      </ui-input>
+
       <ui-select
         v-model="selected"
         :options="selectedOptions"
+        title="Статус верифікації"
       />
       <div class="flex gap-3">
         <ui-button
           color="success"
+          title="Завантажити"
           @click="adminStore.updateBots(updatedBots)"
         >
           <template #prependIcon>
@@ -74,17 +77,20 @@
   const search: {
     botURI: string
     contract: string
-    isVerified: boolean | null
   } = reactive({
     botURI: '',
     contract: '',
-    isVerified: false,
   })
   const filteredBots = computed(() => {
-    return adminStore.bots.filter((item: IRatesBot) =>
-      item.botURI.includes(search.botURI) && item.contract !== null
-        ? item.contract.includes(search.contract)
-        : true
+    return adminStore.bots.filter(
+      (item: IRatesBot) =>
+        item.botURI.includes(search.botURI) &&
+        (item.contract !== null
+          ? item.contract.includes(search.contract)
+          : null) &&
+        (selected.value.value !== null
+          ? item.isVerified === selected.value.value
+          : true)
     )
   })
 

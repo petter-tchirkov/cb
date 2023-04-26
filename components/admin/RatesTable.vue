@@ -24,6 +24,7 @@
       <div class="flex gap-3">
         <ui-button
           color="success"
+          title="Завантажити"
           @click="uploadRate"
         >
           <template #prependIcon>
@@ -33,15 +34,10 @@
             />
           </template>
         </ui-button>
-        <ui-button color="warning">
-          <template #prependIcon>
-            <Icon
-              name="jam:rubber"
-              class="w-4 h-[18px]"
-            />
-          </template>
-        </ui-button>
-        <ui-button @click="isAddingRate = !isAddingRate">
+        <ui-button
+          title="Додати рейт"
+          @click="isAddingRate = !isAddingRate"
+        >
           <template #prependIcon>
             <Icon
               name="ic:baseline-rate-review"
@@ -63,13 +59,26 @@
         <ui-table-column>{{ item.botURI }}</ui-table-column>
         <ui-table-column>{{ item.country }}</ui-table-column>
         <ui-table-column>{{ item.contract }}</ui-table-column>
-        <ui-table-column class="flex justify-between">
+        <ui-table-column class="flex">
           <ui-input
+            ref="rate"
             v-model.number="item.rate"
             light
             type="text"
-            class="w-32"
+            class="grow"
             @input="getUpdatedRate(item)"
+          >
+            <template #icon>
+              <Icon
+                name="material-symbols:edit"
+                class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-yellow-300"
+              />
+            </template>
+          </ui-input>
+          <Icon
+            name="material-symbols:delete-outline"
+            class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-red-500"
+            @click="adminStore.deleteRate(item)"
           />
         </ui-table-column>
       </ui-table-row>
@@ -163,11 +172,13 @@
   }
 
   const filteredRates = computed(() => {
-    return adminStore.rates.filter(
-      (item: IRate) =>
-        item.botURI.includes(search.botURI) &&
-        item.country.includes(search.country)
-    )
+    if (adminStore.rates) {
+      return adminStore.rates.filter(
+        (item: IRate) =>
+          item.botURI.includes(search.botURI) &&
+          item.country.includes(search.country)
+      )
+    }
   })
 
   const headers = ['Клієнт', 'Bot URI', 'Країна', 'Договір', 'Рейт']
