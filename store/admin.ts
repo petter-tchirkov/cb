@@ -20,14 +20,56 @@ export const useAdminStore = defineStore('admin', () => {
       onResponse({ response }) {
         if (response._data) {
           rates.value = response._data
+          notify({
+            text: 'Успішно завантажено',
+            type: 'success',
+          })
         }
+      },
+    })
+  }
 
+  const addRate = async (newRate: IRate) => {
+    await useFetch(`${url}/Admin/add-rate`, {
+      method: 'POST',
+      headers: {
+        accept: '*/*',
+        Authorization: `Bearer ${token}`,
+      },
+      body: newRate,
+      onResponse({ response }) {
+        if (response._data.errors) {
+          notify({
+            text: 'hello',
+            type: 'error',
+          })
+        }
+      },
+    })
+  }
+
+  const updateRate = async (updatedRate: IRate[]) => {
+    await useFetch(`${url}/Admin/update-rates`, {
+      method: 'POST',
+      headers: {
+        accept: '*/*',
+        Authorization: `Bearer ${token}`,
+      },
+      body: updatedRate,
+      onResponse({ response }) {
+        if (response._data.errors) {
+          notify({
+            text: 'Error',
+            type: 'error',
+          })
+        }
         notify({
-          text: 'Успішно завантажено',
+          text: 'Updated',
           type: 'success',
         })
       },
     })
   }
-  return { fetchRates, rates }
+
+  return { fetchRates, rates, addRate, updateRate }
 })

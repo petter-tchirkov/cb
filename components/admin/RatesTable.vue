@@ -22,7 +22,10 @@
         </template>
       </ui-input>
       <div class="flex gap-3">
-        <ui-button color="success">
+        <ui-button
+          color="success"
+          @click="uploadRate"
+        >
           <template #prependIcon>
             <Icon
               name="material-symbols:save-outline"
@@ -49,7 +52,7 @@
       </div>
     </div>
     <ui-table
-      :items="rates"
+      :items="adminStore.rates"
       :headers="headers"
     >
       <ui-table-row
@@ -59,12 +62,14 @@
         <ui-table-column>{{ item.clientName }}</ui-table-column>
         <ui-table-column>{{ item.botURI }}</ui-table-column>
         <ui-table-column>{{ item.country }}</ui-table-column>
+        <ui-table-column>{{ item.contract }}</ui-table-column>
         <ui-table-column class="flex justify-between">
           <ui-input
-            v-model="item.rate"
+            v-model.number="item.rate"
             light
             type="text"
             class="w-32"
+            @input="getUpdatedRate(item)"
           />
         </ui-table-column>
       </ui-table-row>
@@ -72,27 +77,34 @@
     <ui-modal :is-modal-visible="isAddingRate">
       <template #modalHeading> Додати рейт </template>
       <template #modalBody>
-        <div class="flex gap-3">
-          <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3">
+          <div class="flex justify-between gap-3">
             <ui-input
               v-model="newRate.clientName"
               label="Клієнт"
               type="text"
+              class="grow"
             />
             <ui-input
               v-model="newRate.botURI"
               label="Бот"
               type="text"
+              class="grow"
             />
           </div>
-          <div class="flex flex-col gap-3">
+          <div class="flex gap-3">
             <ui-input
               v-model="newRate.country"
               label="Країна"
               type="text"
             />
             <ui-input
-              v-model="newRate.rate"
+              v-model="newRate.contract"
+              label="Договір"
+              type="text"
+            />
+            <ui-input
+              v-model.number="newRate.rate"
               label="Рейт"
               type="number"
             />
@@ -113,45 +125,50 @@
         />
       </template>
     </ui-modal>
+    <ui-toast />
   </div>
 </template>
 
 <script setup lang="ts">
   import { useAdminStore } from '~/store/admin'
   import { IRate } from '~/types/rate'
-  const rates = useAdminStore().rates
+  const adminStore = useAdminStore()
 
   const search: { bot: string; country: string } = reactive({
     bot: '',
     country: '',
   })
 
-  watch(rates, (ratesNew) => {
-    console.log(ratesNew)
-  })
-
   const isAddingRate = ref<boolean>(false)
-  const newRate: IRate = reactive({
-    clientName: '',
-    contract: '',
-    botURI: '',
-    country: '',
-    rate: 0,
-  })
+  const newRate: Ref<IRate> = ref({} as IRate)
+
+  const updatedRate: Ref<IRate[]> = ref([])
+  const getUpdatedRate = (item: IRate) => {
+    updatedRate.value.push(item)
+  }
+
   const addNewRate = () => {
-    rates.push(newRate)
+    adminStore.rates.push(newRate.value)
     isAddingRate.value = false
   }
 
+  const uploadRate = () => {
+    if (Object.keys(newRate.value).length >= 1) {
+      adminStore.addRate(newRate.value)
+    } else {
+      adminStore.updateRate(updatedRate.value)
+    }
+  }
+
   const filteredRates = computed(() => {
-    return rates.filter(
+    return adminStore.rates.filter(
       (item: IRate) =>
         item.botURI.includes(search.bot) &&
         item.country.includes(search.country)
     )
   })
 
-  const headers = ['Клієнт', 'Bot URI', 'Країна', 'Рейт']
+  const headers = ['Клієнт', 'Bot URI', 'Країна', 'Договір', 'Рейт']
 </script>
 
 <style scoped></style>
