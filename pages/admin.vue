@@ -11,12 +11,12 @@
     <ui-file-upload
       label="Клієнти та боти"
       format=".csv"
-      path="/Users/upload-file"
+      path="/Users/upload-file-clients-rates"
     />
     <ui-file-upload
       label="Клієнти та рейти"
       format=".csv"
-      path="/Users/upload-file"
+      path="/Admin/upload-file-clients-rates"
     />
     <div class="p-5">
       <Tabs

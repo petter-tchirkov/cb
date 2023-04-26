@@ -38,7 +38,7 @@
     label?: string
     type: string
     icon?: string
-    modelValue: string | undefined
+    modelValue: string | undefined | number
     disabled?: boolean
     error?: string
     light?: boolean
