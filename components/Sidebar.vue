@@ -4,7 +4,7 @@
       class="sticky top-0 flex flex-col justify-between h-screen px-3 py-4 transition-all duration-75 bg-white left-2"
     >
       <div class="flex flex-col">
-        <NuxtLink
+        <!-- <NuxtLink
           to="/"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
         >
@@ -17,7 +17,7 @@
             class="transition-all duration-75"
             >Дашборд</span
           >
-        </NuxtLink>
+        </NuxtLink> -->
         <NuxtLink
           to="/costs"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
@@ -78,7 +78,7 @@
           </ul>
         </XyzTransition>
         <NuxtLink
-          to="/admin"
+          to="/"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
         >
           <Icon

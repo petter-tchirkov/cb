@@ -4,12 +4,14 @@
       <h2 class="mb-8 text-3xl font-bold text-center">Вхід</h2>
       <ui-input
         v-model="fields.login"
+        class="mb-5"
         label="Пошта"
         type="text"
         icon="mdi:email"
       />
       <ui-input
         v-model="fields.password"
+        class="mb-5"
         label="Пароль"
         :type="isPasswordRevealed ? 'text' : 'password'"
         icon="mdi:eye"
@@ -32,8 +34,8 @@
         <NuxtLink
           class="font-semibold text-blue-600 transition-all hover:underline"
           to="/auth/register"
-          >Зареєструйте</NuxtLink
-        >
+          >Зареєструйте
+        </NuxtLink>
         його
       </p>
     </form>
@@ -42,28 +44,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { useVuelidate } from '@vuelidate/core'
-  import { useRules } from '~/composables/useRules'
   import { useAuthStore } from '~/store/auth'
   definePageMeta({
     layout: 'auth',
   })
 
-  const { rules } = useRules()
   const isPasswordRevealed = ref<boolean>(false)
 
   const fields: { login: string; password: string } = reactive({
     login: '',
     password: '',
   })
-
-  const v$ = useVuelidate(
-    {
-      login: rules.value.login,
-      password: rules.value.password,
-    },
-    fields
-  )
 </script>
 
 <style lang="scss" scoped></style>

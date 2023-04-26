@@ -28,38 +28,28 @@
 </template>
 
 <script setup lang="ts">
-  import { notify } from '@kyvg/vue3-notification'
   import { useFileDialog } from '@vueuse/core'
-  import { useAuthStore } from '~/store/auth'
+  import { useAdminStore } from '~/store/admin'
 
-  const url = useRuntimeConfig().public.baseURL
-  const token = useAuthStore().token
   const props = defineProps<{
     label: string
     format: string
     path: string
   }>()
 
-  const { files, open, reset } = useFileDialog()
-  const uploadFile = async () => {
+  const uploadFile = () => {
     const formData = new FormData()
     formData.append('file', (files.value as FileList)[0])
+    if (props.path === '/Admin/upload-file-clients-rates') {
+      useAdminStore().fetchRates(props.path, formData)
+    }
 
-    await useFetch(url + props.path, {
-      method: 'POST',
-      headers: {
-        accept: '*/*',
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-      onResponse() {
-        notify({
-          text: 'Успішно завантажено',
-          type: 'success',
-        })
-      },
-    })
+    if (props.path === '/Admin/upload-file-verif-bots') {
+      useAdminStore().fetchBots(props.path, formData)
+    }
   }
+
+  const { files, open, reset } = useFileDialog()
 </script>
 
 <style lang="scss" scoped></style>

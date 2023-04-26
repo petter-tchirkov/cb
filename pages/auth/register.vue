@@ -4,18 +4,21 @@
       <h2 class="mb-8 text-3xl font-bold text-center">Реєстрація</h2>
       <ui-input
         v-model="name"
+        class="mb-5"
         label="ПІБ"
         type="text"
         :error="error('name')"
       />
       <ui-input
         v-model="login"
+        class="mb-5"
         label="Логін"
         type="text"
         :error="error('login')"
       />
       <ui-input
         v-model="password"
+        class="mb-5"
         label="Пароль"
         :type="isPasswordRevealed ? 'text' : 'password'"
         :error="error('password')"
@@ -30,6 +33,7 @@
       </ui-input>
       <ui-input
         v-model="confirmPassword"
+        class="mb-5"
         label="Підтвердження паролю"
         :type="isPasswordRevealed ? 'text' : 'password'"
         :error="error('confirmPassword')"
@@ -44,6 +48,7 @@
       </ui-input>
       <ui-input
         v-model="accord"
+        class="mb-5"
         label="Номер договору"
         type="text"
         :error="error('accord')"
