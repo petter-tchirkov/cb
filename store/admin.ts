@@ -29,7 +29,7 @@ export const useAdminStore = defineStore('admin', () => {
         }
         if (response._data.error) {
           notify({
-            text: response._data.errors[0],
+            text: response._data.errors[0].error,
             type: 'success',
           })
         }
@@ -61,7 +61,7 @@ export const useAdminStore = defineStore('admin', () => {
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
-            text: response._data.errors[0],
+            text: response._data.errors[0].error,
             type: 'error',
           })
         }
@@ -80,7 +80,7 @@ export const useAdminStore = defineStore('admin', () => {
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
-            text: response._data.errors[0],
+            text: response._data.errors[0].error,
             type: 'error',
           })
         }
@@ -91,6 +91,34 @@ export const useAdminStore = defineStore('admin', () => {
       },
     })
   }
+
+  const deleteRate = async (rate: IRate) => {
+    await useFetch(`${url}/Admin/delete-rate`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'text/plain',
+        'Content-Type': 'application/json',
+      },
+      body: rate,
+      onResponse({ response }) {
+        if (response._data.errors) {
+          notify({
+            title: 'Видалення',
+            text: response._data.errors[0].error,
+            type: 'error',
+          })
+        }
+        notify({
+          title: 'Видалення',
+          text: `Рейт ${rate.botURI} успішно видалено`,
+          type: 'success',
+        })
+        refreshNuxtData()
+      },
+    })
+  }
+
   const fetchBots = async (path: string, formData: FormData) => {
     await useFetch(`${url}${path}`, {
       method: 'POST',
@@ -100,17 +128,40 @@ export const useAdminStore = defineStore('admin', () => {
       },
       body: formData,
       onResponse({ response }) {
-        if (response._data) {
-          rates.value = response._data
+        if (response._data.errors) {
+          notify({
+            text: response._data.errors[0].error,
+            type: 'error',
+          })
+        } else {
+          bots.value = response._data
           notify({
             text: 'Успішно завантажено',
             type: 'success',
           })
         }
+      },
+    })
+  }
+
+  const importFile = async (path: string, formData: FormData) => {
+    await useFetch(`${url}${path}`, {
+      method: 'POST',
+      headers: {
+        accept: '*/*',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+      onResponse({ response }) {
         if (response._data.errors) {
           notify({
-            text: response._data.errors[0],
+            text: response._data.errors[0].error,
             type: 'error',
+          })
+        } else {
+          notify({
+            text: 'Успішно завантажено',
+            type: 'success',
           })
         }
       },
@@ -141,14 +192,15 @@ export const useAdminStore = defineStore('admin', () => {
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
-            text: response._data.errors[0],
+            text: response._data.errors[0].error,
             type: 'error',
           })
+        } else {
+          notify({
+            text: 'Завантажено',
+            type: 'success',
+          })
         }
-        notify({
-          text: 'Updated',
-          type: 'success',
-        })
       },
     })
   }
@@ -163,5 +215,7 @@ export const useAdminStore = defineStore('admin', () => {
     updateBots,
     fetchBots,
     getRates,
+    importFile,
+    deleteRate,
   }
 })

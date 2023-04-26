@@ -47,6 +47,8 @@
     if (props.path === '/Admin/upload-file-verif-bots') {
       useAdminStore().fetchBots(props.path, formData)
     }
+
+    useAdminStore().importFile(props.path, formData)
   }
 
   const { files, open, reset } = useFileDialog()

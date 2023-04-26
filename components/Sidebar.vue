@@ -1,7 +1,7 @@
 <template>
   <XyzTransition xyz="fade right">
     <aside
-      class="sticky top-0 flex flex-col justify-between h-screen px-3 py-4 transition-all duration-75 bg-white left-2"
+      class="sticky top-0 flex flex-col justify-between w-56 h-screen px-3 py-4 transition-all duration-75 bg-white left-2"
     >
       <div class="flex flex-col">
         <!-- <NuxtLink
@@ -19,7 +19,7 @@
           >
         </NuxtLink> -->
         <NuxtLink
-          to="/costs"
+          to="/"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
         >
           <Icon
@@ -78,7 +78,8 @@
           </ul>
         </XyzTransition>
         <NuxtLink
-          to="/"
+          v-if="useAuthStore().user?.user_role === 'ADMIN'"
+          to="/admin"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
         >
           <Icon
@@ -118,7 +119,7 @@
   import { useAuthStore } from '~/store/auth'
   import { useBotsStore } from '~/store/bots'
   const isSidebarShown = ref<boolean>(true)
-  const botsShown = ref<boolean>(false)
+  const botsShown = ref<boolean>(true)
 
   const botsStore = useBotsStore()
   await botsStore.fetchBots()
