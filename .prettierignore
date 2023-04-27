@@ -5,3 +5,5 @@
 package.json
 
 components.d.ts
+
+components/HeaderLite.vue
