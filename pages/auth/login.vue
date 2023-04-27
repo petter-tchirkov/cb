@@ -5,7 +5,7 @@
       <ui-input
         v-model="fields.login"
         class="mb-5"
-        label="Пошта"
+        label="Логін"
         type="text"
         icon="mdi:email"
       />
