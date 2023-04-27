@@ -64,6 +64,11 @@ export const useAdminStore = defineStore('admin', () => {
             text: response._data.errors[0].error,
             type: 'error',
           })
+        } else {
+          notify({
+            text: 'Успішно завантажено',
+            type: 'success',
+          })
         }
       },
     })
@@ -108,13 +113,20 @@ export const useAdminStore = defineStore('admin', () => {
             text: response._data.errors[0].error,
             type: 'error',
           })
+        } else if (response.status === 500) {
+          notify({
+            title: 'Видалення',
+            text: 'Internal Server Error',
+            type: 'error',
+          })
+        } else {
+          notify({
+            title: 'Видалення',
+            text: `Рейт ${rate.botURI} успішно видалено`,
+            type: 'success',
+          })
+          getRates()
         }
-        notify({
-          title: 'Видалення',
-          text: `Рейт ${rate.botURI} успішно видалено`,
-          type: 'success',
-        })
-        refreshNuxtData()
       },
     })
   }

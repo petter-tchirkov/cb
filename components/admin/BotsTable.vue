@@ -44,27 +44,29 @@
     </div>
   </div>
 
-  <ui-table
-    :items="adminStore.bots"
-    :headers="headers"
-  >
-    <ui-table-row
-      v-for="item in filteredBots"
-      :key="item.botId"
+  <div class="overflow-y-auto h-80">
+    <ui-table
+      :items="adminStore.bots"
+      :headers="headers"
     >
-      <ui-table-column>{{ item.clientName || '-' }}</ui-table-column>
-      <ui-table-column>{{ item.contract || '-' }}</ui-table-column>
-      <ui-table-column>{{ item.botURI }}</ui-table-column>
-      <ui-table-column>
-        <ui-toggle
-          v-model="item.isVerified"
-          :disabled="!item.contract"
-          :default-check="item.isVerified"
-          @change="updateBotsArray(item)"
-        />
-      </ui-table-column>
-    </ui-table-row>
-  </ui-table>
+      <ui-table-row
+        v-for="item in filteredBots"
+        :key="item.botId"
+      >
+        <ui-table-column>{{ item.clientName || '-' }}</ui-table-column>
+        <ui-table-column>{{ item.contract || '-' }}</ui-table-column>
+        <ui-table-column>{{ item.botURI }}</ui-table-column>
+        <ui-table-column>
+          <ui-toggle
+            v-model="item.isVerified"
+            :disabled="!item.contract"
+            :default-check="item.isVerified"
+            @change="updateBotsArray(item)"
+          />
+        </ui-table-column>
+      </ui-table-row>
+    </ui-table>
+  </div>
 </template>
 
 <script setup lang="ts">
