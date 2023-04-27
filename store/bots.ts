@@ -46,17 +46,22 @@ export const useBotsStore = defineStore('bots', () => {
         botURI: newBot.botURI,
         token: newBot.token,
       },
-      onRequestError({ response }) {
-        notify({
-          text: response?._data.errors,
-          type: 'error',
-        })
-      },
       onResponse({ response }) {
-        notify({
-          text: `Бота ${response._data.botName} успішно створено`,
-          type: 'success',
-        })
+        if (response._data.errors) {
+          notify({
+            text: response?._data.errors[0].error,
+            type: 'error',
+          })
+        } else {
+          notify({
+            text: `Бота ${response._data.botName} успішно створено`,
+            type: 'success',
+          })
+          setTimeout(() => {
+            router.push(`/bots/${response._data.id}`)
+            fetchBots()
+          }, 1000)
+        }
       },
     })
   }
