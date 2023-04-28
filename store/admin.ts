@@ -35,8 +35,8 @@ export const useAdminStore = defineStore('admin', () => {
             text: 'Успішно завантажено',
             type: 'success',
           })
-          isLoading.value = false
         }
+        isLoading.value = false
       },
     })
   }
@@ -64,15 +64,23 @@ export const useAdminStore = defineStore('admin', () => {
   }
 
   const addRate = async (newRate: IRate) => {
-    await useFetch(`${url}/Admin/add-rate`, {
+    const { data, error, pending } = await useFetch(`${url}/Admin/add-rate`, {
       method: 'POST',
       headers: {
         accept: '*/*',
         Authorization: `Bearer ${token}`,
       },
       body: newRate,
+
       onRequest() {
         isLoading.value = true
+      },
+      onRequestError() {
+        isLoading.value = false
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
       },
       onResponse({ response }) {
         if (response._data.errors) {
@@ -85,10 +93,11 @@ export const useAdminStore = defineStore('admin', () => {
             text: 'Успішно завантажено',
             type: 'success',
           })
-          isLoading.value = false
         }
       },
+      onResponseError({ response }) {},
     })
+    isLoading.value = false
   }
 
   const updateRate = async (updatedRate: IRate[]) => {

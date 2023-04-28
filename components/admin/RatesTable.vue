@@ -65,6 +65,15 @@
         <ui-button label="Відміна" size="xs" color="light" @click="isAddingRate = false" />
       </template>
     </ui-modal>
+    <ui-modal :is-modal-visible="isSavingRate">
+      <template #modalBody>
+        <span>Всі незбережені дані будуть втрачені, продовжити?</span>
+      </template>
+      <template #modalFooter>
+        <ui-button label="Так" />
+        <ui-button label="Ні" color="light" />
+      </template>
+    </ui-modal>
     <ui-toast />
     <ui-loader v-if="adminStore.isLoading" />
   </div>
@@ -83,7 +92,14 @@ const search: { botURI: string; country: string } = reactive({
 })
 
 const isAddingRate = ref<boolean>(false)
-const newRate: Ref<IRate> = ref({} as IRate)
+const isSavingRate = ref<boolean>(false)
+const newRate: Ref<IRate> = ref({
+  botURI: '',
+  clientName: '',
+  country: '',
+  contract: '',
+  rate: 0,
+})
 
 const updatedRate: Ref<IRate[]> = ref([])
 const getUpdatedRate = (item: IRate) => {
