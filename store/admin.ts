@@ -11,6 +11,7 @@ export const useAdminStore = defineStore('admin', () => {
   const { notify } = useNotification()
   const token = useAuthStore().token
   const isLoading = ref(false)
+  const updatedRates: Ref<IRate[]> = ref([])
 
   const fetchRates = async (path: string, formData: FormData) => {
     await useFetch(`${url}${path}`, {
@@ -49,6 +50,13 @@ export const useAdminStore = defineStore('admin', () => {
       onRequest() {
         isLoading.value = true
       },
+      onRequestError() {
+        isLoading.value = false
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -64,7 +72,7 @@ export const useAdminStore = defineStore('admin', () => {
   }
 
   const addRate = async (newRate: IRate) => {
-    const { data, error, pending } = await useFetch(`${url}/Admin/add-rate`, {
+    await useFetch(`${url}/Admin/add-rate`, {
       method: 'POST',
       headers: {
         accept: '*/*',
@@ -82,18 +90,21 @@ export const useAdminStore = defineStore('admin', () => {
           type: 'error',
         })
       },
-      onResponseError({ response }) {
-        notify({
-          text: response._data.errors[0].error,
-          type: 'error',
-        })
+      onResponse({ response }) {
+        if (response._data.errors) {
+          notify({
+            text: response._data.errors[0].error,
+            type: 'error',
+          })
+        } else {
+          notify({
+            text: 'Успішно завантажено',
+            type: 'success',
+          })
+        }
+        console.log(response)
       },
     })
-    notify({
-      text: 'Успішно завантажено',
-      type: 'success',
-    })
-
     isLoading.value = false
   }
 
@@ -108,6 +119,13 @@ export const useAdminStore = defineStore('admin', () => {
       onRequest() {
         isLoading.value = true
       },
+      onRequestError() {
+        isLoading.value = false
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -116,7 +134,7 @@ export const useAdminStore = defineStore('admin', () => {
           })
         }
         notify({
-          text: 'Updated',
+          text: 'Успішно оновлено',
           type: 'success',
         })
         isLoading.value = false
@@ -136,6 +154,14 @@ export const useAdminStore = defineStore('admin', () => {
       onRequest() {
         isLoading.value = true
       },
+      onRequestError() {
+        isLoading.value = false
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
+      },
+
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -173,6 +199,13 @@ export const useAdminStore = defineStore('admin', () => {
       onRequest() {
         isLoading.value = true
       },
+      onRequestError() {
+        isLoading.value = false
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -201,6 +234,13 @@ export const useAdminStore = defineStore('admin', () => {
       body: formData,
       onRequest() {
         isLoading.value = true
+      },
+      onRequestError() {
+        isLoading.value = false
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
       },
       onResponse({ response }) {
         if (response._data.errors) {
@@ -277,5 +317,6 @@ export const useAdminStore = defineStore('admin', () => {
     importFile,
     deleteRate,
     isLoading,
+    updatedRates,
   }
 })

@@ -12,7 +12,7 @@
         </template>
       </ui-input>
       <div class="flex gap-3">
-        <ui-button color="success" title="Завантажити" @click="uploadRate">
+        <ui-button color="success" title="Завантажити" @click="updateRate">
           <template #prependIcon>
             <Icon name="material-symbols:save-outline" class="w-6 h-5" />
           </template>
@@ -32,7 +32,7 @@
           <ui-table-column>{{ item.country }}</ui-table-column>
           <ui-table-column>{{ item.contract }}</ui-table-column>
           <ui-table-column class="flex">
-            <ui-input ref="rate" v-model.number="item.rate" light type="text" class="grow" @input="getUpdatedRate(item)">
+            <ui-input v-model.number="item.rate" light type="number" class="grow" @input="initUpdatedRates(item)">
               <template #icon>
                 <Icon name="material-symbols:edit"
                   class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-yellow-300" />
@@ -56,12 +56,12 @@
           <div class="flex gap-3">
             <ui-input v-model="newRate.country" label="Країна" type="text" />
             <ui-input v-model="newRate.contract" label="Договір" type="text" />
-            <ui-input v-model.number="newRate.rate" label="Рейт" type="text" />
+            <ui-input v-model.number="newRate.rate" label="Рейт" type="number" />
           </div>
         </div>
       </template>
       <template #modalFooter>
-        <ui-button label="Зберегти" size="xs" @click="addNewRate" />
+        <ui-button label="Зберегти" size="xs" @click="addRate" />
         <ui-button label="Відміна" size="xs" color="light" @click="isAddingRate = false" />
       </template>
     </ui-modal>
@@ -102,20 +102,26 @@ const newRate: Ref<IRate> = ref({
 })
 
 const updatedRate: Ref<IRate[]> = ref([])
-const getUpdatedRate = (item: IRate) => {
-  updatedRate.value.push(item)
+const initUpdatedRates = (item: IRate) => {
+  if (!adminStore.updatedRates.includes(item)) {
+    adminStore.updatedRates.push(item)
+  }
 }
 
-const addNewRate = () => {
-  adminStore.rates.push(newRate.value)
+const updateRate = () => {
+  adminStore.updateRate(updatedRate.value)
+  updatedRate.value = []
+}
+
+const addRate = () => {
+  adminStore.addRate(newRate.value)
   isAddingRate.value = false
-}
-
-const uploadRate = () => {
-  if (Object.keys(newRate.value).length >= 1) {
-    adminStore.addRate(newRate.value)
-  } else {
-    adminStore.updateRate(updatedRate.value)
+  newRate.value = {
+    botURI: '',
+    clientName: '',
+    country: '',
+    contract: '',
+    rate: 0,
   }
 }
 
