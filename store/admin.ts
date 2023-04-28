@@ -10,6 +10,7 @@ export const useAdminStore = defineStore('admin', () => {
   const url = useRuntimeConfig().public.baseURL
   const { notify } = useNotification()
   const token = useAuthStore().token
+  const isLoading = ref(false)
 
   const fetchRates = async (path: string, formData: FormData) => {
     await useFetch(`${url}${path}`, {
@@ -19,19 +20,22 @@ export const useAdminStore = defineStore('admin', () => {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
-        if (response._data) {
+        if (response._data.errors) {
+          notify({
+            text: response._data.errors[0].error,
+            type: 'error',
+          })
+        } else {
           rates.value = response._data
           notify({
             text: 'Успішно завантажено',
             type: 'success',
           })
-        }
-        if (response._data.error) {
-          notify({
-            text: response._data.errors[0].error,
-            type: 'success',
-          })
+          isLoading.value = false
         }
       },
     })
@@ -42,9 +46,18 @@ export const useAdminStore = defineStore('admin', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
-        if (response._data) {
+        if (response._data.errors) {
+          notify({
+            text: response._data.errors[0].error,
+            type: 'error',
+          })
+        } else {
           rates.value = response._data
+          isLoading.value = false
         }
       },
     })
@@ -58,6 +71,9 @@ export const useAdminStore = defineStore('admin', () => {
         Authorization: `Bearer ${token}`,
       },
       body: newRate,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -69,6 +85,7 @@ export const useAdminStore = defineStore('admin', () => {
             text: 'Успішно завантажено',
             type: 'success',
           })
+          isLoading.value = false
         }
       },
     })
@@ -82,6 +99,9 @@ export const useAdminStore = defineStore('admin', () => {
         Authorization: `Bearer ${token}`,
       },
       body: updatedRate,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -93,6 +113,7 @@ export const useAdminStore = defineStore('admin', () => {
           text: 'Updated',
           type: 'success',
         })
+        isLoading.value = false
       },
     })
   }
@@ -106,6 +127,9 @@ export const useAdminStore = defineStore('admin', () => {
         'Content-Type': 'application/json',
       },
       body: rate,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -126,6 +150,7 @@ export const useAdminStore = defineStore('admin', () => {
             type: 'success',
           })
           getRates()
+          isLoading.value = false
         }
       },
     })
@@ -139,6 +164,9 @@ export const useAdminStore = defineStore('admin', () => {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -151,6 +179,7 @@ export const useAdminStore = defineStore('admin', () => {
             text: 'Успішно завантажено',
             type: 'success',
           })
+          isLoading.value = false
         }
       },
     })
@@ -164,6 +193,9 @@ export const useAdminStore = defineStore('admin', () => {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -175,6 +207,7 @@ export const useAdminStore = defineStore('admin', () => {
             text: 'Успішно завантажено',
             type: 'success',
           })
+          isLoading.value = false
         }
       },
     })
@@ -185,9 +218,13 @@ export const useAdminStore = defineStore('admin', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data) {
           bots.value = response._data
+          isLoading.value = false
         }
       },
     })
@@ -201,6 +238,9 @@ export const useAdminStore = defineStore('admin', () => {
         Authorization: `Bearer ${token}`,
       },
       body: updatedBots,
+      onRequest() {
+        isLoading.value = true
+      },
       onResponse({ response }) {
         if (response._data.errors) {
           notify({
@@ -212,6 +252,7 @@ export const useAdminStore = defineStore('admin', () => {
             text: 'Завантажено',
             type: 'success',
           })
+          isLoading.value = false
         }
       },
     })
@@ -229,5 +270,6 @@ export const useAdminStore = defineStore('admin', () => {
     getRates,
     importFile,
     deleteRate,
+    isLoading,
   }
 })
