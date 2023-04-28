@@ -10,6 +10,7 @@
               disabled,
             'border-red-500': error,
             'bg-transparent border-none !p-0 !pl-0 text-xs': light,
+            'appearance-none': type === 'number',
           }" @input="$emit('update:modelValue', ($event.target as any).value)" />
       <span v-if="slots.icon" class="absolute right-4">
         <slot v-if="slots.icon" name="icon" />
@@ -39,4 +40,12 @@ defineEmits<{
 const slots = useSlots()
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
+}
+</style>
