@@ -56,13 +56,22 @@
           <div class="flex gap-3">
             <ui-input v-model="newRate.country" label="Країна" type="text" />
             <ui-input v-model="newRate.contract" label="Договір" type="text" />
-            <ui-input v-model.number="newRate.rate" label="Рейт" type="number" />
+            <ui-input v-model.number="newRate.rate" label="Рейт" type="text" />
           </div>
         </div>
       </template>
       <template #modalFooter>
         <ui-button label="Зберегти" size="xs" @click="addNewRate" />
         <ui-button label="Відміна" size="xs" color="light" @click="isAddingRate = false" />
+      </template>
+    </ui-modal>
+    <ui-modal :is-modal-visible="isSavingRate">
+      <template #modalBody>
+        <span>Всі незбережені дані будуть втрачені, продовжити?</span>
+      </template>
+      <template #modalFooter>
+        <ui-button label="Так" />
+        <ui-button label="Ні" color="light" />
       </template>
     </ui-modal>
     <ui-toast />
@@ -83,7 +92,14 @@ const search: { botURI: string; country: string } = reactive({
 })
 
 const isAddingRate = ref<boolean>(false)
-const newRate: Ref<IRate> = ref({} as IRate)
+const isSavingRate = ref<boolean>(false)
+const newRate: Ref<IRate> = ref({
+  botURI: '',
+  clientName: '',
+  country: '',
+  contract: '',
+  rate: 0,
+})
 
 const updatedRate: Ref<IRate[]> = ref([])
 const getUpdatedRate = (item: IRate) => {
