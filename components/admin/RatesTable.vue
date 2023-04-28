@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <div class="flex items-end justify-center w-full gap-10 mb-5">
       <ui-input v-model="search.botURI" class="grow" label="Пошук по боту" type="text">
         <template #icon>
@@ -66,6 +66,7 @@
       </template>
     </ui-modal>
     <ui-toast />
+    <ui-loader v-if="adminStore.isLoading" />
   </div>
 </template>
 
