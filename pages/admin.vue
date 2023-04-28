@@ -13,23 +13,23 @@
       </Tabs>
     </div>
     <ui-toast />
-    <ui-modal :is-modal-visible="!areRateUpdatesSaved">
-      <template #modalBody>
-        <span>Є незбережені дані, продовжити?</span>
-      </template>
-    </ui-modal>
+    <!-- <ui-modal :is-modal-visible="!areRateUpdatesSaved"> -->
+    <!--   <template #modalBody> -->
+    <!--     <span>Є незбережені дані, продовжити?</span> -->
+    <!--   </template> -->
+    <!-- </ui-modal> -->
   </section>
 </template>
 
 <script lang="ts" setup>
-import { useAdminStore } from '~/store/admin'
+// import { useAdminStore } from '~/store/admin'
 
 definePageMeta({
   middleware: ['login', 'auth'],
 })
 const tabs = ['Рейти', 'Боти']
 const selectedTab = ref('Рейти')
-const areRateUpdatesSaved = !useAdminStore().updatedRates.length
+  // const areRateUpdatesSaved = !useAdminStore().updatedRates.length
 </script>
 
 <style lang="scss" scoped></style>

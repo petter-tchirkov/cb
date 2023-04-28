@@ -102,7 +102,7 @@ export const useAdminStore = defineStore('admin', () => {
             type: 'success',
           })
         }
-        console.log(response)
+        getRates()
       },
     })
     isLoading.value = false
