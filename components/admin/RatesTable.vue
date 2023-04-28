@@ -101,7 +101,6 @@ const newRate: Ref<IRate> = ref({
   rate: 0,
 })
 
-const updatedRate: Ref<IRate[]> = ref([])
 const initUpdatedRates = (item: IRate) => {
   if (!adminStore.updatedRates.includes(item)) {
     adminStore.updatedRates.push(item)
@@ -109,8 +108,8 @@ const initUpdatedRates = (item: IRate) => {
 }
 
 const updateRate = () => {
-  adminStore.updateRate(updatedRate.value)
-  updatedRate.value = []
+  adminStore.updateRate(adminStore.updatedRates)
+  adminStore.updatedRates = []
 }
 
 const addRate = () => {
