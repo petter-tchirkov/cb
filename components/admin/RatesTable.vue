@@ -56,7 +56,7 @@
           <div class="flex gap-3">
             <ui-input v-model="newRate.country" label="Країна" type="text" />
             <ui-input v-model="newRate.contract" label="Договір" type="text" />
-            <ui-input v-model.number="newRate.rate" label="Рейт" type="number" />
+            <ui-input v-model.number="newRate.rate" label="Рейт" type="text" />
           </div>
         </div>
       </template>

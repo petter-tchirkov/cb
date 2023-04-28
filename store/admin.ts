@@ -82,21 +82,18 @@ export const useAdminStore = defineStore('admin', () => {
           type: 'error',
         })
       },
-      onResponse({ response }) {
-        if (response._data.errors) {
-          notify({
-            text: response._data.errors[0].error,
-            type: 'error',
-          })
-        } else {
-          notify({
-            text: 'Успішно завантажено',
-            type: 'success',
-          })
-        }
+      onResponseError({ response }) {
+        notify({
+          text: response._data.errors[0].error,
+          type: 'error',
+        })
       },
-      onResponseError({ response }) {},
     })
+    notify({
+      text: 'Успішно завантажено',
+      type: 'success',
+    })
+
     isLoading.value = false
   }
 
