@@ -48,4 +48,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
   /* <-- Apparently some margin are still there even though it's hidden */
 }
+
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
 </style>
