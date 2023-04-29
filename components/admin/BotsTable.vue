@@ -27,8 +27,8 @@
     <div class="overflow-y-auto h-80">
       <ui-table :items="adminStore.bots" :headers="headers">
         <ui-table-row v-for="item in filteredBots" :key="item.botId">
-          <ui-table-column>{{ item.clientName || '-' }}</ui-table-column>
-          <ui-table-column>{{ item.contract || '-' }}</ui-table-column>
+          <ui-table-column>{{ item.clientName }}</ui-table-column>
+          <ui-table-column>{{ item.contract }}</ui-table-column>
           <ui-table-column>{{ item.botURI }}</ui-table-column>
           <ui-table-column>
             <ui-toggle v-model="item.isVerified" :disabled="!item.contract" :default-check="item.isVerified"
@@ -55,13 +55,20 @@ const search: {
   botURI: '',
   contract: '',
 })
+
+adminStore.bots.forEach((item) => {
+  if (item.contract === null && item.contract === '') {
+    item.contract = ''
+  }
+})
+
 const filteredBots = computed(() => {
   return adminStore.bots.filter(
     (item: IRatesBot) =>
       item.botURI.includes(search.botURI) &&
       (item.contract !== null
         ? item.contract.includes(search.contract)
-        : null) &&
+        : true) &&
       (selected.value.value !== null
         ? item.isVerified === selected.value.value
         : true)

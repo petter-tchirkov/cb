@@ -11,7 +11,8 @@
             'border-red-500': error,
             'bg-transparent border-none !p-0 !pl-0 text-xs': light,
             'appearance-none': type === 'number',
-          }" @input="$emit('update:modelValue', ($event.target as any).value)" />
+          }" @keypress="type === 'number' ? inpNum($event) : null"
+        @input="$emit('update:modelValue', ($event.target as any).value)" />
       <span v-if="slots.icon" class="absolute right-4">
         <slot v-if="slots.icon" name="icon" />
       </span>
@@ -37,6 +38,14 @@ defineEmits<{
   (e: 'update:modelValue', value: string | number): void
 }>()
 
+function inpNum(e: Event) {
+  e = e || window.event
+  const charCode = typeof e.which === 'undefined' ? e.keyCode : e.which
+  const charStr = String.fromCharCode(charCode)
+  if (!charStr.match(/^(([0-9.]?)*)+$/)) {
+    e.preventDefault()
+  }
+}
 const slots = useSlots()
 </script>
 

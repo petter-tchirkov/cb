@@ -37,7 +37,7 @@
             <li v-for="bot in botsStore.bots" :key="bot.id">
               <NuxtLink :to="`/bots/${bot.id}`"
                 class="flex items-center w-full p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100">
-                {{ bot.botName }}</NuxtLink>
+                {{ bot.botName !== '' ? bot.botName : 'Без назви' }}</NuxtLink>
             </li>
             <NuxtLink to="/bots/new-bot">
               <li

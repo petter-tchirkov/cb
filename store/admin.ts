@@ -248,6 +248,7 @@ export const useAdminStore = defineStore('admin', () => {
             text: response._data.errors[0].error,
             type: 'error',
           })
+          isLoading.value = false
         } else {
           notify({
             text: 'Успішно завантажено',
