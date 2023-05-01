@@ -1,20 +1,34 @@
 <template>
   <label class="relative flex flex-col">
-    <span class="block pl-4 mb-2 text-sm font-medium" :class="{ 'text-red-500': error, hidden: label === undefined }">{{
-      label }}</span>
+    <span
+      class="block pl-4 mb-2 text-sm font-medium"
+      :class="{ 'text-red-500': error, hidden: label === undefined }"
+      >{{ label }}</span
+    >
     <div class="flex items-center">
-      <input :type="type" :disabled="disabled" :value="modelValue"
+      <input
+        :type="type"
+        :disabled="disabled"
+        :value="modelValue"
         class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-4 outline-none"
         :class="{
-            'bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-300':
-              disabled,
-            'border-red-500': error,
-            'bg-transparent border-none !p-0 !pl-0 text-xs': light,
-            'appearance-none': type === 'number',
-          }" @keypress="type === 'number' ? inpNum($event) : null"
-        @input="$emit('update:modelValue', ($event.target as any).value)" />
-      <span v-if="slots.icon" class="absolute right-4">
-        <slot v-if="slots.icon" name="icon" />
+          'bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-300':
+            disabled,
+          'border-red-500': error,
+          'bg-transparent border-none !p-0 !pl-0 text-xs': light,
+          'appearance-none': type === 'number',
+        }"
+        @keypress="number ? inpNum($event) : null"
+        @input="$emit('update:modelValue', ($event.target as any).value)"
+      />
+      <span
+        v-if="slots.icon"
+        class="absolute right-4"
+      >
+        <slot
+          v-if="slots.icon"
+          name="icon"
+        />
       </span>
     </div>
     <div :class="{ 'pl-4 mt-1 text-xs text-red-500': error }">
@@ -24,42 +38,43 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  label?: string
-  type: string
-  icon?: string
-  modelValue?: string | undefined | number
-  disabled?: boolean
-  error?: string
-  light?: boolean
-}>()
+  defineProps<{
+    label?: string
+    type: string
+    icon?: string
+    modelValue?: string | undefined | number
+    disabled?: boolean
+    error?: string
+    light?: boolean
+    number?: boolean
+  }>()
 
-defineEmits<{
-  (e: 'update:modelValue', value: string | number): void
-}>()
+  defineEmits<{
+    (e: 'update:modelValue', value: string | number): void
+  }>()
 
-function inpNum(e: Event) {
-  e = e || window.event
-  const charCode = typeof e.which === 'undefined' ? e.keyCode : e.which
-  const charStr = String.fromCharCode(charCode)
-  if (!charStr.match(/^(([0-9.]?)*)+$/)) {
-    e.preventDefault()
+  function inpNum(e: KeyboardEvent) {
+    e = e || window.event
+    const charCode = typeof e.which === 'undefined' ? e.keyCode : e.which
+    const charStr = String.fromCharCode(charCode)
+    if (!charStr.match(/^(([0-9.]?)*)+$/)) {
+      e.preventDefault()
+    }
   }
-}
-const slots = useSlots()
+  const slots = useSlots()
 </script>
 
 <style lang="scss" scoped>
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
-  -webkit-appearance: none;
-  margin: 0;
-  /* <-- Apparently some margin are still there even though it's hidden */
-}
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+  }
 
-input[type='number'] {
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
+  input[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
 </style>

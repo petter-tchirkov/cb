@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { useNotification } from '@kyvg/vue3-notification'
+import { useBotsStore } from './bots'
 import { IUser } from '~/types/user'
 
 export const useAuthStore = defineStore('auth', () => {
   const url = useRuntimeConfig().public.baseURL
   const router = useRouter()
-  const token = useCookie('access_token', { default: () => '' })
+  const token = useCookie('access_token', { default: () => '', watch: true })
   const user = ref<IUser | null>(null)
   const { notify } = useNotification()
 
@@ -46,6 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
       },
       onResponse({ response }) {
         user.value = response._data
+        useBotsStore().fetchBots()
       },
     })
   }
@@ -88,8 +90,9 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const logout = async () => {
-    token.value = ''
     await router.push('/auth/login')
+    token.value = ''
+    console.log('logout ' + token.value)
   }
 
   return { token, login, isLogin, logout, register, user, currentUser }
