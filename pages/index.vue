@@ -4,7 +4,7 @@
       <template #pageTitle> Витрати </template>
     </HeaderLite>
     <div class="flex flex-col items-center p-5">
-      <div class="flex items-center justify-center w-full gap-10">
+      <div class="flex items-end justify-center w-full gap-10 mb-5">
         <ui-input v-model="filterParams.bot_name" class="grow" label="Пошук по боту" type="text">
           <template #icon>
             <Icon name="ant-design:search-outlined" />
