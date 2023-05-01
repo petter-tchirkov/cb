@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useNotification } from '@kyvg/vue3-notification'
-import { useAuthStore } from '~/store/auth'
+import { useAuthStore } from './auth'
 import { IBot } from '~/types/bot'
 
 export const useBotsStore = defineStore('bots', () => {
@@ -14,7 +14,7 @@ export const useBotsStore = defineStore('bots', () => {
   const fetchBots = async () => {
     await useFetch(`${url}/Users/bots`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${useAuthStore().token}`,
       },
       onResponse({ response }) {
         bots.value = response._data

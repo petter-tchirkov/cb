@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@pinia/nuxt',
     'nuxt-icon',
+    'nuxt-lodash',
   ],
   css: ['~/assets/css/index.scss'],
   ssr: false,

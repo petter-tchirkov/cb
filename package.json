@@ -33,6 +33,7 @@
     "@vuelidate/validators": "^2.0.2",
     "chart.js": "^3.9.1",
     "eslint-config-prettier": "^8.8.0",
+    "nuxt-lodash": "^2.4.1",
     "pinia": "^2.0.33",
     "vue-chart-3": "^3.1.8"
   },
