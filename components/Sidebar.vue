@@ -1,7 +1,8 @@
 <template>
   <XyzTransition xyz="fade right">
     <aside
-      class="sticky top-0 flex flex-col justify-between h-screen px-3 py-4 transition-all duration-75 bg-white left-2"
+      class="sticky top-0 left-0 flex flex-col justify-between w-56 h-screen px-3 py-4 transition-all duration-75 bg-white"
+      :class="{ 'w-auto': !isSidebarShown }"
     >
       <div class="flex flex-col">
         <!-- <NuxtLink
