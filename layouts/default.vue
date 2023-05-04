@@ -1,5 +1,5 @@
 <template>
-  <main class="flex">
+  <main class="flex min-w-[1920px]">
     <Sidebar />
     <NuxtPage />
   </main>
