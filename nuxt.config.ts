@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Counter Bat',
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }],
     },
   },
   modules: [
