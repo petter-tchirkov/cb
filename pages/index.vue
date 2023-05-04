@@ -40,13 +40,18 @@
           class="mt-[8px]"
           @click="filterData"
         />
+        <ui-button
+          label="get"
+          class="mt-[8px]"
+          @click="costsStore.getCosts(filterParams)"
+        />
       </div>
       <ui-table
         :items="costsStore.costs"
         :headers="headers"
       >
         <ui-table-row
-          v-for="(row, index) in costsStore.costs"
+          v-for="(row, index) in useCostsStore().costs"
           :key="index"
         >
           <ui-table-column>{{ row.date }}</ui-table-column>

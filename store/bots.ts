@@ -5,7 +5,6 @@ import { IBot } from '~/types/bot'
 
 export const useBotsStore = defineStore('bots', () => {
   const url = useRuntimeConfig().public.baseURL
-  const token = useAuthStore().token
   const bots: Ref<IBot[]> = ref([])
   const bot: Ref<IBot> = ref({} as IBot)
   const router = useRouter()
@@ -25,7 +24,7 @@ export const useBotsStore = defineStore('bots', () => {
   const fetchBot = async (id: string) => {
     await useFetch(`${url}/Users/bot/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${useAuthStore().token}`,
       },
       onResponse({ response }) {
         bot.value = response._data as IBot
@@ -39,7 +38,7 @@ export const useBotsStore = defineStore('bots', () => {
       headers: {
         accept: 'text/plain',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${useAuthStore().token}`,
       },
       body: {
         botName: newBot.botName,
@@ -70,7 +69,7 @@ export const useBotsStore = defineStore('bots', () => {
     await useFetch(`${url}/Users/bot/${botParams.id}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${useAuthStore().token}`,
         'Content-Type': 'application/json',
       },
       body: {
@@ -94,7 +93,7 @@ export const useBotsStore = defineStore('bots', () => {
     await useFetch(`${url}/Users/bot/${botParams.id}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${useAuthStore().token}`,
       },
       onResponse() {
         notify({
