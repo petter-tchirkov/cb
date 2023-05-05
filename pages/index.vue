@@ -145,7 +145,7 @@
   const filterParams: ICosts = reactive({
     id: user as number,
     page: 1,
-    per_page: width >= 1024 ? 10 : 4,
+    per_page: width.value >= 1024 ? 10 : 4,
     bot_name: '',
     country: '',
     date_from: '',

@@ -57,7 +57,7 @@
         </ui-button>
       </div>
     </div>
-    <div class="overflow-y-auto lg:h-80">
+    <div class="overflow-y-auto lg:max-h-[700px]">
       <ui-table
         :items="adminStore.rates"
         :headers="headers"
@@ -94,7 +94,7 @@
           </ui-table-column>
         </ui-table-row>
       </ui-table>
-      <div class="grid w-full grid-cols-1 gap-4">
+      <div class="grid w-full grid-cols-1 gap-4 lg:hidden">
         <div
           v-for="item in adminStore.rates"
           :key="item.id"
