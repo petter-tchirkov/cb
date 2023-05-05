@@ -1,6 +1,7 @@
 <template>
   <XyzTransition xyz="fade right">
     <aside
+      ref="target"
       class="fixed top-0 left-0 z-50 flex-col justify-between w-56 h-screen px-3 py-4 transition-all duration-75 bg-white lg:sticky lg:flex"
       :class="{
         'w-auto': !isSidebarFull,
@@ -99,16 +100,19 @@
           >
         </NuxtLink>
       </div>
-      <div class="justify-end hidden lg:flex">
+      <div
+        class="fixed justify-end hidden lg:flex bottom-96"
+        :class="[isSidebarFull ? 'left-44' : 'left-4']"
+      >
         <Icon
           class="w-8 h-8 text-gray-500 transition duration-75 cursor-pointer hover:text-gray-900"
-          :class="{ 'rotate-180': !isSidebarFull }"
+          :class="[{ 'rotate-180': !isSidebarFull }, ,]"
           name="ic:baseline-keyboard-double-arrow-left"
           @click="isSidebarFull = !isSidebarFull"
         />
       </div>
       <NuxtLink
-        class="flex items-center gap-2 p-2 font-semibold rounded-lg cursor-pointer group hover:bg-gray-100"
+        class="fixed flex items-center gap-2 p-2 font-semibold rounded-lg cursor-pointer group hover:bg-gray-100 bottom-4"
         @click="useAuthStore().logout()"
       >
         <Icon
@@ -122,14 +126,24 @@
 </template>
 
 <script lang="ts" setup>
+  import { onClickOutside, useWindowSize } from '@vueuse/core'
   import { useAuthStore } from '~/store/auth'
   import { useBotsStore } from '~/store/bots'
   import { useUiStore } from '~/store/ui'
 
+  const { width } = useWindowSize()
+
   const isSidebarFull = ref<boolean>(true)
   const botsShown = ref<boolean>(true)
+  const target = ref(null)
 
   const botsStore = useBotsStore()
+
+  onClickOutside(target, () => {
+    if (width.value < 1024) {
+      useUiStore().isSidebarShown = false
+    }
+  })
 </script>
 
 <style lang="scss" scoped>
