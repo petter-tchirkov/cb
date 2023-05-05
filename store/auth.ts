@@ -92,7 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = async () => {
     await router.push('/auth/login')
     token.value = ''
-    console.log('logout ' + token.value)
+    user.value = {} as IUser
   }
 
   return { token, login, isLogin, logout, register, user, currentUser }

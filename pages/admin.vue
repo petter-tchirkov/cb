@@ -3,11 +3,29 @@
     <HeaderLite>
       <template #pageTitle> Адміністрування </template>
     </HeaderLite>
-    <ui-file-upload label="Імпорт операцій" format=".csv" path="/Admin/upload-file" />
-    <ui-file-upload label="Верифікація ботів" format=".csv" path="/Admin/upload-file-verif-bots" />
-    <ui-file-upload label="Клієнти та рейти" format=".csv" path="/Admin/upload-file-clients-rates" />
-    <div class="p-5">
-      <Tabs :items="tabs" :selected-tab="selectedTab" @change="(item) => (selectedTab = item)">
+    <div class="hidden lg:block">
+      <ui-file-upload
+        label="Імпорт операцій"
+        format=".csv"
+        path="/Admin/upload-file"
+      />
+      <ui-file-upload
+        label="Верифікація ботів"
+        format=".csv"
+        path="/Admin/upload-file-verif-bots"
+      />
+      <ui-file-upload
+        label="Клієнти та рейти"
+        format=".csv"
+        path="/Admin/upload-file-clients-rates"
+      />
+    </div>
+    <div class="p-4 lg:p-5">
+      <Tabs
+        :items="tabs"
+        :selected-tab="selectedTab"
+        @change="(item) => (selectedTab = item)"
+      >
         <admin-rates-table v-if="selectedTab === 'Рейти'" />
         <admin-bots-table v-if="selectedTab === 'Боти'" />
       </Tabs>
@@ -22,13 +40,13 @@
 </template>
 
 <script lang="ts" setup>
-// import { useAdminStore } from '~/store/admin'
+  // import { useAdminStore } from '~/store/admin'
 
-definePageMeta({
-  middleware: ['login', 'auth'],
-})
-const tabs = ['Рейти', 'Боти']
-const selectedTab = ref('Рейти')
+  definePageMeta({
+    middleware: ['login', 'auth'],
+  })
+  const tabs = ['Рейти', 'Боти']
+  const selectedTab = ref('Рейти')
   // const areRateUpdatesSaved = !useAdminStore().updatedRates.length
 </script>
 

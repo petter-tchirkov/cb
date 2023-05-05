@@ -1,45 +1,55 @@
 <template>
   <div class="relative">
-    <div class="flex items-end justify-center w-full gap-10 mb-5">
-      <ui-input
-        v-model="search.botURI"
-        class="grow"
-        label="Пошук по боту"
-        type="text"
-      >
-        <template #icon>
-          <Icon name="ant-design:search-outlined" />
-        </template>
-      </ui-input>
-      <ui-input
-        v-model="search.country"
-        class="grow"
-        label="Пошук по країні"
-        type="text"
-      >
-        <template #icon>
-          <Icon name="ant-design:search-outlined" />
-        </template>
-      </ui-input>
-      <div class="flex gap-3">
+    <div
+      class="flex flex-col items-end justify-center w-full gap-3 mb-5 lg:justify-between lg:flex-row"
+    >
+      <div class="flex w-full gap-3">
+        <ui-input
+          v-model="search.botURI"
+          class="grow"
+          label="Пошук по боту"
+          type="text"
+        >
+          <template #icon>
+            <Icon name="ant-design:search-outlined" />
+          </template>
+        </ui-input>
+        <ui-input
+          v-model="search.country"
+          class="grow"
+          label="Пошук по країні"
+          type="text"
+        >
+          <template #icon>
+            <Icon name="ant-design:search-outlined" />
+          </template>
+        </ui-input>
+      </div>
+      <div class="flex w-full gap-3 lg:w-auto">
         <ui-button
+          :label="width >= 1024 ? '' : 'Завантажити'"
+          full
           color="success"
           title="Завантажити"
           @click="updateRate"
         >
           <template #prependIcon>
             <Icon
+              v-if="width >= 1024"
               name="material-symbols:save-outline"
               class="w-6 h-5"
             />
           </template>
         </ui-button>
         <ui-button
+          :label="width >= 1024 ? '' : 'Додати рейт'"
+          full
           title="Додати рейт"
           @click="isAddingRate = !isAddingRate"
         >
           <template #prependIcon>
             <Icon
+              v-if="width >= 1024"
               name="material-symbols:add"
               class="w-6 h-6"
             />
@@ -47,7 +57,7 @@
         </ui-button>
       </div>
     </div>
-    <div class="overflow-y-auto h-80">
+    <div class="overflow-y-auto lg:h-80">
       <ui-table
         :items="adminStore.rates"
         :headers="headers"
@@ -84,6 +94,34 @@
           </ui-table-column>
         </ui-table-row>
       </ui-table>
+      <div class="grid w-full grid-cols-1 gap-4">
+        <div
+          v-for="item in adminStore.rates"
+          :key="item.id"
+          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
+        >
+          <div class="flex items-start justify-between space-x-2 text-sm">
+            <div class="flex flex-col gap-2">
+              <div>
+                Клієнт:
+                <span class="font-bold text-blue-600">{{
+                  item.clientName
+                }}</span>
+              </div>
+              <div>
+                Бот: <span class="font-bold">{{ item.botURI }}</span>
+              </div>
+              <div>
+                Країна: <span class="font-bold">{{ item.country }}</span>
+              </div>
+              <div>
+                Договір: <span class="font-bold">{{ item.contract }}</span>
+              </div>
+            </div>
+            <div class="font-bold">{{ item.rate }}</div>
+          </div>
+        </div>
+      </div>
     </div>
     <ui-modal :is-modal-visible="isAddingRate">
       <template #modalHeading> Додати рейт </template>
@@ -154,9 +192,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useWindowSize } from '@vueuse/core'
   import { useAdminStore } from '~/store/admin'
+
   import { IRate } from '~/types/rate'
   const adminStore = useAdminStore()
+  const { width } = useWindowSize()
 
   await adminStore.getRates()
 
