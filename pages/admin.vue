@@ -3,7 +3,7 @@
     <HeaderLite>
       <template #pageTitle> Адміністрування </template>
     </HeaderLite>
-    <div class="hidden lg:block">
+    <div class="justify-between hidden lg:flex">
       <ui-file-upload
         label="Імпорт операцій"
         format=".csv"
