@@ -1,6 +1,8 @@
 <template>
-  <div class="relative flex items-center justify-center min-h-screen">
-    <form class="p-5 border-2 border-blue-600 rounded-lg w-96">
+  <div
+    class="relative flex items-center justify-center min-h-screen p-4 lg:p-0"
+  >
+    <form class="w-full p-4 border-2 border-blue-600 rounded-lg lg:p-5 lg:w-96">
       <h2 class="mb-8 text-3xl font-bold text-center">Вхід</h2>
       <ui-input
         v-model="fields.login"

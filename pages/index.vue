@@ -3,8 +3,11 @@
     <HeaderLite>
       <template #pageTitle> Витрати </template>
     </HeaderLite>
-    <div class="flex flex-col items-center p-5">
-      <div class="flex items-end justify-center w-full gap-10 mb-5">
+    <div class="flex flex-col items-center p-4 lg:p-5">
+      <div
+        v-if="width >= 1024"
+        class="flex items-end justify-center w-full gap-10 mb-5"
+      >
         <ui-input
           v-model="filterParams.bot_name"
           class="grow"
@@ -40,11 +43,6 @@
           class="mt-[8px]"
           @click="filterData"
         />
-        <ui-button
-          label="get"
-          class="mt-[8px]"
-          @click="costsStore.getCosts(filterParams)"
-        />
       </div>
       <ui-table
         :items="costsStore.costs"
@@ -67,6 +65,39 @@
           <ui-table-column>{{ row.charged }}</ui-table-column>
         </ui-table-row>
       </ui-table>
+      <div
+        v-if="width < 1024"
+        class="grid w-full grid-cols-1 gap-4"
+      >
+        <div
+          v-for="(item, index) in useCostsStore().costs"
+          :key="index"
+          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
+        >
+          <div class="flex items-center justify-between space-x-2 text-sm">
+            <div class="flex gap-2">
+              <div class="font-bold text-blue-600">{{ item.bot_name }}</div>
+              <div class="text-gray-500">{{ item.date }}</div>
+              <div class="font-bold">{{ item.country }}</div>
+            </div>
+            <div class="font-bold">{{ item.rate }}</div>
+          </div>
+          <div>
+            <div class="text-xs">
+              Rate Type: <span>{{ item.rate_type }}</span>
+            </div>
+            <div class="flex justify-between">
+              <div class="text-xs">Attempts: {{ item.attempts }}</div>
+              <div class="text-xs">Sent: {{ item.sent }}</div>
+              <div class="text-xs">Delivered: {{ item.delivered }}</div>
+            </div>
+            <div class="flex justify-between">
+              <div class="text-xs">Billed: {{ item.billed }}</div>
+              <div class="text-xs">Charged: {{ item.charged }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <p class="flex items-center mt-5">
         Всього витрачено:&nbsp;
         <Icon
@@ -75,6 +106,7 @@
         />
         <span class="text-xl font-semibold">{{ costsStore.totalCharged }}</span>
       </p>
+
       <div class="flex gap-3 mt-5">
         <ui-table-pagination
           v-if="!filterParams.show_all"
@@ -86,6 +118,7 @@
           @update="(page) => goToPage(page)"
         />
         <ui-button
+          v-if="width >= 1024"
           :label="filterParams.show_all ? 'Показати пагінацію' : 'Показати все'"
           @click="showHideAllFields"
         />
@@ -95,12 +128,16 @@
 </template>
 
 <script lang="ts" setup>
+  import { useWindowSize } from '@vueuse/core'
   import { useCostsStore } from '~/store/costs'
   import { useAuthStore } from '~/store/auth'
   import { ICosts } from '~/types/costs'
+
   definePageMeta({
     middleware: ['login', 'auth'],
   })
+
+  const { width } = useWindowSize()
 
   const user = useAuthStore().user?.user_id
   const costsStore = useCostsStore()
@@ -108,7 +145,7 @@
   const filterParams: ICosts = reactive({
     id: user as number,
     page: 1,
-    per_page: 10,
+    per_page: width >= 1024 ? 10 : 4,
     bot_name: '',
     country: '',
     date_from: '',
