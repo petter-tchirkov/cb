@@ -66,7 +66,7 @@
         </ui-table-row>
       </ui-table>
       <div
-        v-if="width < 1024"
+        v-if="width < 1024 && costsStore.costs"
         class="grid w-full grid-cols-1 gap-4"
       >
         <div
@@ -98,7 +98,11 @@
           </div>
         </div>
       </div>
-      <p class="flex items-center mt-5">
+      <p v-if="!costsStore.costs.length">Немає даних для відображення</p>
+      <p
+        v-if="costsStore.costs.length"
+        class="flex items-center mt-5"
+      >
         Всього витрачено:&nbsp;
         <Icon
           name="ic:baseline-euro"
@@ -107,7 +111,10 @@
         <span class="text-xl font-semibold">{{ costsStore.totalCharged }}</span>
       </p>
 
-      <div class="flex gap-3 mt-5">
+      <div
+        v-if="costsStore.pages > 1"
+        class="flex gap-3 mt-5"
+      >
         <ui-table-pagination
           v-if="!filterParams.show_all"
           :current-page="filterParams.page"

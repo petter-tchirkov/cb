@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex -space-x-px">
+  <div class="inline-flex max-w-full -space-x-px">
     <div
       class="items-center hidden px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 lg:flex"
       @click="$emit('previousPage')"
@@ -40,7 +40,7 @@
       {{ totalPages }}
     </div>
     <div
-      class="items-center hidden px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg lg:flex hover:bg-gray-100 hover:text-gray-700"
+      class="items-center hidden px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 lg:flex"
       @click="$emit('nextPage')"
     >
       Вперед
@@ -49,6 +49,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useCostsStore } from '~/store/costs'
+
   const props = withDefaults(
     defineProps<{
       totalPages: number
@@ -74,6 +76,9 @@
   )
 
   const pageRange = computed(() => {
+    if (useCostsStore().pages < 5) {
+      return useCostsStore().pages
+    }
     if (props.currentPage < 5) {
       return 5
     } else {
@@ -87,6 +92,6 @@
 
 <style scoped>
   .current {
-    @apply px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700;
+    @apply border border-gray-300 bg-blue-50 px-3 py-2 text-blue-600 hover:bg-blue-100 hover:text-blue-700;
   }
 </style>
