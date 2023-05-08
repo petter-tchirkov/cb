@@ -1,9 +1,9 @@
 <template>
   <div
-    class="relative flex items-center justify-center min-h-screen p-4 lg:p-0"
+    class="relative flex min-h-screen flex-col items-center justify-center p-4 lg:p-0"
   >
-    <form class="w-full p-4 border-2 border-blue-600 rounded-lg lg:p-5 lg:w-96">
-      <h2 class="mb-8 text-3xl font-bold text-center">Вхід</h2>
+    <form class="w-full rounded-lg border-2 border-blue-600 p-4 lg:w-96 lg:p-5">
+      <h2 class="mb-8 text-center text-3xl font-bold">Вхід</h2>
       <ui-input
         v-model="fields.login"
         class="mb-5"
@@ -21,17 +21,16 @@
         <template #icon>
           <Icon
             :name="isPasswordRevealed ? 'mdi:eye-off' : 'mdi:eye'"
-            class="w-5 h-5"
+            class="h-5 w-5"
             @click="isPasswordRevealed = !isPasswordRevealed"
           /> </template
       ></ui-input>
       <ui-button
         label="Увійти"
-        full
         @click.prevent="useAuthStore().login(fields)"
       />
 
-      <p class="mt-5 text-sm text-center">
+      <p class="mt-5 text-center text-sm">
         Ще не маєте аккаунту?
         <NuxtLink
           class="font-semibold text-blue-600 transition-all hover:underline"
@@ -41,6 +40,14 @@
         його
       </p>
     </form>
+    <div
+      class="fixed bottom-0 left-0 flex h-10 w-screen items-center justify-around text-blue-600"
+    >
+      <NuxtLink to="/tou">Terms of Use</NuxtLink>
+      <NuxtLink to="/privacy">Privacy Policy</NuxtLink>
+      <NuxtLink to="/dmca">DMCA Agreement</NuxtLink>
+      <NuxtLink to="/default-rates">Default Rates</NuxtLink>
+    </div>
     <ui-toast />
   </div>
 </template>
