@@ -6,7 +6,7 @@
     <div class="flex flex-col items-center p-4 lg:p-5">
       <div
         v-if="width >= 1024"
-        class="flex items-end justify-center w-full gap-10 mb-5"
+        class="mb-5 flex w-full items-end justify-center gap-10"
       >
         <ui-input
           v-model="filterParams.bot_name"
@@ -66,13 +66,13 @@
         </ui-table-row>
       </ui-table>
       <div
-        v-if="width < 1024"
+        v-if="width < 1024 && costsStore.costs"
         class="grid w-full grid-cols-1 gap-4"
       >
         <div
           v-for="(item, index) in useCostsStore().costs"
           :key="index"
-          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
+          class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow"
         >
           <div class="flex items-center justify-between space-x-2 text-sm">
             <div class="flex gap-2">
@@ -98,16 +98,23 @@
           </div>
         </div>
       </div>
-      <p class="flex items-center mt-5">
+      <p v-if="!costsStore.costs.length">Немає даних для відображення</p>
+      <p
+        v-if="costsStore.costs.length"
+        class="mt-5 flex items-center"
+      >
         Всього витрачено:&nbsp;
         <Icon
           name="ic:baseline-euro"
-          class="w-5 h-5"
+          class="h-5 w-5"
         />
         <span class="text-xl font-semibold">{{ costsStore.totalCharged }}</span>
       </p>
 
-      <div class="flex gap-3 mt-5">
+      <div
+        v-if="costsStore.pages > 1"
+        class="mt-5 flex gap-3"
+      >
         <ui-table-pagination
           v-if="!filterParams.show_all"
           :current-page="filterParams.page"
