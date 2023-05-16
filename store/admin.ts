@@ -12,6 +12,9 @@ export const useAdminStore = defineStore('admin', () => {
   const token = useAuthStore().token
   const isLoading = ref(false)
   const updatedRates: Ref<IRate[]> = ref([])
+  const botsCosts = ref([])
+  const botStatistic = ref([])
+  const router = useRouter()
 
   const fetchRates = async (path: string, formData: FormData) => {
     await useFetch(`${url}${path}`, {
@@ -277,6 +280,32 @@ export const useAdminStore = defineStore('admin', () => {
     })
   }
 
+  const getBotStatistic = async (
+    botId: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    await useFetch(`${url}/Admin/get-bot-statistic`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        botId,
+        startDate,
+        endDate,
+      },
+      onResponse({ response }) {
+        if (response._data.errors) {
+          notify({
+            text: response._data.errors[0].error,
+            type: 'error',
+          })
+        }
+        botStatistic.value = response._data
+      },
+    })
+  }
+
   const updateBots = async (updatedBots: IRatesBot[]) => {
     await useFetch(`${url}/Admin/update-verif-bots`, {
       method: 'POST',
@@ -305,6 +334,27 @@ export const useAdminStore = defineStore('admin', () => {
     })
   }
 
+  const getBotsCosts = async (startDate: string, endDate: string) => {
+    await useFetch(`${url}/Admin/get-bots-costs`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        startDate,
+        endDate,
+      },
+      onRequest() {
+        isLoading.value = true
+      },
+      onResponse({ response }) {
+        if (response._data) {
+          botsCosts.value = response._data
+          isLoading.value = false
+        }
+      },
+    })
+  }
+
   return {
     fetchRates,
     rates,
@@ -319,5 +369,9 @@ export const useAdminStore = defineStore('admin', () => {
     deleteRate,
     isLoading,
     updatedRates,
+    botsCosts,
+    getBotsCosts,
+    getBotStatistic,
+    botStatistic,
   }
 })

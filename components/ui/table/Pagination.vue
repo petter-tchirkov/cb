@@ -1,49 +1,39 @@
 <template>
   <div class="inline-flex max-w-full -space-x-px">
     <div
-      class="items-center hidden px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 lg:flex"
-      @click="$emit('previousPage')"
-    >
-      Назад
-    </div>
-    <div
-      v-if="currentPage >= 5"
-      class="flex items-center px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+      class="ml-0 hidden items-center rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 lg:flex"
       @click="$emit('update', 1)"
     >
-      1
+      <Icon name="material-symbols:keyboard-double-arrow-left" />
     </div>
-    <span
-      v-if="currentPage >= 5"
-      class="flex items-center mx-2 text-3xl text-gray-500"
-      >&nbsp;...&nbsp;</span
+    <div
+      v-if="currentPage !== 1"
+      class="ml-0 hidden items-center border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 lg:flex"
+      @click="$emit('previousPage')"
     >
+      <Icon name="material-symbols:keyboard-arrow-left" />
+    </div>
     <div
       v-for="page in pageRange"
       :key="page"
-      class="flex items-center justify-center px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 cursor-pointer hover:bg-gray-100 hover:text-gray-700"
+      class="ml-0 flex cursor-pointer items-center justify-center border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700"
       :class="{ current: currentPage === page }"
       @click="$emit('update', page)"
     >
       {{ page }}
     </div>
-    <span
-      v-if="currentPage < totalPages - 5"
-      class="flex items-center mx-2 text-3xl text-gray-500"
-      >&nbsp;...&nbsp;</span
-    >
     <div
-      v-if="currentPage !== totalPages && currentPage !== totalPages - 1"
-      class="flex items-center px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-      @click="$emit('update', totalPages)"
-    >
-      {{ totalPages }}
-    </div>
-    <div
-      class="items-center hidden px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 lg:flex"
+      v-if="currentPage < totalPages"
+      class="ml-0 hidden items-center border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 lg:flex"
       @click="$emit('nextPage')"
     >
-      Вперед
+      <Icon name="material-symbols:keyboard-arrow-right" />
+    </div>
+    <div
+      class="ml-0 hidden items-center rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 lg:flex"
+      @click="$emit('update', totalPages)"
+    >
+      <Icon name="material-symbols:keyboard-double-arrow-right" />
     </div>
   </div>
 </template>
@@ -83,8 +73,8 @@
       return 5
     } else {
       return totalPagesArray.value.slice(
-        props.currentPage - 3,
-        props.currentPage + 2
+        props.currentPage - 5,
+        props.currentPage + 5
       )
     }
   })

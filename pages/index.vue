@@ -113,7 +113,7 @@
 
       <div
         v-if="costsStore.pages > 1"
-        class="mt-5 flex gap-3"
+        class="mb-5 mt-5 flex gap-3"
       >
         <ui-table-pagination
           v-if="!filterParams.show_all"
@@ -130,15 +130,27 @@
           @click="showHideAllFields"
         />
       </div>
+      <ui-button
+        v-if="useCostsStore().pages > 1"
+        label="Експортувати"
+        color="light"
+        @click="exportCosts(filterParams)"
+      >
+        <template #prependIcon>
+          <Icon name="solar:download-minimalistic-bold" />
+        </template>
+      </ui-button>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
   import { useWindowSize } from '@vueuse/core'
+
   import { useCostsStore } from '~/store/costs'
   import { useAuthStore } from '~/store/auth'
   import { ICosts } from '~/types/costs'
+  const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
   definePageMeta({
     middleware: ['login', 'auth'],
@@ -146,6 +158,7 @@
 
   const { width } = useWindowSize()
 
+  const url = useRuntimeConfig().public.baseURL
   const user = useAuthStore().user?.user_id
   const costsStore = useCostsStore()
 
@@ -155,8 +168,8 @@
     per_page: width.value >= 1024 ? 10 : 4,
     bot_name: '',
     country: '',
-    date_from: '',
-    date_to: '',
+    date_from: firstDayOfCurrentMonth,
+    date_to: lastDayOfCurrentMonth,
     show_all: false,
   })
 
@@ -201,6 +214,39 @@
     'BILLED',
     'CHARGED',
   ]
+
+  const exportCosts = async (filterParams: ICosts) => {
+    await useFetch(`${url}/Users/statistic-file`, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().token}`,
+      },
+      params: {
+        id: filterParams.id,
+        page: filterParams.page,
+        per_page: filterParams.per_page,
+        bot_name: filterParams.bot_name,
+        country: filterParams.country,
+        date_from: filterParams.date_from,
+        date_to: filterParams.date_to,
+        show_all: filterParams.show_all,
+      },
+      onResponse({ response }) {
+        const blob = new Blob([response._data], { type: 'octet-stream' })
+        const href = URL.createObjectURL(blob)
+        const a = Object.assign(document.createElement('a'), {
+          href,
+          style: 'display:none',
+          download: `${useAuthStore().user?.user_name} ${
+            filterParams.date_from
+          } - ${filterParams.date_to}.csv`,
+        })
+        document.body.appendChild(a)
+        a.click()
+        URL.revokeObjectURL(href)
+        a.remove()
+      },
+    })
+  }
 </script>
 
 <style lang="scss" scoped></style>
