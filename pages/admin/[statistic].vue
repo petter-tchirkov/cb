@@ -1,7 +1,7 @@
 <template>
   <section>
     <header-lite>
-      <template #pageTitle> huy </template>
+      <template #pageTitle>{{ route.params.statistic }}</template>
     </header-lite>
     <div class="p-4 lg:px-5">
       <ui-button

@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="overflow-y-auto lg:max-h-[550px]">
+    <div class="relative overflow-y-auto lg:max-h-[550px]">
       <ui-table
         :items="adminStore.bots"
         :headers="headers"
@@ -120,7 +120,7 @@
           </div>
         </div>
       </div>
-      <ui-loader v-if="adminStore.isLoading" />
+      <ui-loader v-if="useAdminStore().isLoading === true" />
     </div>
   </div>
 </template>
@@ -130,13 +130,10 @@
   import { useAdminStore } from '~/store/admin'
   import { IRatesBot } from '~/types/ratesBot'
   const { width } = useWindowSize()
-  const router = useRouter()
 
   const adminStore = useAdminStore()
   const headers = ['Клієнт', 'Договір', 'Бот', 'Верифіковано']
   await useAdminStore().getBots()
-
-  const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
   const search: {
     botURI: string
