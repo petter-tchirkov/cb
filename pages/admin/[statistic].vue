@@ -1,10 +1,11 @@
 <template>
   <section>
     <header-lite>
-      <template #pageTitle>{{ route.params.statistic }}</template>
+      <template #pageTitle>{{ getBotUri[0].botURI }}</template>
     </header-lite>
     <div class="p-4 lg:px-5">
       <ui-button
+        v-if="useAdminStore().botStatistic.length"
         label="Обрати дати"
         @click="datePickersShown = true"
       />
@@ -80,6 +81,12 @@
     firstDayOfCurrentMonth,
     lastDayOfCurrentMonth
   )
+
+  const getBotUri = computed(() => {
+    return useAdminStore().bots.filter((item) => {
+      return item.botId.toString() === route.params.statistic
+    })
+  })
 
   const getRateTypeColors = (rateType: string) => {
     switch (rateType) {

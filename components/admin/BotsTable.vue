@@ -70,8 +70,11 @@
             />
           </ui-table-column>
           <ui-table-column>{{ item.contract }}</ui-table-column>
-          <ui-table-column>
-            <NuxtLink :to="`/admin/${item.botId}`">
+          <ui-table-column class="hover:font-bold">
+            <NuxtLink
+              class="flex w-full"
+              :to="`/admin/${item.botId}`"
+            >
               {{ item.botURI }}
             </NuxtLink>
           </ui-table-column>
