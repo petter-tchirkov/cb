@@ -8,7 +8,7 @@
         hidden: !useUiStore().isSidebarShown,
       }"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col gap-3">
         <!-- <NuxtLink
           to="/"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
@@ -80,7 +80,7 @@
             >
               <NuxtLink
                 :to="`/bots/${bot.id}`"
-                class="group flex w-full items-center rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
+                class="group flex w-full items-center truncate rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
               >
                 {{ bot.botName !== '' ? bot.botName : 'Без назви' }}</NuxtLink
               >
@@ -130,7 +130,7 @@
         </NuxtLink>
       </div>
       <div
-        class="fixed bottom-96 hidden justify-end lg:flex"
+        class="fixed bottom-48 hidden justify-end lg:flex"
         :class="[isSidebarFull ? 'left-44' : 'left-4']"
       >
         <Icon

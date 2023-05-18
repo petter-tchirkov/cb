@@ -12,8 +12,10 @@ export const useAdminStore = defineStore('admin', () => {
   const token = useAuthStore().token
   const isLoading = ref(false)
   const updatedRates: Ref<IRate[]> = ref([])
-  const botsCosts = ref([])
+  const updatedBots: Ref<Record<string, any>[]> = ref([])
+  const botsCosts: Ref<Record<string, any>[]> = ref([])
   const botStatistic = ref([])
+  const clientsList: Ref<Record<string, any>[]> = ref([])
 
   const fetchRates = async (path: string, formData: FormData) => {
     await useFetch(`${url}${path}`, {
@@ -272,7 +274,8 @@ export const useAdminStore = defineStore('admin', () => {
       },
       onResponse({ response }) {
         if (response._data) {
-          bots.value = response._data
+          bots.value = response._data.botVerifications
+          clientsList.value = response._data.users
           isLoading.value = false
         }
       },
@@ -372,5 +375,7 @@ export const useAdminStore = defineStore('admin', () => {
     getBotsCosts,
     getBotStatistic,
     botStatistic,
+    clientsList,
+    updatedBots,
   }
 })

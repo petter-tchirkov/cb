@@ -61,7 +61,14 @@
           :key="item.botId"
           class="cursor-pointer"
         >
-          <ui-table-column>{{ item.clientName }}</ui-table-column>
+          <ui-table-column>
+            <ui-auto-complete
+              v-model="item.clientName"
+              :items="useAdminStore().clientsList"
+              @update:model-value="updateBotsArray(item, item.botId)"
+              @update:id="(id) => (item.userId = id)"
+            />
+          </ui-table-column>
           <ui-table-column>{{ item.contract }}</ui-table-column>
           <ui-table-column>
             <NuxtLink :to="`/admin/${item.botId}`">
@@ -73,7 +80,7 @@
               v-model="item.isVerified"
               :disabled="!item.contract"
               :default-check="item.isVerified"
-              @change="updateBotsArray(item)"
+              @change="updateBotsArray(item, item.botId)"
             />
           </ui-table-column>
         </ui-table-row>
@@ -120,8 +127,8 @@
           </div>
         </div>
       </div>
-      <ui-loader v-if="useAdminStore().isLoading === true" />
     </div>
+    <ui-loader v-if="adminStore.isLoading" />
   </div>
 </template>
 
@@ -163,8 +170,11 @@
   })
 
   const updatedBots: Ref<IRatesBot[]> = ref([])
-  const updateBotsArray = (item: IRatesBot) => {
-    updatedBots.value.push(item)
+  const updateBotsArray = (item: IRatesBot, id: number) => {
+    if (!updatedBots.value.includes(item)) {
+      item.botId = id
+      updatedBots.value.push(item)
+    }
   }
 
   const selectedOptions = ref([

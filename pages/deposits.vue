@@ -21,7 +21,7 @@
               type="text"
               number
               class="grow"
-              @input="initUpdatedDeposits(item.id, item.deposit)"
+              @update:model-value="initUpdatedDeposits(item)"
             />
           </ui-table-column>
         </ui-table-row>
@@ -35,6 +35,7 @@
         "
       />
     </div>
+    <ui-toast />
   </section>
 </template>
 
@@ -56,15 +57,13 @@
 
   const clientsDeposits: IClientDeposit[] = useDepositsStore().clientsDeposits
 
-  const initUpdatedDeposits = useDebounceFn((id: number, deposit: number) => {
-    const newDeposit: IDeposit = { id, deposit }
+  const initUpdatedDeposits = useDebounceFn((item) => {
     if (
       !useDepositsStore().updatedDeposits.some(
-        (item: IDeposit) => item.id === newDeposit.id
+        (deposit: IDeposit) => item.id === deposit.id
       )
     ) {
-      console.log(newDeposit)
-      useDepositsStore().updatedDeposits.push(newDeposit)
+      useDepositsStore().updatedDeposits.push(item)
     }
   })
 </script>

@@ -5,7 +5,7 @@
       :headers="['Клієнт', 'Бот', 'Знято']"
     >
       <ui-table-row
-        v-for="item in useAdminStore().botsCosts as IBotsCost[]"
+        v-for="item in useAdminStore().botsCosts"
         :key="item.client"
       >
         <ui-table-column>{{ item.client }}</ui-table-column>
@@ -18,12 +18,6 @@
 
 <script setup lang="ts">
   import { useAdminStore } from '~/store/admin'
-
-  interface IBotsCost {
-    client: string
-    botURI: string
-    charged: number
-  }
 
   const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 

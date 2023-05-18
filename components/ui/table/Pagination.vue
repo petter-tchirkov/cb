@@ -57,10 +57,6 @@
     (e: 'previousPage', value: number): void
   }>()
 
-  const calculatePages = computed(() => {
-    return Math.ceil(props.totalPages / props.perPage)
-  })
-
   const totalPagesArray = ref(
     Array.from({ length: props.totalPages }, (_, i) => i + 1)
   )
