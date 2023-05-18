@@ -11,5 +11,5 @@ body {
 }
 
 section {
-  @apply lg:pl-2 w-full bg-gray-50 h-screen;
+  @apply h-screen w-full overflow-auto bg-gray-50;
 }

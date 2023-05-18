@@ -113,6 +113,21 @@
             >Адміністрування</span
           >
         </NuxtLink>
+        <NuxtLink
+          v-if="useAuthStore().user?.user_role === 'ADMIN'"
+          to="/deposits"
+          class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+        >
+          <Icon
+            name="bi:piggy-bank-fill"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+          />
+          <span
+            v-show="isSidebarFull"
+            class="transition-all duration-75"
+            >Депозити</span
+          >
+        </NuxtLink>
       </div>
       <div
         class="fixed bottom-96 hidden justify-end lg:flex"

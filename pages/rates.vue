@@ -3,7 +3,7 @@
     <HeaderLite>
       <template #pageTitle> Рейти </template>
     </HeaderLite>
-    <div class="h-[80vh] overflow-auto p-4 lg:p-5">
+    <div class="h-[86vh] overflow-auto p-4 lg:p-5">
       <ui-table
         class="overflow-auto"
         :items="useRatesStore().rates"

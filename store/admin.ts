@@ -14,7 +14,6 @@ export const useAdminStore = defineStore('admin', () => {
   const updatedRates: Ref<IRate[]> = ref([])
   const botsCosts = ref([])
   const botStatistic = ref([])
-  const router = useRouter()
 
   const fetchRates = async (path: string, formData: FormData) => {
     await useFetch(`${url}${path}`, {
