@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div
-      class="flex flex-col items-end justify-center w-full gap-3 mb-5 lg:justify-between lg:flex-row"
+      class="mb-5 flex w-full flex-col items-end justify-center gap-3 lg:flex-row lg:justify-between"
     >
       <div class="flex w-full gap-3">
         <ui-input
@@ -37,7 +37,7 @@
             <Icon
               v-if="width >= 1024"
               name="material-symbols:save-outline"
-              class="w-6 h-5"
+              class="h-5 w-6"
             />
           </template>
         </ui-button>
@@ -51,13 +51,13 @@
             <Icon
               v-if="width >= 1024"
               name="material-symbols:add"
-              class="w-6 h-6"
+              class="h-6 w-6"
             />
           </template>
         </ui-button>
       </div>
     </div>
-    <div class="overflow-y-auto lg:max-h-[700px]">
+    <div class="overflow-y-auto lg:max-h-[550px]">
       <ui-table
         :items="adminStore.rates"
         :headers="headers"
@@ -82,13 +82,13 @@
               <template #icon>
                 <Icon
                   name="material-symbols:edit"
-                  class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-yellow-300"
+                  class="h-5 w-5 cursor-pointer transition-all duration-75 hover:text-yellow-300"
                 />
               </template>
             </ui-input>
             <Icon
               name="material-symbols:delete-outline"
-              class="w-5 h-5 transition-all duration-75 cursor-pointer hover:text-red-500"
+              class="h-5 w-5 cursor-pointer transition-all duration-75 hover:text-red-500"
               @click="adminStore.deleteRate(item)"
             />
           </ui-table-column>
@@ -98,7 +98,7 @@
         <div
           v-for="item in adminStore.rates"
           :key="item.id"
-          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
+          class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow"
         >
           <div class="flex items-start justify-between space-x-2 text-sm">
             <div class="flex flex-col gap-2">

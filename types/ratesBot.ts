@@ -4,4 +4,5 @@ export interface IRatesBot {
   contract: string
   botURI: string
   isVerified: boolean
+  userId: number
 }

@@ -1,10 +1,10 @@
 <template>
   <ui-table
-    :items="defaultRates"
+    :items="useRatesStore().countriesRates"
     :headers="['Country', 'Rate']"
   >
     <ui-table-row
-      v-for="rate in defaultRates"
+      v-for="rate in useRatesStore().countriesRates"
       :key="rate.rate"
     >
       <ui-table-column class="!text-2xl">{{
@@ -18,20 +18,12 @@
 </template>
 
 <script setup lang="ts">
+  import { useRatesStore } from '~/store/rates'
   definePageMeta({
     layout: 'unauthorized',
   })
-  const url = useRuntimeConfig().public.baseURL
 
-  const defaultRates: Ref<{ country: string; rate: number }[]> = ref([])
-  const getDefaultRates = async () => {
-    await useFetch(`${url}/Home/get-rates`, {
-      onResponse({ response }) {
-        defaultRates.value = response._data
-      },
-    })
-  }
-  await getDefaultRates()
+  await useRatesStore().getBaseRates()
 </script>
 
 <style scoped></style>

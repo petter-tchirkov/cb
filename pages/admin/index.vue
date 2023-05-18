@@ -3,7 +3,7 @@
     <HeaderLite>
       <template #pageTitle> Адміністрування </template>
     </HeaderLite>
-    <div class="justify-between hidden lg:flex">
+    <div class="hidden justify-between lg:flex">
       <ui-file-upload
         label="Імпорт операцій"
         format=".csv"
@@ -28,6 +28,7 @@
       >
         <admin-rates-table v-if="selectedTab === 'Рейти'" />
         <admin-bots-table v-if="selectedTab === 'Боти'" />
+        <admin-costs-table v-if="selectedTab === 'Витрати'" />
       </Tabs>
     </div>
     <ui-toast />
@@ -45,7 +46,7 @@
   definePageMeta({
     middleware: ['login', 'auth'],
   })
-  const tabs = ['Рейти', 'Боти']
+  const tabs = ['Рейти', 'Боти', 'Витрати']
   const selectedTab = ref('Рейти')
   // const areRateUpdatesSaved = !useAdminStore().updatedRates.length
 </script>

@@ -6,8 +6,11 @@ import { ICosts } from '~/types/costs'
 export const useCostsStore = defineStore('costs', () => {
   const url = useRuntimeConfig().public.baseURL
   const costs: Ref<ICostsItem[]> = ref([])
-  const pages = ref(1)
+  const countRecorded = ref(1)
   const totalCharged = ref(1)
+  const pages = computed(() => {
+    return Math.ceil(countRecorded.value / 10)
+  })
 
   const getCosts = async (filterParams: ICosts) => {
     await useFetch(`${url}/Users/costs`, {
@@ -25,12 +28,12 @@ export const useCostsStore = defineStore('costs', () => {
         show_all: filterParams.show_all,
       },
       onResponse({ response }) {
-        pages.value = response._data.count_recorded
+        countRecorded.value = response._data.count_recorded
         totalCharged.value = response._data.total_charged
         costs.value = response._data.data
       },
     })
   }
 
-  return { getCosts, costs, pages, totalCharged }
+  return { getCosts, costs, pages, totalCharged, countRecorded }
 })

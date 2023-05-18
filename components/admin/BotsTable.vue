@@ -2,7 +2,7 @@
   <div class="relative">
     <div class="flex flex-col">
       <div
-        class="flex flex-col items-end justify-center w-full gap-3 mb-5 lg:justify-between lg:flex-row"
+        class="mb-5 flex w-full flex-col items-end justify-center gap-3 lg:flex-row lg:justify-between"
       >
         <div class="flex w-full gap-3">
           <ui-input
@@ -27,7 +27,7 @@
           </ui-input>
         </div>
 
-        <div class="flex justify-between w-full gap-3 lg:w-auto">
+        <div class="flex w-full justify-between gap-3 lg:w-auto">
           <ui-select
             v-model="selected"
             :options="selectedOptions"
@@ -43,7 +43,7 @@
               <Icon
                 v-if="width >= 1024"
                 name="material-symbols:save-outline"
-                class="w-6 h-5"
+                class="h-5 w-6"
               />
             </template>
           </ui-button>
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="overflow-y-auto lg:max-h-[700px]">
+    <div class="relative overflow-y-auto lg:max-h-[550px]">
       <ui-table
         :items="adminStore.bots"
         :headers="headers"
@@ -59,16 +59,28 @@
         <ui-table-row
           v-for="item in filteredBots"
           :key="item.botId"
+          class="cursor-pointer"
         >
-          <ui-table-column>{{ item.clientName }}</ui-table-column>
+          <ui-table-column>
+            <ui-auto-complete
+              v-model="item.clientName"
+              :items="useAdminStore().clientsList"
+              @update:model-value="updateBotsArray(item, item.botId)"
+              @update:id="(id) => (item.userId = id)"
+            />
+          </ui-table-column>
           <ui-table-column>{{ item.contract }}</ui-table-column>
-          <ui-table-column>{{ item.botURI }}</ui-table-column>
+          <ui-table-column>
+            <NuxtLink :to="`/admin/${item.botId}`">
+              {{ item.botURI }}
+            </NuxtLink>
+          </ui-table-column>
           <ui-table-column>
             <ui-toggle
               v-model="item.isVerified"
               :disabled="!item.contract"
               :default-check="item.isVerified"
-              @change="updateBotsArray(item)"
+              @change="updateBotsArray(item, item.botId)"
             />
           </ui-table-column>
         </ui-table-row>
@@ -77,10 +89,10 @@
         <div
           v-for="item in adminStore.bots"
           :key="item.botId"
-          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
+          class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow"
         >
           <div class="flex items-start justify-between space-x-2 text-sm">
-            <div class="flex flex-col w-full gap-2">
+            <div class="flex w-full flex-col gap-2">
               <div class="flex justify-between">
                 <div>
                   Клієнт:
@@ -115,8 +127,8 @@
           </div>
         </div>
       </div>
-      <ui-loader v-if="adminStore.isLoading" />
     </div>
+    <ui-loader v-if="adminStore.isLoading" />
   </div>
 </template>
 
@@ -158,8 +170,11 @@
   })
 
   const updatedBots: Ref<IRatesBot[]> = ref([])
-  const updateBotsArray = (item: IRatesBot) => {
-    updatedBots.value.push(item)
+  const updateBotsArray = (item: IRatesBot, id: number) => {
+    if (!updatedBots.value.includes(item)) {
+      item.botId = id
+      updatedBots.value.push(item)
+    }
   }
 
   const selectedOptions = ref([
