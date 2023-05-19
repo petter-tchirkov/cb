@@ -3,8 +3,9 @@
     <header-lite>
       <template #pageTitle>Дезопити</template>
     </header-lite>
-    <div class="h-[80vh] overflow-auto p-4 lg:p-5">
+    <div class="p-4 lg:px-5">
       <ui-table
+        class="h-[80vh] overflow-auto"
         :items="clientsDeposits"
         :headers="['Договір', 'Клієнт', 'Депозит']"
       >

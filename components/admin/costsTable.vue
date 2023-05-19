@@ -1,6 +1,22 @@
 <template>
   <div>
+    <div class="mb-3 flex items-end gap-5">
+      <ui-datepicker
+        v-model="startDate"
+        label="Дата"
+      />
+      <ui-datepicker
+        v-model="endDate"
+        label="Дата"
+      />
+      <ui-button
+        class="h-11"
+        label="Пошук по даті"
+        @click="useAdminStore().getBotsCosts(startDate, endDate)"
+      />
+    </div>
     <ui-table
+      class="h-[550px] overflow-auto"
       :items="useAdminStore().botsCosts"
       :headers="['Клієнт', 'Бот', 'Знято']"
     >
@@ -21,10 +37,10 @@
 
   const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
-  await useAdminStore().getBotsCosts(
-    firstDayOfCurrentMonth,
-    lastDayOfCurrentMonth
-  )
+  const startDate = ref(firstDayOfCurrentMonth)
+  const endDate = ref(lastDayOfCurrentMonth)
+
+  await useAdminStore().getBotsCosts(startDate.value, endDate.value)
 </script>
 
 <style scoped></style>
