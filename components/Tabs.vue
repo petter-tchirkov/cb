@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <ul
-      class="mb-2 flex justify-between border-b border-gray-200 text-center text-sm font-medium text-gray-500 lg:justify-normal"
+      class="flex justify-between border-b border-gray-200 text-center text-sm font-medium text-gray-500 lg:justify-normal"
     >
       <li
         v-for="item in items"

@@ -1,22 +1,24 @@
 <template>
   <label class="relative flex flex-col">
     <span
-      class="block pl-4 mb-2 text-sm font-medium"
+      class="mb-2 block pl-4 text-sm font-medium"
       :class="{ 'text-red-500': error, hidden: label === undefined }"
       >{{ label }}</span
     >
     <div class="flex items-center">
       <input
         :type="type"
+        :direction="direction"
         :disabled="disabled"
         :value="modelValue"
-        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-4 outline-none"
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-4 text-sm outline-none focus:border-blue-500 focus:ring-blue-500"
         :class="{
-          'bg-gray-100 border border-gray-300 cursor-not-allowed text-gray-300':
+          'cursor-not-allowed border border-gray-300 bg-gray-100 text-gray-300':
             disabled,
           'border-red-500': error,
-          'bg-transparent border-none !p-0 !pl-0 text-xs': light,
+          'border-none bg-transparent !p-0 !pl-0 text-xs': light,
           'appearance-none': type === 'number',
+          'text-right': direction === 'rtl',
         }"
         @keypress="number ? inpNum($event) : null"
         @input="$emit('update:modelValue', ($event.target as any).value)"
@@ -31,7 +33,7 @@
         />
       </span>
     </div>
-    <div :class="{ 'pl-4 mt-1 text-xs text-red-500': error }">
+    <div :class="{ 'mt-1 pl-4 text-xs text-red-500': error }">
       {{ error }}
     </div>
   </label>
@@ -47,6 +49,8 @@
     error?: string
     light?: boolean
     number?: boolean
+    direction?: string
+    size?: string
   }>()
 
   defineEmits<{

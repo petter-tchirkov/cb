@@ -1,46 +1,80 @@
 <template>
-  <div>
-    <div class="mb-3 flex items-end gap-5">
+  <div class="bg-white pt-4 shadow-md">
+    <div
+      class="mb-5 flex flex-wrap items-end justify-between gap-3 bg-white px-4 lg:justify-start lg:gap-5"
+    >
       <ui-datepicker
         v-model="startDate"
-        label="Дата"
+        label="З"
+        class="grow"
       />
       <ui-datepicker
         v-model="endDate"
-        label="Дата"
+        label="По"
+        class="grow"
       />
       <ui-button
         class="h-11"
-        label="Пошук по даті"
-        @click="useAdminStore().getBotsCosts(startDate, endDate)"
+        label="Застосувати"
+        @click="updateCostsTable"
       />
     </div>
-    <ui-table
-      class="h-[550px] overflow-auto"
-      :items="useAdminStore().botsCosts"
-      :headers="['Клієнт', 'Бот', 'Знято']"
-    >
-      <ui-table-row
-        v-for="item in useAdminStore().botsCosts"
-        :key="item.client"
+    <div class="hidden h-[60vh] overflow-auto lg:block">
+      <ui-table
+        :items="useAdminStore().botsCosts"
+        :headers="['Клієнт', 'Бот', 'Витрачено']"
       >
-        <ui-table-column>{{ item.client }}</ui-table-column>
-        <ui-table-column>{{ item.botURI }}</ui-table-column>
-        <ui-table-column>{{ item.charged }}</ui-table-column>
-      </ui-table-row>
-    </ui-table>
+        <ui-table-row
+          v-for="(item, index) in useAdminStore().botsCosts"
+          :key="index"
+        >
+          <ui-table-column>{{ item.client }}</ui-table-column>
+          <ui-table-column>{{ item.botURI }}</ui-table-column>
+          <ui-table-column>{{ item.charged }}</ui-table-column>
+        </ui-table-row>
+      </ui-table>
+    </div>
+    <ui-toast />
+    <div
+      class="grid h-[60vh] w-full grid-cols-1 gap-4 overflow-auto lg:hidden lg:h-auto"
+    >
+      <div
+        v-for="(item, index) in useAdminStore().botsCosts"
+        :key="index"
+        class="flex justify-between gap-3 rounded-lg bg-white p-4 shadow"
+      >
+        <div class="flex flex-col">
+          <span class="font-bold text-blue-600">{{ item.botURI }}</span>
+          <span>{{ item.client }}</span>
+        </div>
+        <div class="font-bold">{{ item.charged }} €</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { useNotification } from '@kyvg/vue3-notification'
   import { useAdminStore } from '~/store/admin'
 
+  const { notify } = useNotification()
   const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
   const startDate = ref(firstDayOfCurrentMonth)
   const endDate = ref(lastDayOfCurrentMonth)
 
-  await useAdminStore().getBotsCosts(startDate.value, endDate.value)
+  await useAdminStore().getBotsCosts(
+    firstDayOfCurrentMonth,
+    lastDayOfCurrentMonth
+  )
+
+  const updateCostsTable = () => {
+    useAdminStore().getBotsCosts(startDate.value, endDate.value)
+    notify({
+      text: 'Успішно оновлено',
+      type: 'success',
+    })
+  }
 </script>
 
 <style scoped></style>
