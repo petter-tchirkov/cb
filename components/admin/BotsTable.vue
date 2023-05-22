@@ -49,7 +49,10 @@
             <ui-auto-complete
               v-model="item.clientName"
               :items="useAdminStore().clientsList"
-              @update:model-value="updateBotsArray(item, item.botId)"
+              class="border-b"
+              @update:model-value="
+                useDebounceFn(updateBotsArray(item, item.botId), 300)
+              "
               @update:id="(id) => (item.userId = id)"
             />
           </ui-table-column>
@@ -121,7 +124,7 @@
     color="success"
     title="Завантажити"
     label="Завантажити"
-    @click="adminStore.updateBots(updatedBots)"
+    @click="updateBots"
   >
     <template #prependIcon>
       <Icon
@@ -171,11 +174,19 @@
   })
 
   const updatedBots: Ref<IRatesBot[]> = ref([])
-  const updateBotsArray = (item: IRatesBot, id: number) => {
+  const updateBotsArray = (item: IRatesBot, id?: number) => {
     if (!updatedBots.value.includes(item)) {
-      item.botId = id
+      if (typeof id === 'number') {
+        item.botId = id
+      }
       updatedBots.value.push(item)
+      console.log(123)
     }
+  }
+
+  const updateBots = () => {
+    useAdminStore().updateBots(updatedBots.value)
+    updatedBots.value = []
   }
 
   const selectedOptions = ref([

@@ -326,12 +326,13 @@ export const useAdminStore = defineStore('admin', () => {
             type: 'error',
           })
         } else {
-          getBots()
+          bots.value = response._data.botVerifications
+          clientsList.value = response._data.users
+          isLoading.value = false
           notify({
             text: 'Завантажено',
             type: 'success',
           })
-          isLoading.value = false
         }
       },
     })
