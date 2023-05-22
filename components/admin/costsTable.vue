@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white pt-4 shadow-md">
+  <div class="overflow-hidden rounded-b-lg bg-white pt-4 shadow-md">
     <div
       class="mb-5 flex flex-wrap items-end justify-between gap-3 bg-white px-4 lg:justify-start lg:gap-5"
     >
@@ -19,7 +19,7 @@
         @click="updateCostsTable"
       />
     </div>
-    <div class="hidden h-[60vh] overflow-auto lg:block">
+    <div class="hidden max-h-[480px] overflow-auto lg:block">
       <ui-table
         :items="useAdminStore().botsCosts"
         :headers="['Клієнт', 'Бот', 'Витрачено']"

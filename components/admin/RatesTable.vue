@@ -1,7 +1,9 @@
 <template>
-  <div class="relative mb-4 bg-white pt-4 shadow-md">
+  <div
+    class="relative mb-4 overflow-hidden rounded-b-lg bg-white pt-4 shadow-md"
+  >
     <div
-      class="mb-5 flex w-full flex-wrap items-end justify-center gap-3 px-4 lg:justify-between"
+      class="mb-4 flex w-full flex-wrap items-end justify-center gap-3 px-4 lg:justify-between"
     >
       <div class="flex w-full flex-wrap items-end gap-3">
         <ui-input
@@ -39,7 +41,7 @@
         </ui-button>
       </div>
     </div>
-    <div class="overflow-y-auto lg:max-h-[500px]">
+    <div class="overflow-y-auto lg:max-h-[480px]">
       <ui-table
         :items="adminStore.rates"
         :headers="headers"

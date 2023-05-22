@@ -1,5 +1,7 @@
 <template>
-  <div class="relative mb-4 bg-white pt-4 shadow-md">
+  <div
+    class="relative mb-4 overflow-hidden rounded-b-lg bg-white pt-4 shadow-md"
+  >
     <div class="flex flex-col">
       <div class="mb-5 flex w-full grow items-end justify-between gap-3 px-4">
         <div class="flex w-full flex-wrap items-end gap-3">
@@ -33,7 +35,7 @@
       </div>
     </div>
 
-    <div class="relative overflow-y-auto lg:max-h-[500px]">
+    <div class="relative overflow-y-auto lg:max-h-[480px]">
       <ui-table
         :items="adminStore.bots"
         :headers="headers"

@@ -41,7 +41,7 @@
       </p>
     </form>
     <div
-      class="fixed bottom-0 left-0 flex h-10 w-screen items-center justify-around text-blue-600"
+      class="fixed bottom-0 left-0 flex h-10 w-screen items-center justify-around border-t text-blue-600"
     >
       <NuxtLink to="/tou">Terms of Use</NuxtLink>
       <NuxtLink to="/privacy">Privacy Policy</NuxtLink>

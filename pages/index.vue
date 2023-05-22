@@ -1,10 +1,12 @@
 <template>
   <section>
-    <HeaderLite class="mb-5">
+    <HeaderLite class="mb-4">
       <template #pageTitle> Витрати </template>
     </HeaderLite>
     <div class="px-4">
-      <div class="flex flex-col items-center bg-white py-4 shadow-md">
+      <div
+        class="flex flex-col items-center overflow-hidden rounded-lg bg-white py-4 shadow-md"
+      >
         <div
           v-if="width >= 1024"
           class="mb-5 flex w-full items-end justify-center gap-10 px-4"
@@ -57,7 +59,11 @@
             <ui-table-column>{{ row.bot_uri }}</ui-table-column>
             <ui-table-column>{{ row.bot_name }}</ui-table-column>
             <ui-table-column>{{ row.country }}</ui-table-column>
-            <ui-table-column>{{ row.rate_type }}</ui-table-column>
+            <ui-table-column
+              class="font-bold"
+              :class="getRateTypeColors(row.rate_type)"
+              >{{ row.rate_type }}</ui-table-column
+            >
             <ui-table-column>{{ row.rate || '-' }}</ui-table-column>
             <ui-table-column>{{ row.attempts }}</ui-table-column>
             <ui-table-column>{{ row.sent }}</ui-table-column>
@@ -220,6 +226,17 @@
     'BILLED',
     'CHARGED',
   ]
+
+  const getRateTypeColors = (rateType: string) => {
+    switch (rateType) {
+      case 'OUT OF SESSION':
+        return 'text-red-400'
+      case 'SESSION':
+        return 'text-green-400'
+      case 'WELCOME':
+        return 'text-yellow-400'
+    }
+  }
 
   const exportCosts = async (filterParams: ICosts) => {
     await useFetch(`${url}/Users/statistic-file`, {
