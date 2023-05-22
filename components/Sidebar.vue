@@ -72,19 +72,8 @@
         <XyzTransition xyz="fade up duration-1">
           <ul
             v-if="botsShown && isSidebarFull"
-            class="space-y-2 py-2"
+            class="h-56 space-y-2 overflow-auto py-2 pr-1"
           >
-            <li
-              v-for="bot in botsStore.bots"
-              :key="bot.id"
-            >
-              <NuxtLink
-                :to="`/bots/${bot.id}`"
-                class="group flex w-full items-center truncate rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
-              >
-                {{ bot.botName !== '' ? bot.botName : 'Без назви' }}</NuxtLink
-              >
-            </li>
             <NuxtLink to="/bots/new-bot">
               <li
                 class="group flex w-full cursor-pointer items-center justify-between rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
@@ -96,6 +85,17 @@
                 />
               </li>
             </NuxtLink>
+            <li
+              v-for="bot in botsStore.bots"
+              :key="bot.id"
+            >
+              <NuxtLink
+                :to="`/bots/${bot.id}`"
+                class="group flex w-full items-center truncate rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
+              >
+                {{ bot.botName !== '' ? bot.botName : 'Без назви' }}</NuxtLink
+              >
+            </li>
           </ul>
         </XyzTransition>
         <hr
