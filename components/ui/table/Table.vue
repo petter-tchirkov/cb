@@ -1,13 +1,13 @@
 <template>
   <div class="hidden w-full lg:block">
     <div>
-      <table class="w-full text-sm text-left text-gray-500 border-collapse">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+      <table class="w-full border-collapse text-left text-sm text-gray-500">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-700">
           <th
             v-for="header in headers"
             :key="header"
             scope="col"
-            class="sticky top-0 z-10 px-4 py-3 text-sm bg-gray-50"
+            class="sticky top-0 z-10 bg-gray-50 px-4 py-3 text-sm"
           >
             {{ header }}
           </th>

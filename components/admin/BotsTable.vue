@@ -1,10 +1,8 @@
 <template>
-  <div class="relative">
+  <div class="relative mb-4 bg-white pt-4 shadow-md">
     <div class="flex flex-col">
-      <div
-        class="mb-5 flex w-full flex-col items-end justify-center gap-3 lg:flex-row lg:justify-between"
-      >
-        <div class="flex w-full gap-3">
+      <div class="mb-5 flex w-full grow items-end justify-between gap-3 px-4">
+        <div class="flex w-full flex-wrap items-end gap-3">
           <ui-input
             v-model="search.contract"
             class="grow"
@@ -25,33 +23,17 @@
               <Icon name="ant-design:search-outlined" />
             </template>
           </ui-input>
-        </div>
-
-        <div class="flex w-full justify-between gap-3 lg:w-auto">
           <ui-select
             v-model="selected"
+            class="self-end"
             :options="selectedOptions"
             title="Статус верифікації"
           />
-          <ui-button
-            color="success"
-            title="Завантажити"
-            :label="width >= 1024 ? '' : 'Завантажити'"
-            @click="adminStore.updateBots(updatedBots)"
-          >
-            <template #prependIcon>
-              <Icon
-                v-if="width >= 1024"
-                name="material-symbols:save-outline"
-                class="h-5 w-6"
-              />
-            </template>
-          </ui-button>
         </div>
       </div>
     </div>
 
-    <div class="relative overflow-y-auto lg:max-h-[550px]">
+    <div class="relative overflow-y-auto lg:max-h-[500px]">
       <ui-table
         :items="adminStore.bots"
         :headers="headers"
@@ -88,7 +70,7 @@
           </ui-table-column>
         </ui-table-row>
       </ui-table>
-      <div class="grid w-full grid-cols-1 gap-4 lg:hidden">
+      <div class="grid h-[60vh] w-full grid-cols-1 gap-4 lg:hidden lg:h-auto">
         <div
           v-for="item in adminStore.bots"
           :key="item.botId"
@@ -133,6 +115,20 @@
     </div>
     <ui-loader v-if="adminStore.isLoading" />
   </div>
+  <ui-button
+    color="success"
+    title="Завантажити"
+    label="Завантажити"
+    @click="adminStore.updateBots(updatedBots)"
+  >
+    <template #prependIcon>
+      <Icon
+        v-if="width >= 1024"
+        name="material-symbols:save-outline"
+        class="h-5 w-6"
+      />
+    </template>
+  </ui-button>
 </template>
 
 <script setup lang="ts">

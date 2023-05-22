@@ -1,14 +1,14 @@
 <template>
-  <div class="relative">
+  <div class="relative mb-4 bg-white pt-4 shadow-md">
     <div
-      class="mb-5 flex w-full flex-col items-end justify-center gap-3 lg:flex-row lg:justify-between"
+      class="mb-5 flex w-full flex-wrap items-end justify-center gap-3 px-4 lg:justify-between"
     >
-      <div class="flex w-full gap-3">
+      <div class="flex w-full flex-wrap items-end gap-3">
         <ui-input
           v-model="search.botURI"
-          class="grow"
           label="Пошук по боту"
           type="text"
+          class="grow"
         >
           <template #icon>
             <Icon name="ant-design:search-outlined" />
@@ -16,34 +16,17 @@
         </ui-input>
         <ui-input
           v-model="search.country"
-          class="grow"
           label="Пошук по країні"
           type="text"
+          class="grow"
         >
           <template #icon>
             <Icon name="ant-design:search-outlined" />
           </template>
         </ui-input>
-      </div>
-      <div class="flex w-full gap-3 lg:w-auto">
         <ui-button
-          :label="width >= 1024 ? '' : 'Завантажити'"
-          full
-          color="success"
-          title="Завантажити"
-          @click="updateRate"
-        >
-          <template #prependIcon>
-            <Icon
-              v-if="width >= 1024"
-              name="material-symbols:save-outline"
-              class="h-5 w-6"
-            />
-          </template>
-        </ui-button>
-        <ui-button
-          :label="width >= 1024 ? '' : 'Додати рейт'"
-          full
+          label="Додати"
+          class="h-11 self-end"
           title="Додати рейт"
           @click="isAddingRate = !isAddingRate"
         >
@@ -51,13 +34,12 @@
             <Icon
               v-if="width >= 1024"
               name="material-symbols:add"
-              class="h-6 w-6"
             />
           </template>
         </ui-button>
       </div>
     </div>
-    <div class="overflow-y-auto lg:max-h-[550px]">
+    <div class="overflow-y-auto lg:max-h-[500px]">
       <ui-table
         :items="adminStore.rates"
         :headers="headers"
@@ -94,7 +76,7 @@
           </ui-table-column>
         </ui-table-row>
       </ui-table>
-      <div class="grid w-full grid-cols-1 gap-4 lg:hidden">
+      <div class="grid h-[60vh] w-full grid-cols-1 gap-4 lg:hidden lg:h-auto">
         <div
           v-for="item in adminStore.rates"
           :key="item.id"
@@ -118,7 +100,7 @@
                 Договір: <span class="font-bold">{{ item.contract }}</span>
               </div>
             </div>
-            <div class="font-bold">{{ item.rate }}</div>
+            <div class="font-bold">{{ item.rate }} €</div>
           </div>
         </div>
       </div>
@@ -189,6 +171,20 @@
     <ui-toast />
     <ui-loader v-if="adminStore.isLoading" />
   </div>
+  <ui-button
+    label="Завантажити"
+    color="success"
+    title="Завантажити"
+    @click="updateRate"
+  >
+    <template #prependIcon>
+      <Icon
+        v-if="width >= 1024"
+        name="material-symbols:save-outline"
+        class="h-5 w-6"
+      />
+    </template>
+  </ui-button>
 </template>
 
 <script setup lang="ts">

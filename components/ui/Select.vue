@@ -1,11 +1,15 @@
 <template>
   <div class="relative w-44">
-    <ui-button
-      :label="modelValue.name"
-      :title="title"
-      full
+    <div
+      class="flex w-full items-center justify-between rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
       @click="isSelectShown = !isSelectShown"
-    />
+    >
+      {{ modelValue.name }}
+      <Icon
+        :class="{ 'rotate-180': isSelectShown }"
+        name="tabler:chevron-down"
+      />
+    </div>
     <div
       v-if="isSelectShown"
       ref="select"
