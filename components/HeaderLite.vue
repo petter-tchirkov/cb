@@ -32,7 +32,8 @@ defineEmits<{
 
 const isNotification = ref<boolean      >(true)
 const getNameAcronym = computed(()=> {
-  return user.user_name.split(/\s+/).map((i: string) => i.charAt(0)).join('').toUpperCase()
+  // return user.user_name.split(/\s+/).map((i: string) => i.charAt(0)).join('').toUpperCase()
+  return user.user_name.charAt(0).toUpperCase()
 })
 </script>
 <style></style>
