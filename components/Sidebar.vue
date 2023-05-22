@@ -29,7 +29,7 @@
         >
           <Icon
             name="bxs:coin-stack"
-            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
             v-show="isSidebarFull"
@@ -43,7 +43,7 @@
         >
           <Icon
             name="ion:pricetags-sharp"
-            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
             v-show="isSidebarFull"
@@ -58,14 +58,14 @@
           <div class="flex items-center gap-2">
             <Icon
               name="basil:viber-solid"
-              class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+              class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
             />
             <span v-show="isSidebarFull">Боти Viber</span>
           </div>
           <Icon
             v-if="isSidebarFull"
             name="bxs:chevron-down"
-            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
             :class="{ 'rotate-180': botsShown }"
           />
         </div>
@@ -80,7 +80,7 @@
             >
               <NuxtLink
                 :to="`/bots/${bot.id}`"
-                class="group flex w-full items-center truncate rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
+                class="group flex w-full items-center break-all rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
               >
                 {{ bot.botName !== '' ? bot.botName : 'Без назви' }}</NuxtLink
               >
@@ -92,12 +92,16 @@
                 Додати бота
                 <Icon
                   name="material-symbols:add"
-                  class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
                 />
               </li>
             </NuxtLink>
           </ul>
         </XyzTransition>
+        <hr
+          v-if="useAuthStore().user?.user_role === 'ADMIN'"
+          class="border border-gray-100"
+        />
         <NuxtLink
           v-if="useAuthStore().user?.user_role === 'ADMIN'"
           to="/admin"
@@ -105,7 +109,7 @@
         >
           <Icon
             name="bi:file-earmark-spreadsheet-fill"
-            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
             v-show="isSidebarFull"
@@ -120,7 +124,7 @@
         >
           <Icon
             name="bi:piggy-bank-fill"
-            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
             v-show="isSidebarFull"
@@ -146,7 +150,7 @@
       >
         <Icon
           name="bxs:log-out"
-          class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+          class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
         />
         <span v-if="isSidebarFull">Вийти</span>
       </NuxtLink>

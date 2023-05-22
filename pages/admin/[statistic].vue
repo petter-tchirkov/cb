@@ -5,7 +5,6 @@
     </header-lite>
     <div class="p-4 lg:px-5">
       <ui-button
-        v-if="useAdminStore().botStatistic.length"
         label="Обрати дати"
         @click="datePickersShown = true"
       />

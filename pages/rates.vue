@@ -4,7 +4,7 @@
       <template #pageTitle> Рейти </template>
     </HeaderLite>
     <div class="p-4">
-      <div class="h-[82vh] overflow-auto lg:bg-white lg:shadow-md">
+      <div class="h-[82vh] overflow-auto rounded-b-lg lg:bg-white lg:shadow-md">
         <ui-table
           class="overflow-auto"
           :items="useRatesStore().rates"

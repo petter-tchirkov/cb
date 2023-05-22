@@ -21,9 +21,9 @@
         >
       </template>
     </HeaderLite>
-    <div class="h-auto">
-      <div class="flex flex-col w-full p-4 lg:p-5 lg:flex-row">
-        <div class="lg:w-1/2">
+    <div class="h-auto px-4">
+      <div class="flex w-full flex-col py-4 lg:flex-row">
+        <div class="rounded-lg bg-white p-4 shadow-md">
           <ui-input
             v-model="botParams.botName"
             type="text"
@@ -46,7 +46,7 @@
             class="mb-5"
           />
           <div
-            class="flex flex-col items-center justify-between gap-4 lg:gap-0 lg:flex-row"
+            class="flex flex-col items-center justify-between gap-4 lg:flex-row"
           >
             <ui-toggle
               v-model="botParams.isActive"
@@ -63,20 +63,20 @@
                 <template #prependIcon>
                   <Icon
                     name="bxs:edit"
-                    class="w-5 h-5"
+                    class="h-5 w-5"
                   />
                 </template>
               </ui-button>
               <ui-button
                 label="Видалити"
                 size="s"
-                color="danger"
+                color="light--danger"
                 @click="isDelete = !isDelete"
               >
                 <template #prependIcon>
                   <Icon
-                    name="bxs:trash"
-                    class="w-5 h-5"
+                    name="ph:trash-light"
+                    class="h-5 w-5"
                   />
                 </template>
               </ui-button>
@@ -84,7 +84,7 @@
           </div>
         </div>
       </div>
-      <div class="px-5">
+      <div class="rounded-lg bg-white p-4 shadow-md">
         <ui-table
           :items="[]"
           :headers="headers"

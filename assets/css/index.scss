@@ -1,15 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
 
   @apply text-gray-900;
 }
 
 section {
   @apply h-screen w-full overflow-auto bg-gray-50;
+}
+
+::-webkit-scrollbar {
+  @apply w-1;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply rounded-3xl bg-gray-300 transition hover:bg-gray-400;
 }
