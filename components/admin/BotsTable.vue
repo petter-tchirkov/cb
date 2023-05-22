@@ -49,7 +49,6 @@
             <ui-auto-complete
               v-model="item.clientName"
               :items="useAdminStore().clientsList"
-              class="border-b"
               @update:model-value="
                 useDebounceFn(updateBotsArray(item, item.botId), 300)
               "
