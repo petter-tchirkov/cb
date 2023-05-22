@@ -326,6 +326,7 @@ export const useAdminStore = defineStore('admin', () => {
             type: 'error',
           })
         } else {
+          getBots()
           notify({
             text: 'Завантажено',
             type: 'success',
