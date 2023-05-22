@@ -80,7 +80,7 @@
             >
               <NuxtLink
                 :to="`/bots/${bot.id}`"
-                class="group flex w-full items-center break-all rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
+                class="group flex w-full items-center truncate rounded-lg p-2 pl-10 text-sm font-normal text-gray-900 transition duration-75 hover:bg-gray-100"
               >
                 {{ bot.botName !== '' ? bot.botName : 'Без назви' }}</NuxtLink
               >

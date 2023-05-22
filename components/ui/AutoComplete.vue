@@ -7,7 +7,7 @@
       :value="modelValue"
       @input="
         useDebounceFn(
-          $emit('update:modelValue', ($event.target as any).value),
+          $emit('update:modelValue', ($event.target as Event).value),
           (isSearchStarted = true)
         )
       "
@@ -18,7 +18,7 @@
     >
       <li
         v-for="item in search"
-        :key="item"
+        :key="item.id"
         class="block px-4 py-2 hover:bg-gray-100"
         @click="selectItem(item)"
       >
