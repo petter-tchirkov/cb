@@ -4,68 +4,52 @@
       <template #pageTitle>{{ getBotUri[0].botURI }}</template>
     </header-lite>
     <div class="p-4 lg:px-5">
-      <ui-button
-        label="Обрати дати"
-        @click="datePickersShown = true"
-      />
-      <ui-modal :is-modal-visible="datePickersShown">
-        <template #modalHeading>Показати проміжок</template>
-        <template #modalBody>
-          <div class="flex gap-3">
-            <ui-datepicker
-              v-model="startDate"
-              label="З"
-            />
-            <ui-datepicker
-              v-model="endDate"
-              label="По"
-            />
-          </div>
-        </template>
-        <template #modalFooter>
-          <div class="flex gap-3">
-            <ui-button
-              label="Застосувати"
-              color="success"
-              @click="
-                useAdminStore().getBotStatistic(
-                  route.params.statistic as string,
-                  startDate,
-                  endDate
-                ),
-                  (datePickersShown = false)
-              "
-            />
-            <ui-button
-              label="Відміна"
-              color="light"
-              @click="datePickersShown = false"
-            />
-          </div>
-        </template>
-      </ui-modal>
-      <ui-table
-        :items="useAdminStore().botStatistic"
-        :headers="headers"
-      >
-        <ui-table-row
-          v-for="(row, index) in useAdminStore().botStatistic as IBotStatistic[]"
-          :key="index"
+      <div class="mb-5 flex items-end gap-3">
+        <ui-datepicker
+          v-model="route.query.startDate"
+          label="З"
+          class="grow"
+        />
+        <ui-datepicker
+          v-model="route.query.endDate"
+          label="По"
+          class="grow"
+        />
+        <ui-button
+          label="Застосувати"
+          @click="
+            useAdminStore().getBotStatistic(
+              route.params.statistic as string,
+              startDate,
+              endDate
+            )
+          "
+        />
+      </div>
+      <div class="h-[80vh] overflow-auto">
+        <ui-table
+          :items="useAdminStore().botStatistic"
+          :headers="headers"
         >
-          <ui-table-column>{{ row.country }}</ui-table-column>
-          <ui-table-column>{{ row.rate || '-' }}</ui-table-column>
-          <ui-table-column
-            class="text-center font-bold"
-            :class="getRateTypeColors(row.rateType)"
-            >{{ row.rateType || '-' }}</ui-table-column
+          <ui-table-row
+            v-for="(row, index) in useAdminStore().botStatistic as IBotStatistic[]"
+            :key="index"
           >
-          <ui-table-column>{{ row.attempts }}</ui-table-column>
-          <ui-table-column>{{ row.sent }}</ui-table-column>
-          <ui-table-column>{{ row.delivered }}</ui-table-column>
-          <ui-table-column>{{ row.billed }}</ui-table-column>
-          <ui-table-column>{{ row.charged }}</ui-table-column>
-        </ui-table-row>
-      </ui-table>
+            <ui-table-column>{{ row.country }}</ui-table-column>
+            <ui-table-column>{{ row.rate || '-' }}</ui-table-column>
+            <ui-table-column
+              class="text-center font-bold"
+              :class="getRateTypeColors(row.rateType)"
+              >{{ row.rateType || '-' }}</ui-table-column
+            >
+            <ui-table-column>{{ row.attempts }}</ui-table-column>
+            <ui-table-column>{{ row.sent }}</ui-table-column>
+            <ui-table-column>{{ row.delivered }}</ui-table-column>
+            <ui-table-column>{{ row.billed }}</ui-table-column>
+            <ui-table-column>{{ row.charged }}</ui-table-column>
+          </ui-table-row>
+        </ui-table>
+      </div>
     </div>
   </section>
 </template>
@@ -77,14 +61,20 @@
   const route = useRoute()
   await useAdminStore().getBotStatistic(
     route.params.statistic as string,
-    firstDayOfCurrentMonth,
-    lastDayOfCurrentMonth
+    route.query.startDate,
+    route.query.endDate
   )
 
   const getBotUri = computed(() => {
-    return useAdminStore().bots.filter((item) => {
-      return item.botId.toString() === route.params.statistic
-    })
+    if (useAdminStore().bots.length) {
+      return useAdminStore().bots.filter((item) => {
+        return item.botId.toString() === route.params.statistic
+      })
+    } else {
+      return useAdminStore().botsCosts.filter((item) => {
+        return item.botId.toString() === route.params.statistic
+      })
+    }
   })
 
   const getRateTypeColors = (rateType: string) => {
@@ -114,7 +104,6 @@
 
   const startDate = ref(firstDayOfCurrentMonth)
   const endDate = ref(useDateFormat(useNow(), 'YYYY-MM-DD'))
-  const datePickersShown = ref(false)
 </script>
 
 <style scoped></style>

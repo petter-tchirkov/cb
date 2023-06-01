@@ -7,7 +7,7 @@
             v-for="header in headers"
             :key="header"
             scope="col"
-            class="sticky top-0 z-10 bg-gray-50 px-4 py-3 text-sm"
+            class="sticky -top-px z-10 bg-gray-50 px-4 py-3 text-sm"
           >
             {{ header }}
           </th>

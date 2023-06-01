@@ -29,7 +29,15 @@
           :key="index"
         >
           <ui-table-column>{{ item.client }}</ui-table-column>
-          <ui-table-column>{{ item.botURI }}</ui-table-column>
+          <ui-table-column>
+            <NuxtLink
+              :to="{
+                path: `/admin/${item.botId}`,
+                query: { startDate, endDate },
+              }"
+              >{{ item.botURI }}</NuxtLink
+            >
+          </ui-table-column>
           <ui-table-column>{{ item.charged }}</ui-table-column>
         </ui-table-row>
       </ui-table>
