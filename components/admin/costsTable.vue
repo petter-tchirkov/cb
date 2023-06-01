@@ -29,7 +29,7 @@
           :key="index"
         >
           <ui-table-column>{{ item.client }}</ui-table-column>
-          <ui-table-column>
+          <ui-table-column class="hover:font-bold">
             <NuxtLink
               :to="{
                 path: `/admin/${item.botId}`,
