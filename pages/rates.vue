@@ -5,20 +5,23 @@
     </HeaderLite>
     <div class="p-4">
       <div class="h-[82vh] overflow-auto rounded-b-lg lg:bg-white lg:shadow-md">
-        <ui-table
-          class="overflow-auto"
-          :items="useRatesStore().rates"
-          :headers="['Країна', 'Бот URI', 'Рейт']"
+        <DataTable
+          class="hidden lg:block"
+          :value="useRatesStore().rates"
         >
-          <ui-table-row
-            v-for="(item, index) in useRatesStore().rates as IRateTableCell[]"
-            :key="index"
-          >
-            <ui-table-column>{{ item.country || '-' }}</ui-table-column>
-            <ui-table-column>{{ item.botURI || '-' }}</ui-table-column>
-            <ui-table-column>{{ item.rate }} €</ui-table-column>
-          </ui-table-row>
-        </ui-table>
+          <Column
+            header="Країна"
+            field="country"
+          />
+          <Column
+            header="Бот URI"
+            field="botURI"
+          />
+          <Column
+            header="Рейт"
+            field="rate"
+          />
+        </DataTable>
         <div class="grid w-full grid-cols-1 gap-4 lg:hidden">
           <div
             v-for="(item, index) in useRatesStore().rates as IRateTableCell[]"
@@ -44,6 +47,10 @@
 </template>
 
 <script setup lang="ts">
+  import DataTable from 'primevue/datatable'
+  import Column from 'primevue/column'
+  import ColumnGroup from 'primevue/columngroup'
+  import Row from 'primevue/row'
   import { useRatesStore } from '~/store/rates'
 
   interface IRateTableCell {

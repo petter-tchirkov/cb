@@ -12,7 +12,7 @@ body {
 }
 
 section {
-  @apply h-screen w-full overflow-auto bg-gray-50;
+  @apply h-screen w-full overflow-auto;
 }
 
 ::-webkit-scrollbar {

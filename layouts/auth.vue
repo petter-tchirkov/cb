@@ -1,5 +1,7 @@
 <template>
-  <main class="flex items-center justify-center min-h-screen min-w-screen">
+  <main
+    class="min-w-screen flex min-h-screen items-center justify-center bg-gray-50"
+  >
     <NuxtPage />
   </main>
 </template>

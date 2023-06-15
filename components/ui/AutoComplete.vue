@@ -1,7 +1,7 @@
 <template>
   <div class="relative h-full w-full">
     <input
-      class="h-full w-full bg-transparent outline-none"
+      class="h-[50px] w-full rounded-md border border-zinc-300 bg-transparent p-3"
       type="text"
       placeholder="-"
       :value="modelValue"

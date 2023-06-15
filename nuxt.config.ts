@@ -14,7 +14,12 @@ export default defineNuxtConfig({
     'nuxt-icon',
     'nuxt-lodash',
   ],
-  css: ['~/assets/css/index.scss'],
+  css: [
+    '~/assets/css/index.scss',
+    'primevue/resources/themes/tailwind-light/theme.css',
+    'primevue/resources/primevue.css',
+    'primeicons/primeicons.css',
+  ],
   ssr: false,
   plugins: [
     '~/plugins/animxyz.ts',
@@ -24,5 +29,8 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.BASE_URL,
     },
+  },
+  build: {
+    transpile: ['primevue'],
   },
 })

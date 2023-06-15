@@ -1,5 +1,5 @@
 <template>
-  <header class="flex flex-row-reverse items-center justify-between px-4 py-2 border-b lg:px-5 border-b-gray-200 lg:flex-row">
+  <header class="flex flex-row-reverse items-center justify-between px-4 py-2 border-b lg:px-5 border-b-[#e5e7eb] lg:flex-row">
     
     <span class="flex items-center gap-2 text-xl font-bold lg:text-2xl">
       <slot name="pageTitle" />

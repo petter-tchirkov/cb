@@ -1,83 +1,107 @@
 <template>
-  <div
-    class="relative mb-4 overflow-hidden rounded-b-lg bg-white pt-4 shadow-md"
-  >
-    <div
-      class="mb-4 flex w-full flex-wrap items-end justify-center gap-3 px-4 lg:justify-between"
-    >
-      <div class="flex w-full flex-wrap items-end gap-3">
-        <ui-input
-          v-model="search.botURI"
-          label="Пошук по боту"
-          type="text"
-          class="grow"
-        >
-          <template #icon>
-            <Icon name="ant-design:search-outlined" />
-          </template>
-        </ui-input>
-        <ui-input
-          v-model="search.country"
-          label="Пошук по країні"
-          type="text"
-          class="grow"
-        >
-          <template #icon>
-            <Icon name="ant-design:search-outlined" />
-          </template>
-        </ui-input>
-        <ui-button
-          label="Додати"
-          class="h-11 self-end"
-          title="Додати рейт"
-          @click="isAddingRate = !isAddingRate"
-        >
-          <template #prependIcon>
-            <Icon
-              v-if="width >= 1024"
-              name="material-symbols:add"
-            />
-          </template>
-        </ui-button>
-      </div>
-    </div>
-    <div class="overflow-y-auto lg:max-h-[480px]">
-      <ui-table
-        :items="adminStore.rates"
-        :headers="headers"
+  <div class="relative bg-white">
+    <div class="overflow-y-auto">
+      <DataTable
+        v-model:filters="filters"
+        class="p-datatable-sm"
+        :value="adminStore.rates"
+        paginator
+        :rows="10"
+        filter-display="row"
       >
-        <ui-table-row
-          v-for="item in filteredRates"
-          :key="item.id"
+        <template #paginatorstart>
+          <Button
+            label="Додати"
+            title="Додати рейт"
+            icon="pi pi-plus"
+            icon-pos="right"
+            @click="isAddingRate = !isAddingRate"
+          />
+        </template>
+        <template #paginatorend>
+          <Button
+            label="Завантажити"
+            title="Завантажити"
+            icon="pi pi-save"
+            severity="success"
+            icon-pos="right"
+            @click="updateRate"
+          />
+        </template>
+        <Column
+          field="clientName"
+          header="Клієнт"
+          :show-filter-menu="false"
+          filter-field="clientName"
         >
-          <ui-table-column>{{ item.clientName }}</ui-table-column>
-          <ui-table-column>{{ item.botURI }}</ui-table-column>
-          <ui-table-column>{{ item.country }}</ui-table-column>
-          <ui-table-column>{{ item.contract }}</ui-table-column>
-          <ui-table-column class="flex">
-            <ui-input
-              v-model.number="item.rate"
-              light
-              number
-              type="text"
-              class="grow"
-              @input="initUpdatedRates(item)"
-            >
-              <template #icon>
-                <Icon
-                  name="material-symbols:edit"
-                  class="h-5 w-5 cursor-pointer transition-all duration-75 hover:text-yellow-300"
-                />
-              </template>
-            </ui-input>
-            <Icon
-              name="material-symbols:delete-outline"
-              class="h-5 w-5 cursor-pointer transition-all duration-75 hover:text-red-500"
-              @click="adminStore.deleteRate(item)"
+          <template #filter="{}">
+            <InputText
+              v-model="filters['clientName'].value"
+              placeholder="Пошук по клієнту"
+              class="p-column-filter"
             />
-          </ui-table-column>
-        </ui-table-row>
-      </ui-table>
+          </template>
+        </Column>
+        <Column
+          field="botURI"
+          header="URI Бота"
+          filter-field="botURI"
+          :show-filter-menu="false"
+        >
+          <template #filter="{}">
+            <InputText
+              v-model="filters['botURI'].value"
+              placeholder="Пошук по боту"
+              class="p-column-filter"
+            />
+          </template>
+        </Column>
+        <Column
+          field="country"
+          header="Країна"
+          filter-field="country"
+          :show-filter-menu="false"
+        >
+          <template #filter="{}">
+            <InputText
+              v-model="filters['country'].value"
+              placeholder="Пошук по країні"
+              class="p-column-filter"
+            />
+          </template>
+        </Column>
+        <Column
+          field="contract"
+          header="Договір"
+        />
+        <Column
+          field="rate"
+          header="Рейт"
+        >
+          <template #body="slotProps">
+            <InputNumber
+              v-model="slotProps.data.rate"
+              input-id="currency-germany"
+              mode="currency"
+              currency="EUR"
+              locale="de-DE"
+              @input="initUpdatedRates(slotProps.data)"
+            />
+          </template>
+        </Column>
+        <Column>
+          <template #body="slotProps">
+            <Button
+              icon="pi pi-trash"
+              severity="danger"
+              text
+              rounded
+              aria-label="Cancel"
+              @click="adminStore.deleteRate(slotProps.data)"
+            />
+          </template>
+        </Column>
+      </DataTable>
       <div class="grid h-[60vh] w-full grid-cols-1 gap-4 lg:hidden lg:h-auto">
         <div
           v-for="item in adminStore.rates"
@@ -173,24 +197,11 @@
     <ui-toast />
     <ui-loader v-if="adminStore.isLoading" />
   </div>
-  <ui-button
-    label="Завантажити"
-    color="success"
-    title="Завантажити"
-    @click="updateRate"
-  >
-    <template #prependIcon>
-      <Icon
-        v-if="width >= 1024"
-        name="material-symbols:save-outline"
-        class="h-5 w-6"
-      />
-    </template>
-  </ui-button>
 </template>
 
 <script setup lang="ts">
   import { useWindowSize } from '@vueuse/core'
+  import { FilterMatchMode } from 'primevue/api'
   import { useAdminStore } from '~/store/admin'
 
   import { IRate } from '~/types/rate'
@@ -212,6 +223,12 @@
     country: '',
     contract: '',
     rate: 0,
+  })
+
+  const filters = ref({
+    clientName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    botURI: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    country: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   })
 
   const initUpdatedRates = (item: IRate) => {
