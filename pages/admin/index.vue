@@ -22,7 +22,10 @@
         path="/Admin/upload-file-clients-rates"
       />
     </div>
-    <TabView class="px-4">
+    <TabView
+      class="px-4"
+      :active-index="parseInt(route.query.activeIndex) || 0"
+    >
       <TabPanel header="Рейти">
         <admin-rates-table />
       </TabPanel>
@@ -40,6 +43,7 @@
 <script lang="ts" setup>
   import TabView from 'primevue/tabview'
   import TabPanel from 'primevue/tabpanel'
+  const route = useRoute()
 
   definePageMeta({
     middleware: ['login', 'auth'],

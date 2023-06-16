@@ -22,8 +22,10 @@
       />
     </div>
     <DataTable
+      v-model:filters="filters"
       :value="useAdminStore().botsCosts"
       class="p-datatable-lg"
+      filter-display="row"
       paginator
       :rows="5"
     >
@@ -34,7 +36,17 @@
       <Column
         header="URI Бота"
         field="botURI"
+        filter-field="botURI"
+        :show-filter-menu="false"
       >
+        <template #filter="{}">
+          <InputText
+            v-model="filters['botURI'].value"
+            placeholder="Пошук по боту"
+            class="p-column-filter"
+          />
+        </template>
+
         <template #body="slotProps">
           <NuxtLink
             class="hover:text-black"
@@ -76,18 +88,17 @@
 
 <script setup lang="ts">
   import { useNotification } from '@kyvg/vue3-notification'
+  import { FilterMatchMode } from 'primevue/api'
   import { useAdminStore } from '~/store/admin'
 
+  const route = useRoute()
   const { notify } = useNotification()
   const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
-  const startDate = ref(firstDayOfCurrentMonth)
-  const endDate = ref(lastDayOfCurrentMonth)
+  const startDate = ref(route.query.startDate || firstDayOfCurrentMonth)
+  const endDate = ref(route.query.endDate || lastDayOfCurrentMonth)
 
-  await useAdminStore().getBotsCosts(
-    firstDayOfCurrentMonth,
-    lastDayOfCurrentMonth
-  )
+  await useAdminStore().getBotsCosts(startDate, endDate)
 
   const updateCostsTable = () => {
     useAdminStore().getBotsCosts(startDate.value, endDate.value)
@@ -96,6 +107,9 @@
       type: 'success',
     })
   }
+  const filters = ref({
+    botURI: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  })
 </script>
 
 <style scoped></style>

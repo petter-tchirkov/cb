@@ -11,7 +11,6 @@
 <script lang="ts" setup>
   defineProps<{
     modelValue: string | undefined
-    label: string
   }>()
   defineEmits<{
     (e: 'update:modelValue', value: string | number): void
