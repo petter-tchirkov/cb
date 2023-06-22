@@ -10,41 +10,36 @@
           ]"
           >{{ nameBot }}</span
         >
-        <span
-          class="hidden text-xs lg:block"
-          :class="
-            useBotsStore().bot.isVerified ? 'text-green-500' : 'text-red-500'
+        <Tag
+          :value="
+            useBotsStore().bot.isVerified ? 'Верифіковано' : 'Не верифіковано'
           "
-          >{{
-            useBotsStore().bot.isVerified ? 'Верифікований' : 'Не верифікований'
-          }}</span
-        >
+          :severity="useBotsStore().bot.isVerified ? 'success' : 'danger'"
+        />
       </template>
     </HeaderLite>
     <div class="h-auto px-4">
       <div class="flex w-full flex-col py-4 lg:flex-row">
         <div class="rounded-lg bg-white p-4 shadow-md">
-          <ui-input
+          <InputText
             v-model="botParams.botName"
-            type="text"
             :disabled="!isEdit"
-            label="Ім'я"
-            class="mb-5"
+            placeholder="Ім'я"
+            class="mb-5 w-full"
           />
-          <ui-input
+          <InputText
             v-model="botParams.botURI"
-            type="text"
             disabled
-            label="URI"
-            class="mb-5"
+            placeholder="URI Бота"
+            class="mb-5 w-full"
           />
-          <ui-input
+          <InputText
             v-model="botParams.token"
-            type="text"
             :disabled="!isEdit"
-            label="Токен"
-            class="mb-5"
+            placeholder="Токен"
+            class="mb-5 w-full"
           />
+
           <div
             class="flex flex-col items-center justify-between gap-4 lg:flex-row"
           >
@@ -55,31 +50,15 @@
               :disabled="!isEdit"
             />
             <div class="flex gap-3">
-              <ui-button
+              <Button
                 :label="isEdit ? 'Зберегти' : 'Редагувати'"
-                size="s"
                 @click="initBotUpdate"
-              >
-                <template #prependIcon>
-                  <Icon
-                    name="bxs:edit"
-                    class="h-5 w-5"
-                  />
-                </template>
-              </ui-button>
-              <ui-button
+              />
+              <Button
                 label="Видалити"
-                size="s"
-                color="light--danger"
+                severity="danger"
                 @click="isDelete = !isDelete"
-              >
-                <template #prependIcon>
-                  <Icon
-                    name="ph:trash-light"
-                    class="h-5 w-5"
-                  />
-                </template>
-              </ui-button>
+              />
             </div>
           </div>
         </div>

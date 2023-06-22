@@ -2,31 +2,24 @@
   <div
     class="relative flex min-h-screen flex-col items-center justify-center p-4 lg:p-0"
   >
-    <form class="w-full rounded-lg border-2 border-blue-600 p-4 lg:w-96 lg:p-5">
+    <form class="w-full rounded-lg bg-white p-4 shadow-lg lg:w-96 lg:p-5">
       <h2 class="mb-8 text-center text-3xl font-bold">Вхід</h2>
-      <ui-input
-        v-model="fields.login"
-        class="mb-5"
-        label="Логін"
-        type="text"
-        icon="mdi:email"
-      />
-      <ui-input
-        v-model="fields.password"
-        class="mb-5"
-        label="Пароль"
-        :type="isPasswordRevealed ? 'text' : 'password'"
-        icon="mdi:eye"
-      >
-        <template #icon>
-          <Icon
-            :name="isPasswordRevealed ? 'mdi:eye-off' : 'mdi:eye'"
-            class="h-5 w-5"
-            @click="isPasswordRevealed = !isPasswordRevealed"
-          /> </template
-      ></ui-input>
-      <ui-button
+      <div class="w-full">
+        <InputText
+          v-model="fields.login"
+          placeholder="Логін"
+          class="mb-5 w-full"
+        />
+        <InputText
+          v-model="fields.password"
+          placeholder="Пароль"
+          class="mb-5 w-full"
+        />
+      </div>
+
+      <Button
         label="Увійти"
+        class="w-full"
         @click.prevent="useAuthStore().login(fields)"
       />
 

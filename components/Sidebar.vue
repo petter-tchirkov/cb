@@ -2,13 +2,23 @@
   <XyzTransition xyz="fade right">
     <aside
       ref="target"
-      class="fixed left-0 top-0 z-50 h-screen w-56 flex-col justify-between bg-white px-3 py-4 transition-all duration-75 lg:sticky lg:flex"
+      class="fixed left-0 top-0 z-50 h-screen w-56 flex-col justify-between border-r border-r-[#e5e7eb] bg-white px-3 py-2 pb-4 transition-all duration-75 lg:sticky lg:flex"
       :class="{
         'w-auto': !isSidebarFull,
         hidden: !useUiStore().isSidebarShown,
       }"
     >
       <div class="flex flex-col gap-3">
+        <NuxtLink
+          to="/"
+          class="mb-5 flex flex-col items-center gap-1 !bg-white"
+        >
+          <img
+            src="/favicon.png"
+            alt=""
+          />
+          <span class="text-2xl font-bold">Counter Bat</span>
+        </NuxtLink>
         <!-- <NuxtLink
           to="/"
           class="flex items-center gap-2 p-2 font-semibold rounded-lg group hover:bg-gray-100"
@@ -28,7 +38,7 @@
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
         >
           <Icon
-            name="bxs:coin-stack"
+            name="iconoir:coins"
             class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
@@ -42,7 +52,7 @@
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
         >
           <Icon
-            name="ion:pricetags-sharp"
+            name="ion:pricetags-outline"
             class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
@@ -57,7 +67,7 @@
         >
           <div class="flex items-center gap-2">
             <Icon
-              name="basil:viber-solid"
+              name="jam:viber-square"
               class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
             />
             <span v-show="isSidebarFull">Боти Viber</span>
@@ -108,7 +118,7 @@
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
         >
           <Icon
-            name="bi:file-earmark-spreadsheet-fill"
+            name="cil:spreadsheet"
             class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
@@ -123,7 +133,7 @@
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
         >
           <Icon
-            name="bi:piggy-bank-fill"
+            name="ph:piggy-bank"
             class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
           />
           <span
@@ -149,7 +159,7 @@
         @click="useAuthStore().logout()"
       >
         <Icon
-          name="bxs:log-out"
+          name="solar:logout-2-outline"
           class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
         />
         <span v-if="isSidebarFull">Вийти</span>

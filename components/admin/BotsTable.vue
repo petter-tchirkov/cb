@@ -1,79 +1,108 @@
 <template>
-  <div
-    class="relative mb-4 overflow-hidden rounded-b-lg bg-white pt-4 shadow-md"
-  >
-    <div class="flex flex-col">
-      <div class="mb-5 flex w-full grow items-end justify-between gap-3 px-4">
-        <div class="flex w-full flex-wrap items-end gap-3">
-          <ui-input
-            v-model="search.contract"
-            class="grow"
-            label="Пошук по договору"
-            type="text"
-          >
-            <template #icon>
-              <Icon name="ant-design:search-outlined" />
-            </template>
-          </ui-input>
-          <ui-input
-            v-model="search.botURI"
-            class="grow"
-            label="Пошук по боту"
-            type="text"
-          >
-            <template #icon>
-              <Icon name="ant-design:search-outlined" />
-            </template>
-          </ui-input>
-          <ui-select
-            v-model="selected"
-            class="self-end"
-            :options="selectedOptions"
-            title="Статус верифікації"
+  <div class="relative bg-white">
+    <DataTable
+      v-model:filters="filters"
+      :value="adminStore.bots"
+      class="p-datatable-sm"
+      paginator
+      :rows="5"
+      filter-display="row"
+    >
+      <template #paginatorend>
+        <Button
+          severity="success"
+          label="Завантажити"
+          title="Завантажити"
+          icon="pi pi-save"
+          icon-pos="right"
+          @click="updateBots"
+        />
+      </template>
+      <Column
+        field="clientName"
+        header="Клієнт"
+      >
+        <template #body="slotProps">
+          <ui-auto-complete
+            v-model="slotProps.data.clientName"
+            :items="useAdminStore().clientsList"
+            @update:model-value="
+              updateBotsArray(slotProps.data, slotProps.data.botId)
+            "
+            @update:id="(id) => (slotProps.data.userId = id)"
           />
-        </div>
-      </div>
-    </div>
+        </template>
+      </Column>
+      <Column
+        field="contract"
+        header="Договір"
+        filter-field="contract"
+        :show-filter-menu="false"
+      >
+        <template #filter="{}">
+          <InputText
+            v-model="filters['contract'].value"
+            placeholder="Пошук по договору"
+            class="p-column-filter"
+          />
+        </template>
+      </Column>
+      <Column
+        field="botURI"
+        header="Бот"
+        :show-filter-menu="false"
+      >
+        <template #filter="{}">
+          <InputText
+            v-model="filters['botURI'].value"
+            placeholder="Пошук по боту"
+            class="p-column-filter"
+          />
+        </template>
+        <template #body="slotProps">
+          <NuxtLink
+            class="flex w-full hover:text-black"
+            :to="`/admin/${slotProps.data.botId}`"
+          >
+            {{ slotProps.data.botURI }}
+          </NuxtLink>
+        </template>
+      </Column>
+      <Column
+        field="isVerified"
+        header="Статус"
+        filter-field="isVerified"
+        :show-filter-menu="false"
+      >
+        <template #filter="{ filterModel, filterCallback }">
+          <Dropdown
+            v-model="filterModel.value"
+            :options="[true, false]"
+            placeholder="Верифіковано"
+            class="p-column-filter"
+            style="min-width: 12rem"
+            :show-clear="true"
+            @change="filterCallback()"
+          >
+          </Dropdown>
+        </template>
+        <template #body="slotProps">
+          <Tag
+            class="cursor-pointer"
+            :value="
+              slotProps.data.isVerified ? 'Верифіковано' : 'Не верифіковано'
+            "
+            :severity="slotProps.data.isVerified ? 'success' : 'danger'"
+            @click="
+              ;(slotProps.data.isVerified = !slotProps.data.isVerified),
+                updateBotsArray(slotProps.data, slotProps.data.botId)
+            "
+          />
+        </template>
+      </Column>
+    </DataTable>
 
     <div class="relative overflow-y-auto lg:max-h-[480px]">
-      <ui-table
-        :items="adminStore.bots"
-        :headers="headers"
-      >
-        <ui-table-row
-          v-for="item in filteredBots"
-          :key="item.botId"
-          class="cursor-pointer"
-        >
-          <ui-table-column>
-            <ui-auto-complete
-              v-model="item.clientName"
-              :items="useAdminStore().clientsList"
-              @update:model-value="
-                useDebounceFn(updateBotsArray(item, item.botId), 300)
-              "
-              @update:id="(id) => (item.userId = id)"
-            />
-          </ui-table-column>
-          <ui-table-column>{{ item.contract }}</ui-table-column>
-          <ui-table-column class="hover:font-bold">
-            <NuxtLink
-              class="flex w-full"
-              :to="`/admin/${item.botId}`"
-            >
-              {{ item.botURI }}
-            </NuxtLink>
-          </ui-table-column>
-          <ui-table-column>
-            <ui-toggle
-              v-model="item.isVerified"
-              :disabled="!item.contract"
-              :default-check="item.isVerified"
-              @change="updateBotsArray(item, item.botId)"
-            />
-          </ui-table-column>
-        </ui-table-row>
-      </ui-table>
       <div class="grid h-[60vh] w-full grid-cols-1 gap-4 lg:hidden lg:h-auto">
         <div
           v-for="item in adminStore.bots"
@@ -119,30 +148,14 @@
     </div>
     <ui-loader v-if="adminStore.isLoading" />
   </div>
-  <ui-button
-    color="success"
-    title="Завантажити"
-    label="Завантажити"
-    @click="updateBots"
-  >
-    <template #prependIcon>
-      <Icon
-        v-if="width >= 1024"
-        name="material-symbols:save-outline"
-        class="h-5 w-6"
-      />
-    </template>
-  </ui-button>
 </template>
 
 <script setup lang="ts">
-  import { useWindowSize } from '@vueuse/core'
+  import { FilterMatchMode } from 'primevue/api'
   import { useAdminStore } from '~/store/admin'
   import { IRatesBot } from '~/types/ratesBot'
-  const { width } = useWindowSize()
 
   const adminStore = useAdminStore()
-  const headers = ['Клієнт', 'Договір', 'Бот', 'Верифіковано']
   await useAdminStore().getBots()
 
   const search: {
@@ -159,17 +172,10 @@
     }
   })
 
-  const filteredBots = computed(() => {
-    return adminStore.bots.filter(
-      (item: IRatesBot) =>
-        item.botURI.includes(search.botURI) &&
-        (item.contract !== null
-          ? item.contract.includes(search.contract)
-          : true) &&
-        (selected.value.value !== null
-          ? item.isVerified === selected.value.value
-          : true)
-    )
+  const filters = ref({
+    contract: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    botURI: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    isVerified: { value: null, matchMode: FilterMatchMode.EQUALS },
   })
 
   const updatedBots: Ref<IRatesBot[]> = ref([])
@@ -179,7 +185,6 @@
         item.botId = id
       }
       updatedBots.value.push(item)
-      console.log(123)
     }
   }
 

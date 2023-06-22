@@ -1,47 +1,72 @@
 <template>
-  <div class="overflow-hidden rounded-b-lg bg-white pt-4 shadow-md">
+  <div class="relative bg-white">
     <div
       class="mb-5 flex flex-wrap items-end justify-between gap-3 bg-white px-4 lg:justify-start lg:gap-5"
     >
-      <ui-datepicker
-        v-model="startDate"
-        label="З"
-        class="grow"
-      />
-      <ui-datepicker
-        v-model="endDate"
-        label="По"
-        class="grow"
-      />
-      <ui-button
-        class="h-11"
+      <!-- <ui-datepicker -->
+      <!--   v-model="startDate" -->
+      <!--   label="З" -->
+      <!--   class="grow" -->
+      <!-- /> -->
+      <!-- <ui-datepicker -->
+      <!--   v-model="endDate" -->
+      <!--   label="По" -->
+      <!--   class="grow" -->
+      <!-- /> -->
+      <ui-datepicker v-model="startDate" />
+      <ui-datepicker v-model="endDate" />
+
+      <Button
         label="Застосувати"
         @click="updateCostsTable"
       />
     </div>
-    <div class="hidden max-h-[480px] overflow-auto lg:block">
-      <ui-table
-        :items="useAdminStore().botsCosts"
-        :headers="['Клієнт', 'Бот', 'Витрачено']"
+    <DataTable
+      v-model:filters="filters"
+      :value="useAdminStore().botsCosts"
+      class="p-datatable-lg"
+      filter-display="row"
+      paginator
+      :rows="5"
+    >
+      <Column
+        field="client"
+        header="Клієнт"
+      />
+      <Column
+        header="URI Бота"
+        field="botURI"
+        filter-field="botURI"
+        :show-filter-menu="false"
       >
-        <ui-table-row
-          v-for="(item, index) in useAdminStore().botsCosts"
-          :key="index"
-        >
-          <ui-table-column>{{ item.client }}</ui-table-column>
-          <ui-table-column class="hover:font-bold">
-            <NuxtLink
-              :to="{
-                path: `/admin/${item.botId}`,
-                query: { startDate, endDate },
-              }"
-              >{{ item.botURI }}</NuxtLink
-            >
-          </ui-table-column>
-          <ui-table-column>{{ item.charged }}</ui-table-column>
-        </ui-table-row>
-      </ui-table>
-    </div>
+        <template #filter="{}">
+          <InputText
+            v-model="filters['botURI'].value"
+            placeholder="Пошук по боту"
+            class="p-column-filter"
+          />
+        </template>
+
+        <template #body="slotProps">
+          <NuxtLink
+            class="hover:text-black"
+            :to="{
+              path: `/admin/${slotProps.data.botId}`,
+              query: { startDate, endDate },
+            }"
+            >{{ slotProps.data.botURI }}</NuxtLink
+          >
+        </template>
+      </Column>
+      <Column
+        field="charged"
+        header="Витрачено"
+      >
+        <template #body="slotProps">
+          {{ useFormatCurrency(slotProps.data.charged) }}
+        </template>
+      </Column>
+    </DataTable>
     <ui-toast />
     <div
       class="grid h-[60vh] w-full grid-cols-1 gap-4 overflow-auto lg:hidden lg:h-auto"
@@ -63,18 +88,17 @@
 
 <script setup lang="ts">
   import { useNotification } from '@kyvg/vue3-notification'
+  import { FilterMatchMode } from 'primevue/api'
   import { useAdminStore } from '~/store/admin'
 
+  const route = useRoute()
   const { notify } = useNotification()
   const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
-  const startDate = ref(firstDayOfCurrentMonth)
-  const endDate = ref(lastDayOfCurrentMonth)
+  const startDate = ref(route.query.startDate || firstDayOfCurrentMonth)
+  const endDate = ref(route.query.endDate || lastDayOfCurrentMonth)
 
-  await useAdminStore().getBotsCosts(
-    firstDayOfCurrentMonth,
-    lastDayOfCurrentMonth
-  )
+  await useAdminStore().getBotsCosts(startDate, endDate)
 
   const updateCostsTable = () => {
     useAdminStore().getBotsCosts(startDate.value, endDate.value)
@@ -83,6 +107,9 @@
       type: 'success',
     })
   }
+  const filters = ref({
+    botURI: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  })
 </script>
 
 <style scoped></style>

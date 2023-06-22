@@ -1,21 +1,32 @@
 <template>
   <section>
     <header-lite>
-      <template #pageTitle>{{ getBotUri[0].botURI }}</template>
+      <template #pageTitle>
+        <NuxtLink
+          :to="{
+            path: '/admin',
+            query: { activeIndex: 2, startDate: startDate, endDate: endDate },
+          }"
+        >
+          <Icon
+            class="cursor-pointer"
+            name="ic:baseline-arrow-back" /></NuxtLink
+        >{{ getBotUri[0].botURI }}</template
+      >
     </header-lite>
     <div class="p-4 lg:px-5">
       <div class="mb-5 flex items-end gap-3">
         <ui-datepicker
-          v-model="route.query.startDate"
+          v-model="startDate"
           label="З"
           class="grow"
         />
         <ui-datepicker
-          v-model="route.query.endDate"
+          v-model="endDate"
           label="По"
           class="grow"
         />
-        <ui-button
+        <Button
           label="Застосувати"
           @click="
             useAdminStore().getBotStatistic(
@@ -26,29 +37,66 @@
           "
         />
       </div>
-      <div class="h-[80vh] overflow-auto">
-        <ui-table
-          :items="useAdminStore().botStatistic"
-          :headers="headers"
+      <div class="">
+        <DataTable
+          class="p-datatable-sm"
+          :value="useAdminStore().botStatistic"
+          paginator
+          :rows="15"
+          filter-display="row"
+          sort-mode="multiple"
+          removable-sort
         >
-          <ui-table-row
-            v-for="(row, index) in useAdminStore().botStatistic as IBotStatistic[]"
-            :key="index"
+          <Column
+            field="date"
+            header="Дата"
+            sortable
+          />
+          <Column
+            field="country"
+            header="Країна"
+          />
+          <Column
+            field="rate"
+            header="Рейт"
+          />
+          <Column
+            field="rate_type"
+            header="Тип рейту"
           >
-            <ui-table-column>{{ row.country }}</ui-table-column>
-            <ui-table-column>{{ row.rate || '-' }}</ui-table-column>
-            <ui-table-column
-              class="text-center font-bold"
-              :class="getRateTypeColors(row.rateType)"
-              >{{ row.rateType || '-' }}</ui-table-column
-            >
-            <ui-table-column>{{ row.attempts }}</ui-table-column>
-            <ui-table-column>{{ row.sent }}</ui-table-column>
-            <ui-table-column>{{ row.delivered }}</ui-table-column>
-            <ui-table-column>{{ row.billed }}</ui-table-column>
-            <ui-table-column>{{ row.charged }}</ui-table-column>
-          </ui-table-row>
-        </ui-table>
+            <template #body="slotProps">
+              <div class="flex w-full justify-center">
+                <Tag
+                  :severity="
+                    getRateTypeColors(slotProps.data.rateType.toString())
+                  "
+                  :value="slotProps.data.rateType"
+                />
+              </div>
+            </template>
+          </Column>
+          <Column
+            field="attempts"
+            header="Спроби"
+          />
+          <Column
+            field="sent"
+            header="Відправлено"
+          />
+          <Column
+            field="delivered"
+            header="Доставлено"
+          />
+          <Column
+            field="billed"
+            header="Сплачено"
+          />
+          <Column
+            field="charged"
+            header="Знято"
+            sortable
+          />
+        </DataTable>
       </div>
     </div>
   </section>
@@ -59,10 +107,16 @@
   const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
 
   const route = useRoute()
+  const router = useRouter()
+  const startDate = ref(route.query.startDate || firstDayOfCurrentMonth)
+  const endDate = ref(
+    route.query.endDate || useDateFormat(useNow(), 'YYYY-MM-DD')
+  )
+
   await useAdminStore().getBotStatistic(
     route.params.statistic as string,
-    route.query.startDate,
-    route.query.endDate
+    startDate,
+    endDate
   )
 
   const getBotUri = computed(() => {
@@ -80,11 +134,11 @@
   const getRateTypeColors = (rateType: string) => {
     switch (rateType) {
       case 'OUT OF SESSION':
-        return 'text-red-400'
+        return 'danger'
       case 'SESSION':
-        return 'text-green-400'
+        return 'success'
       case 'WELCOME':
-        return 'text-yellow-400'
+        return 'warning'
     }
   }
 
@@ -101,9 +155,6 @@
     'BILLED',
     'CHARGED',
   ]
-
-  const startDate = ref(firstDayOfCurrentMonth)
-  const endDate = ref(useDateFormat(useNow(), 'YYYY-MM-DD'))
 </script>
 
 <style scoped></style>
