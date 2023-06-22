@@ -5,33 +5,27 @@
     </HeaderLite>
     <div class="p-4">
       <div class="rounded-lg bg-white p-4 shadow-md lg:w-1/2">
-        <ui-input
-          v-model="newBot.botName"
-          type="text"
-          label="Ім'я"
-          class="mb-5"
-        />
-        <ui-input
-          v-model="newBot.botURI"
-          type="text"
-          label="URI"
-          class="mb-5"
-        />
-        <ui-input
-          v-model="newBot.token"
-          type="text"
-          label="Токен"
-          class="mb-5"
-        />
-        <div class="flex justify-end gap-3">
-          <ui-button
-            color="light--warning"
-            label="Відміна"
-            size="s"
+        <div class="mb-5 flex flex-col gap-3">
+          <InputText
+            v-model="newBot.botName"
+            placeholder="Ім'я"
           />
-          <ui-button
+          <InputText
+            v-model="newBot.botURI"
+            placeholder="URI"
+          />
+          <InputText
+            v-model="newBot.token"
+            placeholder="Токен"
+          />
+        </div>
+        <div class="flex justify-end gap-3">
+          <Button
+            label="Відміна"
+            severity="warning"
+          />
+          <Button
             label="Cтворити"
-            size="s"
             @click="useBotsStore().addBot(newBot)"
           />
         </div>

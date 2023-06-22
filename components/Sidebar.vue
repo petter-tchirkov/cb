@@ -17,7 +17,11 @@
             src="/favicon.png"
             alt=""
           />
-          <span class="text-2xl font-bold">Counter Bat</span>
+          <span
+            v-if="isSidebarFull"
+            class="text-2xl font-bold"
+            >Counter Bat</span
+          >
         </NuxtLink>
         <!-- <NuxtLink
           to="/"
@@ -36,6 +40,7 @@
         <NuxtLink
           to="/"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="iconoir:coins"
@@ -50,6 +55,7 @@
         <NuxtLink
           to="/rates"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="ion:pricetags-outline"
@@ -62,7 +68,8 @@
           >
         </NuxtLink>
         <div
-          class="group flex cursor-pointer items-center justify-between rounded-lg p-2 font-semibold hover:bg-gray-100"
+          class="group flex cursor-pointer items-center rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="isSidebarFull ? 'justify-between' : 'justify-center'"
           @click="botsShown = !botsShown"
         >
           <div class="flex items-center gap-2">
@@ -116,6 +123,7 @@
           v-if="useAuthStore().user?.user_role === 'ADMIN'"
           to="/admin"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="cil:spreadsheet"
@@ -131,6 +139,7 @@
           v-if="useAuthStore().user?.user_role === 'ADMIN'"
           to="/deposits"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="ph:piggy-bank"

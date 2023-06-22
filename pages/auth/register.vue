@@ -4,58 +4,34 @@
   >
     <form class="w-full rounded-lg border-2 border-blue-600 p-4 lg:w-96 lg:p-5">
       <h2 class="mb-8 text-center text-3xl font-bold">Реєстрація</h2>
-      <ui-input
+      <InputText
         v-model="name"
-        class="mb-5"
-        label="ПІБ"
-        type="text"
-        :error="error('name')"
+        placeholder="ПІБ"
+        class="mb-5 w-full"
       />
-      <ui-input
+      <InputText
         v-model="login"
-        class="mb-5"
-        label="Логін"
-        type="text"
-        :error="error('login')"
+        placeholder="Логін"
+        class="mb-5 w-full"
       />
-      <ui-input
+      <Password
         v-model="password"
-        class="mb-5"
-        label="Пароль"
-        :type="isPasswordRevealed ? 'text' : 'password'"
-        :error="error('password')"
-      >
-        <template #icon>
-          <Icon
-            :name="isPasswordRevealed ? 'mdi:eye-off' : 'mdi:eye'"
-            class="h-5 w-5"
-            @click="isPasswordRevealed = !isPasswordRevealed"
-          />
-        </template>
-      </ui-input>
-      <ui-input
-        v-model="confirmPassword"
-        class="mb-5"
-        label="Підтвердження паролю"
-        :type="isPasswordRevealed ? 'text' : 'password'"
-        :error="error('confirmPassword')"
-      >
-        <template #icon>
-          <Icon
-            :name="isPasswordRevealed ? 'mdi:eye-off' : 'mdi:eye'"
-            class="h-5 w-5"
-            @click="isPasswordRevealed = !isPasswordRevealed"
-          />
-        </template>
-      </ui-input>
-      <ui-input
-        v-model="accord"
-        class="mb-5"
-        label="Номер договору"
-        type="text"
-        :error="error('accord')"
+        toggle-mask
+        placeholder="Пароль"
+        class="mb-5 w-full"
       />
-      <ui-button
+      <Password
+        v-model="confirmPassword"
+        toggle-mask
+        placeholder="Підтвердження паролю"
+        class="mb-5 w-full"
+      />
+      <InputText
+        v-model="accord"
+        placeholder="Номер договоруi"
+        class="mb-5 w-full"
+      />
+      <Button
         label="Зареєструватись"
         @click.prevent="submitForm"
       />

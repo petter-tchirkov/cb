@@ -28,7 +28,7 @@
             @click="updateRate"
           />
         </template>
-        <Column
+          <Column
           field="clientName"
           header="Клієнт"
           :show-filter-menu="false"
@@ -56,7 +56,7 @@
             />
           </template>
         </Column>
-        <Column
+                <Column
           field="country"
           header="Країна"
           filter-field="country"

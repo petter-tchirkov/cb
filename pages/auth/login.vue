@@ -10,10 +10,11 @@
           placeholder="Логін"
           class="mb-5 w-full"
         />
-        <InputText
+        <Password
           v-model="fields.password"
           placeholder="Пароль"
           class="mb-5 w-full"
+          :feedback="false"
         />
       </div>
 
