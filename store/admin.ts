@@ -338,14 +338,13 @@ export const useAdminStore = defineStore('admin', () => {
     })
   }
 
-  const getBotsCosts = async (startDate: string, endDate: string) => {
+  const getBotsCosts = async (date: string[]) => {
     await useFetch(`${url}/Admin/get-bots-costs`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
-        startDate,
-        endDate,
+        date,
       },
       onRequest() {
         isLoading.value = true

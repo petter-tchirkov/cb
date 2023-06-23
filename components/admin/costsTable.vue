@@ -113,7 +113,7 @@
         return i.toISOString().substring(0, 10)
       })
     } else {
-      return Date.today()
+      return ref([firstDaySerialized, lastDaySerialized])
     }
   })
 
@@ -123,7 +123,7 @@
   await useAdminStore().getBotsCosts(startDate, endDate)
 
   const updateCostsTable = () => {
-    useAdminStore().getBotsCosts(dateParsed.value[0], dateParsed.value[1])
+    useAdminStore().getBotsCosts(dateParsed.value)
     notify({
       text: 'Успішно оновлено',
       type: 'success',
