@@ -2,37 +2,43 @@
   <div class="relative bg-white">
     <div
       class="mb-5 flex flex-wrap items-end justify-between gap-3 bg-white px-4 lg:justify-start lg:gap-5"
-    >
-      <!-- <ui-datepicker -->
-      <!--   v-model="startDate" -->
-      <!--   label="З" -->
-      <!--   class="grow" -->
-      <!-- /> -->
-      <!-- <ui-datepicker -->
-      <!--   v-model="endDate" -->
-      <!--   label="По" -->
-      <!--   class="grow" -->
-      <!-- /> -->
-      <ui-datepicker v-model="startDate" />
-      <ui-datepicker v-model="endDate" />
-
-      <Button
-        label="Застосувати"
-        @click="updateCostsTable"
-      />
-    </div>
+    ></div>
     <DataTable
       v-model:filters="filters"
       :value="useAdminStore().botsCosts"
       class="p-datatable-lg"
       filter-display="row"
-      paginator
-      :rows="5"
+      scrollable
+      scroll-height="60vh"
     >
+      <template #header>
+        <div class="flex gap-3">
+          <Calendar
+            v-model="date"
+            selection-mode="range"
+            date-format="yy-mm-dd"
+            show-icon
+          />
+          <Button
+            label="Застосувати"
+            @click="updateCostsTable"
+          />
+        </div>
+      </template>
       <Column
         field="client"
         header="Клієнт"
-      />
+        filter-field="client"
+        :show-filter-menu="false"
+      >
+        <template #filter="{}">
+          <InputText
+            v-model="filters['client'].value"
+            placeholder="Пошук по клієнту"
+            class="p-column-filter"
+          />
+        </template>
+      </Column>
       <Column
         header="URI Бота"
         field="botURI"
@@ -93,15 +99,31 @@
 
   const route = useRoute()
   const { notify } = useNotification()
-  const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
+  const {
+    firstDayOfCurrentMonth,
+    lastDayOfCurrentMonth,
+    firstDaySerialized,
+    lastDaySerialized,
+  } = useGetCurrentMonth()
 
-  const startDate = ref(route.query.startDate || firstDayOfCurrentMonth)
-  const endDate = ref(route.query.endDate || lastDayOfCurrentMonth)
+  const date = ref([firstDayOfCurrentMonth, lastDayOfCurrentMonth])
+  const dateParsed = computed(() => {
+    if (date) {
+      return date.value.map((i) => {
+        return i.toISOString().substring(0, 10)
+      })
+    } else {
+      return Date.today()
+    }
+  })
+
+  const startDate = ref(route.query.startDate || firstDaySerialized)
+  const endDate = ref(route.query.endDate || lastDaySerialized)
 
   await useAdminStore().getBotsCosts(startDate, endDate)
 
   const updateCostsTable = () => {
-    useAdminStore().getBotsCosts(startDate.value, endDate.value)
+    useAdminStore().getBotsCosts(dateParsed.value[0], dateParsed.value[1])
     notify({
       text: 'Успішно оновлено',
       type: 'success',
@@ -109,6 +131,7 @@
   }
   const filters = ref({
     botURI: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    client: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   })
 </script>
 

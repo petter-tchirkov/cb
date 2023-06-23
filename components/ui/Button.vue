@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-between gap-2 rounded-lg font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
+    class="flex items-center justify-between gap-2 rounded-lg font-medium focus:outline-none focus:ring-4 focus:ring-blue-300"
     :class="[{ 'w-full': full }, `btn-${color}`, `btn-${size}`]"
     :disabled="disabled"
     :title="title"

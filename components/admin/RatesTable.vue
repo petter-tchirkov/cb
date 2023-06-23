@@ -5,9 +5,9 @@
         v-model:filters="filters"
         class="p-datatable-sm"
         :value="adminStore.rates"
-        paginator
-        :rows="10"
         filter-display="row"
+        scrollable
+        scroll-height="60vh"
       >
         <template #paginatorstart>
           <Button
@@ -28,7 +28,7 @@
             @click="updateRate"
           />
         </template>
-          <Column
+        <Column
           field="clientName"
           header="Клієнт"
           :show-filter-menu="false"
@@ -56,7 +56,7 @@
             />
           </template>
         </Column>
-                <Column
+        <Column
           field="country"
           header="Країна"
           filter-field="country"
@@ -200,13 +200,11 @@
 </template>
 
 <script setup lang="ts">
-  import { useWindowSize } from '@vueuse/core'
   import { FilterMatchMode } from 'primevue/api'
   import { useAdminStore } from '~/store/admin'
 
   import { IRate } from '~/types/rate'
   const adminStore = useAdminStore()
-  const { width } = useWindowSize()
 
   await adminStore.getRates()
 

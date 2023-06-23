@@ -9,17 +9,18 @@
         :value="costsStore.costs"
         class="p-datatable-sm"
         paginator
-        :rows="15"
+        :rows="!filterParams.show_all ? 15 : 1000"
         filter-display="row"
+        scrollable
+        scroll-height="75vh"
       >
         <template #header>
           <div class="flex gap-3">
-            <ui-datepicker v-model="filterParams.date_from" />
-            <ui-datepicker v-model="filterParams.date_to" />
             <Calendar
               v-model="date"
               selection-mode="range"
               date-format="yy-mm-dd"
+              show-icon
             />
             <Button
               label="Завтосувати"
@@ -32,17 +33,29 @@
             <span class="text-xl font-bold">Немає даних для відображення</span>
           </div>
         </template>
+        <template #paginatorstart>
+          Total Charged:
+          <span class="font-bold">{{ useCostsStore().totalCharged }}</span>
+        </template>
+        <template #paginatorend>
+          <Button
+            label="Показати все"
+            @click="showHideAllFields"
+          />
+        </template>
         <Column
           field="date"
           header="DATE"
+          sortable
+          removable-sort
         />
         <Column
           field="bot_uri"
-          header="BOT URI"
+          header="URI"
         />
         <Column
           field="bot_name"
-          header="BOT NAME"
+          header="NAME"
           :show-filter-menu="false"
           filter-field="bot_name"
         >
@@ -70,7 +83,7 @@
         </Column>
         <Column
           field="rate_type"
-          header="RATE TYPEE"
+          header="TYPE"
         >
           <template #body="slotProps">
             <div class="flex w-full justify-center">
@@ -148,7 +161,7 @@
     per_page: width.value >= 1024 ? 10 : 4,
     bot_name: '',
     country: '',
-    date,
+    date: dateParsed,
     show_all: false,
   })
 

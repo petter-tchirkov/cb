@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 lg:p-5">
     <label>{{ label }}</label>
-    <div class="flex gap-3 mb-2">
+    <div class="mb-2 flex gap-3 text-black">
       <ui-button
         label="Оберіть файли"
         color="light"
