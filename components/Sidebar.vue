@@ -17,7 +17,11 @@
             src="/favicon.png"
             alt=""
           />
-          <span class="text-2xl font-bold">Counter Bat</span>
+          <span
+            v-if="isSidebarFull"
+            class="text-2xl font-bold"
+            >Counter Bat</span
+          >
         </NuxtLink>
         <!-- <NuxtLink
           to="/"
@@ -33,9 +37,22 @@
             >Дашборд</span
           >
         </NuxtLink> -->
+        <div
+          class="hidden lg:flex"
+          :class="[isSidebarFull ? 'justify-end' : 'justify-center']"
+        >
+          <Icon
+            class="h-8 w-8 cursor-pointer text-gray-500 transition duration-75 hover:text-gray-900"
+            :class="[{ 'rotate-180': !isSidebarFull }, ,]"
+            name="ic:baseline-keyboard-double-arrow-left"
+            @click="isSidebarFull = !isSidebarFull"
+          />
+        </div>
+
         <NuxtLink
           to="/"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="iconoir:coins"
@@ -50,6 +67,7 @@
         <NuxtLink
           to="/rates"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="ion:pricetags-outline"
@@ -62,7 +80,8 @@
           >
         </NuxtLink>
         <div
-          class="group flex cursor-pointer items-center justify-between rounded-lg p-2 font-semibold hover:bg-gray-100"
+          class="group flex cursor-pointer items-center rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="isSidebarFull ? 'justify-between' : 'justify-center'"
           @click="botsShown = !botsShown"
         >
           <div class="flex items-center gap-2">
@@ -116,6 +135,7 @@
           v-if="useAuthStore().user?.user_role === 'ADMIN'"
           to="/admin"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="cil:spreadsheet"
@@ -131,6 +151,7 @@
           v-if="useAuthStore().user?.user_role === 'ADMIN'"
           to="/deposits"
           class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          :class="{ 'justify-center': !isSidebarFull }"
         >
           <Icon
             name="ph:piggy-bank"
@@ -143,27 +164,18 @@
           >
         </NuxtLink>
       </div>
-      <div
-        class="fixed bottom-48 hidden justify-end lg:flex"
-        :class="[isSidebarFull ? 'left-44' : 'left-4']"
-      >
-        <Icon
-          class="h-8 w-8 cursor-pointer text-gray-500 transition duration-75 hover:text-gray-900"
-          :class="[{ 'rotate-180': !isSidebarFull }, ,]"
-          name="ic:baseline-keyboard-double-arrow-left"
-          @click="isSidebarFull = !isSidebarFull"
-        />
+      <div class="flex">
+        <NuxtLink
+          class="group fixed bottom-4 flex cursor-pointer items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
+          @click="useAuthStore().logout()"
+        >
+          <Icon
+            name="solar:logout-2-outline"
+            class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
+          />
+          <span v-if="isSidebarFull">Вийти</span>
+        </NuxtLink>
       </div>
-      <NuxtLink
-        class="group fixed bottom-4 flex cursor-pointer items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"
-        @click="useAuthStore().logout()"
-      >
-        <Icon
-          name="solar:logout-2-outline"
-          class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600"
-        />
-        <span v-if="isSidebarFull">Вийти</span>
-      </NuxtLink>
     </aside>
   </XyzTransition>
 </template>

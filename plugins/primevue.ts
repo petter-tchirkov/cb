@@ -1,5 +1,6 @@
 import { defineNuxtPlugin } from '#app'
 import PrimeVue from 'primevue/config'
+import Password from 'primevue/password'
 import Button from 'primevue/button'
 import FileUpload from 'primevue/fileupload'
 import InputText from 'primevue/inputtext'
@@ -39,4 +40,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('Paginator', Paginator)
   nuxtApp.vueApp.component('ToggleButton', ToggleButton)
   nuxtApp.vueApp.component('Tag', Tag)
+  nuxtApp.vueApp.component('Password', Password)
 })

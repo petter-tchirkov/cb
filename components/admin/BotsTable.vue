@@ -4,9 +4,9 @@
       v-model:filters="filters"
       :value="adminStore.bots"
       class="p-datatable-sm"
-      paginator
-      :rows="5"
       filter-display="row"
+      scrollable
+      scroll-height="65vh"
     >
       <template #paginatorend>
         <Button

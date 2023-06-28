@@ -5,13 +5,30 @@ export const useGetCurrentMonth = () => {
     return new Date(y, m, 0).getDate()
   }
 
-  const firstDayOfCurrentMonth = `${useDateFormat(useNow(), 'YYYY-MM').value
-    }-01`
-  const lastDayOfCurrentMonth = `${useDateFormat(useNow(), 'YYYY-MM').value
+  const date = new Date()
+
+  const firstDaySerialized = `${useDateFormat(useNow(), 'YYYY-MM').value}-01`
+  const lastDaySerialized = `${useDateFormat(useNow(), 'YYYY-MM').value
     }-${getLastDayOfMonth(
       +useDateFormat(useNow(), 'YYYY').value,
       +useDateFormat(useNow(), 'MM').value
     )}`
 
-  return { firstDayOfCurrentMonth, lastDayOfCurrentMonth }
+  const firstDayOfCurrentMonth = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    1
+  )
+  const lastDayOfCurrentMonth = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  )
+
+  return {
+    firstDayOfCurrentMonth,
+    lastDayOfCurrentMonth,
+    firstDaySerialized,
+    lastDaySerialized,
+  }
 }

@@ -49,20 +49,20 @@
         >
           <Column
             field="date"
-            header="Дата"
+            header="DATE"
             sortable
           />
           <Column
             field="country"
-            header="Країна"
+            header="COUNTRY"
           />
           <Column
             field="rate"
-            header="Рейт"
+            header="RATE"
           />
           <Column
             field="rate_type"
-            header="Тип рейту"
+            header="TYPE"
           >
             <template #body="slotProps">
               <div class="flex w-full justify-center">
@@ -77,23 +77,23 @@
           </Column>
           <Column
             field="attempts"
-            header="Спроби"
+            header="ATTEMPTS"
           />
           <Column
             field="sent"
-            header="Відправлено"
+            header="SENT"
           />
           <Column
             field="delivered"
-            header="Доставлено"
+            header="DELIVERED"
           />
           <Column
             field="billed"
-            header="Сплачено"
+            header="BILLED"
           />
           <Column
             field="charged"
-            header="Знято"
+            header="CHARGED"
             sortable
           />
         </DataTable>

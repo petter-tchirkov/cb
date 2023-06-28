@@ -23,8 +23,7 @@ export const useCostsStore = defineStore('costs', () => {
         per_page: filterParams.per_page,
         bot_name: filterParams.bot_name,
         country: filterParams.country,
-        date_from: filterParams.date_from,
-        date_to: filterParams.date_to,
+        date: filterParams.date,
         show_all: filterParams.show_all,
       },
       onResponse({ response }) {

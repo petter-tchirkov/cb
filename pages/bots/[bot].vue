@@ -11,6 +11,7 @@
           >{{ nameBot }}</span
         >
         <Tag
+          class="hidden lg:block"
           :value="
             useBotsStore().bot.isVerified ? 'Верифіковано' : 'Не верифіковано'
           "
@@ -20,7 +21,7 @@
     </HeaderLite>
     <div class="h-auto px-4">
       <div class="flex w-full flex-col py-4 lg:flex-row">
-        <div class="rounded-lg bg-white p-4 shadow-md">
+        <div class="rounded-lg bg-white p-4 shadow-md lg:w-4/12">
           <InputText
             v-model="botParams.botName"
             :disabled="!isEdit"
@@ -63,12 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="rounded-lg bg-white p-4 shadow-md">
-        <ui-table
-          :items="[]"
-          :headers="headers"
-        />
-      </div>
+
       <ui-modal :is-modal-visible="isDelete">
         <template #modalHeading> Видалення бота </template>
         <template #modalBody>

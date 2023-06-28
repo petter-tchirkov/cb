@@ -24,3 +24,7 @@ section {
 ::-webkit-scrollbar-thumb {
   @apply rounded-3xl bg-gray-300 transition hover:bg-gray-400;
 }
+
+.p-password-input {
+  @apply w-full;
+}
