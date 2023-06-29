@@ -52,8 +52,6 @@
     layout: 'auth',
   })
 
-  const isPasswordRevealed = ref<boolean>(false)
-
   const fields: { login: string; password: string } = reactive({
     login: '',
     password: '',

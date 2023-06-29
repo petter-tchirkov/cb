@@ -7,27 +7,28 @@
         :value="adminStore.rates"
         filter-display="row"
         scrollable
-        scroll-height="60vh"
+        scroll-height="50vh"
       >
-        <template #paginatorstart>
-          <Button
-            label="Додати"
-            title="Додати рейт"
-            icon="pi pi-plus"
-            icon-pos="right"
-            @click="isAddingRate = !isAddingRate"
-          />
+        <template #footer>
+          <div class="flex justify-between w-full">
+            <Button
+              label="Додати"
+              title="Додати рейт"
+              icon="pi pi-plus"
+              icon-pos="right"
+              @click="isAddingRate = !isAddingRate"
+            />
+            <Button
+              label="Завантажити"
+              title="Завантажити"
+              icon="pi pi-save"
+              severity="success"
+              icon-pos="right"
+              @click="updateRate"
+            />
+          </div>
         </template>
-        <template #paginatorend>
-          <Button
-            label="Завантажити"
-            title="Завантажити"
-            icon="pi pi-save"
-            severity="success"
-            icon-pos="right"
-            @click="updateRate"
-          />
-        </template>
+
         <Column
           field="clientName"
           header="Клієнт"
@@ -106,7 +107,7 @@
         <div
           v-for="item in adminStore.rates"
           :key="item.id"
-          class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow"
+          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
         >
           <div class="flex items-start justify-between space-x-2 text-sm">
             <div class="flex flex-col gap-2">

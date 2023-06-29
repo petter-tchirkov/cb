@@ -338,7 +338,7 @@ export const useAdminStore = defineStore('admin', () => {
     })
   }
 
-  const getBotsCosts = async (date: string[]) => {
+  const getBotsCosts = async (date: any) => {
     await useFetch(`${url}/Admin/get-bots-costs`, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -9,7 +9,7 @@
       class="p-datatable-lg"
       filter-display="row"
       scrollable
-      scroll-height="60vh"
+      scroll-height="50vh"
     >
       <template #header>
         <div class="flex gap-3">
