@@ -10,7 +10,7 @@
         scroll-height="50vh"
       >
         <template #footer>
-          <div class="flex justify-between w-full">
+          <div class="flex w-full justify-between">
             <Button
               label="Додати"
               title="Додати рейт"
@@ -82,6 +82,7 @@
           <template #body="slotProps">
             <InputNumber
               v-model="slotProps.data.rate"
+              :max-fraction-digits="5"
               input-id="currency-germany"
               mode="currency"
               currency="EUR"
@@ -107,7 +108,7 @@
         <div
           v-for="item in adminStore.rates"
           :key="item.id"
-          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
+          class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow"
         >
           <div class="flex items-start justify-between space-x-2 text-sm">
             <div class="flex flex-col gap-2">

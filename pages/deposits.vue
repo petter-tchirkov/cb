@@ -20,6 +20,7 @@
           <template #body="slotProps">
             <InputNumber
               v-model="slotProps.data.deposit"
+              :max-fraction-digits="5"
               input-id="currency-germany"
               mode="currency"
               currency="EUR"

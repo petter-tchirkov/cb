@@ -6,7 +6,7 @@ import { IUser } from '~/types/user'
 export const useAuthStore = defineStore('auth', () => {
   const url = useRuntimeConfig().public.baseURL
   const router = useRouter()
-  const token = useCookie('access_token', { default: () => '', watch: true })
+  const token = useCookie('access_token', { default: () => null, watch: true })
   const user = ref<IUser | null>(null)
   const { notify } = useNotification()
 
@@ -27,6 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
               text: 'Невірний логін або пароль',
               type: 'error',
             })
+            logout()
             break
           default:
             token.value = response._data
@@ -91,7 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logout = async () => {
     await router.push('/auth/login')
-    token.value = ''
+    token.value = null
     user.value = {} as IUser
   }
 
