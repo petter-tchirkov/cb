@@ -6,9 +6,9 @@
       class="p-datatable-sm"
       filter-display="row"
       scrollable
-      scroll-height="65vh"
+      scroll-height="50vh"
     >
-      <template #paginatorend>
+      <template #footer>
         <Button
           severity="success"
           label="Завантажити"
@@ -107,10 +107,10 @@
         <div
           v-for="item in adminStore.bots"
           :key="item.botId"
-          class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow"
+          class="flex flex-col gap-3 p-4 bg-white rounded-lg shadow"
         >
           <div class="flex items-start justify-between space-x-2 text-sm">
-            <div class="flex w-full flex-col gap-2">
+            <div class="flex flex-col w-full gap-2">
               <div class="flex justify-between">
                 <div>
                   Клієнт:
