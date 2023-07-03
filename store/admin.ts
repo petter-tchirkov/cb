@@ -282,19 +282,14 @@ export const useAdminStore = defineStore('admin', () => {
     })
   }
 
-  const getBotStatistic = async (
-    botId: string,
-    startDate: string,
-    endDate: string
-  ) => {
+  const getBotStatistic = async (botId: string, date: string[]) => {
     await useFetch(`${url}/Admin/get-bot-statistic`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
         botId,
-        startDate,
-        endDate,
+        date,
       },
       onResponse({ response }) {
         if (response._data.errors) {
