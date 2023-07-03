@@ -14,7 +14,7 @@
       <template #header>
         <div class="flex gap-3">
           <Calendar
-            v-model="date"
+            v-model="useDateStore().chosenDates"
             selection-mode="range"
             date-format="yy-mm-dd"
             show-icon
@@ -58,7 +58,6 @@
             class="hover:text-black"
             :to="{
               path: `/admin/${slotProps.data.botId}`,
-              query: { startDate, endDate },
             }"
             >{{ slotProps.data.botURI }}</NuxtLink
           >
@@ -96,34 +95,14 @@
   import { useNotification } from '@kyvg/vue3-notification'
   import { FilterMatchMode } from 'primevue/api'
   import { useAdminStore } from '~/store/admin'
+  import { useDateStore } from '~/store/date'
 
-  const route = useRoute()
   const { notify } = useNotification()
-  const {
-    firstDayOfCurrentMonth,
-    lastDayOfCurrentMonth,
-    firstDaySerialized,
-    lastDaySerialized,
-  } = useGetCurrentMonth()
 
-  const date = ref([firstDayOfCurrentMonth, lastDayOfCurrentMonth])
-  const dateParsed = computed(() => {
-    if (date) {
-      return date.value.map((i) => {
-        return i.toISOString().substring(0, 10)
-      })
-    } else {
-      return ref([firstDaySerialized, lastDaySerialized])
-    }
-  })
-
-  const startDate = ref(route.query.startDate || firstDaySerialized)
-  const endDate = ref(route.query.endDate || lastDaySerialized)
-
-  await useAdminStore().getBotsCosts(startDate, endDate)
+  await useAdminStore().getBotsCosts(useDateStore().chosenDatesSerialized)
 
   const updateCostsTable = () => {
-    useAdminStore().getBotsCosts(dateParsed.value)
+    useAdminStore().getBotsCosts(useDateStore().chosenDatesSerialized)
     notify({
       text: 'Успішно оновлено',
       type: 'success',

@@ -5,34 +5,30 @@
         <NuxtLink
           :to="{
             path: '/admin',
-            query: { activeIndex: 2, startDate: startDate, endDate: endDate },
+            query: { activeIndex: 2 },
           }"
         >
           <Icon
             class="cursor-pointer"
-            name="ic:baseline-arrow-back" /></NuxtLink
-        >{{ getBotUri[0].botURI }}</template
-      >
+            name="ic:baseline-arrow-back"
+          /> </NuxtLink
+        >{{ getBotUri[0].botURI }}
+      </template>
     </header-lite>
     <div class="p-4 lg:px-5">
       <div class="mb-5 flex items-end gap-3">
-        <ui-datepicker
-          v-model="startDate"
-          label="З"
-          class="grow"
-        />
-        <ui-datepicker
-          v-model="endDate"
-          label="По"
-          class="grow"
+        <Calendar
+          v-model="useDateStore().chosenDates"
+          selection-mode="range"
+          date-format="yy-mm-dd"
+          show-icon
         />
         <Button
           label="Застосувати"
           @click="
             useAdminStore().getBotStatistic(
               route.params.statistic as string,
-              startDate,
-              endDate
+              useDateStore().chosenDatesSerialized
             )
           "
         />
@@ -104,19 +100,13 @@
 
 <script setup lang="ts">
   import { useAdminStore } from '~/store/admin'
-  const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
+  import { useDateStore } from '~/store/date'
 
   const route = useRoute()
-  const router = useRouter()
-  const startDate = ref(route.query.startDate || firstDayOfCurrentMonth)
-  const endDate = ref(
-    route.query.endDate || useDateFormat(useNow(), 'YYYY-MM-DD')
-  )
 
   await useAdminStore().getBotStatistic(
     route.params.statistic as string,
-    startDate,
-    endDate
+    useDateStore().chosenDatesSerialized
   )
 
   const getBotUri = computed(() => {
@@ -145,16 +135,6 @@
   definePageMeta({
     middleware: ['login', 'auth'],
   })
-  const headers = [
-    'COUNTRY',
-    'RATE',
-    'RATE TYPE',
-    'ATTEMPTS',
-    'SENT',
-    'DELIVERED',
-    'BILLED',
-    'CHARGED',
-  ]
 </script>
 
 <style scoped></style>

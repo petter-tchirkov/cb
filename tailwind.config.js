@@ -8,6 +8,6 @@ export default {
       },
     },
   },
-  important: true,
   plugins: [require('prettier-plugin-tailwindcss')],
+  important: true,
 }
