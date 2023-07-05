@@ -163,7 +163,23 @@
             >Депозити</span
           >
         </NuxtLink>
+        <!-- <NuxtLink -->
+        <!--   to="/documents" -->
+        <!--   class="group flex items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100" -->
+        <!--   :class="{ 'justify-center': !isSidebarFull }" -->
+        <!-- > -->
+        <!--   <Icon -->
+        <!--     name="bi:file-earmark-spreadsheet" -->
+        <!--     class="h-6 w-6 text-gray-500 transition duration-75 group-hover:text-blue-600" -->
+        <!--   /> -->
+        <!--   <span -->
+        <!--     v-show="isSidebarFull" -->
+        <!--     class="transition-all duration-75" -->
+        <!--     >Документи</span -->
+        <!--   > -->
+        <!-- </NuxtLink> -->
       </div>
+
       <div class="flex">
         <NuxtLink
           class="group fixed bottom-4 flex cursor-pointer items-center gap-2 rounded-lg p-2 font-semibold hover:bg-gray-100"

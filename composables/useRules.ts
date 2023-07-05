@@ -4,6 +4,13 @@ import { computed } from 'vue'
 export const useRules = () => {
   const rules = computed(() => {
     return {
+      name: {
+        required: helpers.withMessage("Введіть ім'я", required),
+        min: helpers.withMessage(
+          "Ім'я має бути довшим за 2 символи",
+          minLength(2)
+        ),
+      },
       login: {
         required: helpers.withMessage('Введіть логін', required),
         min: helpers.withMessage(
