@@ -4,27 +4,53 @@
   >
     <form class="w-full rounded-lg border-2 border-blue-600 p-4 lg:w-96 lg:p-5">
       <h2 class="mb-8 text-center text-3xl font-bold">Реєстрація</h2>
+      <small
+        v-if="v$.name.$error"
+        class="p-error"
+        >{{ v$.name.$errors[0].$message }}</small
+      >
       <InputText
         v-model="name"
         placeholder="ПІБ"
         class="mb-5 w-full"
+        :class="{ 'p-invalid': v$.name.$errors.length }"
       />
+      <small
+        v-if="v$.login.$error"
+        class="p-error"
+        >{{ v$.login.$errors[0].$message }}</small
+      >
       <InputText
         v-model="login"
         placeholder="Логін"
         class="mb-5 w-full"
+        :class="{ 'p-invalid': v$.login.$errors.length }"
       />
+      <small
+        v-if="v$.password.$error"
+        class="p-error text-xs"
+        >{{ v$.password.$errors[0].$message }}</small
+      >
       <Password
         v-model="password"
         toggle-mask
+        :feedback="false"
         placeholder="Пароль"
         class="mb-5 w-full"
+        :class="{ 'p-invalid': v$.password.$errors.length }"
       />
+      <small
+        v-if="v$.confirmPassword.$error"
+        class="p-error text-xs"
+        >{{ v$.confirmPassword.$errors[0].$message }}</small
+      >
       <Password
         v-model="confirmPassword"
+        :feedback="false"
         toggle-mask
         placeholder="Підтвердження паролю"
         class="mb-5 w-full"
+        :class="{ 'p-invalid': v$.confirmPassword.$errors.length }"
       />
       <InputText
         v-model="accord"
@@ -40,8 +66,8 @@
         <NuxtLink
           class="text-sm font-semibold text-blue-900 transition-all hover:text-blue-500"
           to="/auth/login"
-          >Увійдіть</NuxtLink
-        >
+          >Увійдіть
+        </NuxtLink>
         до його
       </p>
       <ui-toast />
@@ -68,8 +94,6 @@
 
   definePageMeta({ layout: 'auth' })
 
-  const isPasswordRevealed = ref<boolean>(false)
-
   const { rules } = useRules()
 
   const login = ref('')
@@ -88,20 +112,11 @@
           sameAs(password)
         ),
       },
-      name: rules.value.login,
+      name: rules.value.name,
       accord: rules.value.login,
     },
     { login, password, name, accord, confirmPassword }
   )
-
-  const error = computed(() => (label: string): string => {
-    if (!v$.value[label].$errors || !v$.value[label].$errors.length) {
-      return ''
-    }
-    return v$.value[label].$errors
-      .map((er: Record<string, unknown>) => er.$message || '')
-      .join('. ')
-  })
 
   const submitForm = async () => {
     const result = await v$.value.$validate()

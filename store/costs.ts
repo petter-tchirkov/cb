@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
+import { useDateStore } from './date'
 import { ICostsItem } from '~/types/costsItem'
 import { ICosts } from '~/types/costs'
 
@@ -23,7 +24,7 @@ export const useCostsStore = defineStore('costs', () => {
         per_page: filterParams.per_page,
         bot_name: filterParams.bot_name,
         country: filterParams.country,
-        date: filterParams.date,
+        date: useDateStore().chosenDatesSerialized,
         show_all: filterParams.show_all,
       },
       onResponse({ response }) {

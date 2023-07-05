@@ -8,24 +8,36 @@
         v-model:filters="filters"
         :value="costsStore.costs"
         class="p-datatable-sm"
-        paginator
-        :rows="!filterParams.show_all ? 15 : 1000"
+        :paginator="isShownAll"
+        :rows="!filterParams.show_all ? 10 : 1000"
         filter-display="row"
         scrollable
-        scroll-height="75vh"
+        scroll-height="80vh"
       >
         <template #header>
-          <div class="flex gap-3">
-            <Calendar
-              v-model="date"
-              selection-mode="range"
-              date-format="yy-mm-dd"
-              show-icon
-            />
-            <Button
-              label="Завтосувати"
-              @click="filterData"
-            />
+          <div class="flex justify-between">
+            <div class="flex gap-3">
+              <Calendar
+                v-model="useDateStore().chosenDates"
+                selection-mode="range"
+                date-format="yy-mm-dd"
+                show-icon
+              />
+              <Button
+                label="Завтосувати"
+                @click="filterData"
+              />
+            </div>
+            <div class="flex gap-3">
+              <Button
+                label="Експортувати в CSV"
+                @click="exportCosts(filterParams)"
+              />
+              <Button
+                :label="isShownAll ? 'Показати все' : 'Скрити'"
+                @click="isShownAll = !isShownAll"
+              />
+            </div>
           </div>
         </template>
         <template #empty>
@@ -37,12 +49,7 @@
           Total Charged:
           <span class="font-bold">{{ useCostsStore().totalCharged }}</span>
         </template>
-        <template #paginatorend>
-          <Button
-            label="Показати все"
-            @click="showHideAllFields"
-          />
-        </template>
+        <template #footer> </template>
         <Column
           field="date"
           header="DATE"
@@ -126,13 +133,15 @@
 </template>
 
 <script lang="ts" setup>
-  import { useWindowSize, useNow, useDateFormat } from '@vueuse/core'
+  import { useWindowSize } from '@vueuse/core'
   import { FilterMatchMode } from 'primevue/api'
+  import { useNotification } from '@kyvg/vue3-notification'
   import { useCostsStore } from '~/store/costs'
+  import { useDateStore } from '~/store/date'
   import { useAuthStore } from '~/store/auth'
   import { ICosts } from '~/types/costs'
 
-  const { firstDayOfCurrentMonth, lastDayOfCurrentMonth } = useGetCurrentMonth()
+  const { notify } = useNotification()
 
   definePageMeta({
     middleware: ['login', 'auth'],
@@ -143,17 +152,6 @@
   const url = useRuntimeConfig().public.baseURL
   const user = useAuthStore().user?.user_id
   const costsStore = useCostsStore()
-  const date = ref([firstDayOfCurrentMonth, lastDayOfCurrentMonth])
-
-  const dateParsed = computed(() => {
-    if (date) {
-      return date.value.map((i) => {
-        return i.toISOString().substring(0, 10)
-      })
-    } else {
-      return Date.today()
-    }
-  })
 
   const filterParams: ICosts = reactive({
     id: user as number,
@@ -161,7 +159,7 @@
     per_page: width.value >= 1024 ? 10 : 4,
     bot_name: '',
     country: '',
-    date: dateParsed,
+    date: useDateStore().chosenDatesSerialized,
     show_all: false,
   })
 
@@ -174,10 +172,7 @@
     await costsStore.getCosts(filterParams)
   }
 
-  const showHideAllFields = async () => {
-    filterParams.show_all = !filterParams.show_all
-    await costsStore.getCosts(filterParams)
-  }
+  const isShownAll = ref(false)
 
   await costsStore.getCosts(filterParams)
 
@@ -208,9 +203,15 @@
         per_page: filterParams.per_page,
         bot_name: filterParams.bot_name,
         country: filterParams.country,
-        date_from: filterParams.date_from,
-        date_to: filterParams.date_to,
+        date_from: useDateStore().chosenDatesSerialized[0],
+        date_to: useDateStore().chosenDatesSerialized[1],
         show_all: filterParams.show_all,
+      },
+      onRequestError() {
+        notify({
+          text: 'Internal Server Error',
+          type: 'error',
+        })
       },
       onResponse({ response }) {
         const blob = new Blob([response._data], { type: 'octet-stream' })
@@ -219,8 +220,8 @@
           href,
           style: 'display:none',
           download: `${useAuthStore().user?.user_name} ${
-            filterParams.date_from
-          } - ${filterParams.date_to}.csv`,
+            useDateStore().chosenDatesSerialized[0]
+          } - ${useDateStore().chosenDatesSerialized[1]}.csv`,
         })
         document.body.appendChild(a)
         a.click()
