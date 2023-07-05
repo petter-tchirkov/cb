@@ -8,6 +8,8 @@
         v-model:filters="filters"
         :value="doc.documents"
         filter-display="row"
+        scrollable
+        scroll-height="800px"
       >
         <Column
           header="Період"
@@ -67,6 +69,16 @@
           header="Номер"
           field="number"
         />
+        <Column header="Посилання">
+          <template #body="{ data }">
+            <NuxtLink
+              :to="data.link"
+              class="rounded-full p-2 hover:bg-gray-100"
+            >
+              <Icon name="material-symbols:export-notes-rounded" />
+            </NuxtLink>
+          </template>
+        </Column>
       </DataTable>
     </div>
   </section>
