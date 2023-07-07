@@ -18,6 +18,7 @@
             selection-mode="range"
             date-format="yy-mm-dd"
             show-icon
+            @update:model-value="updateCostsTable"
           />
           <Button
             label="Застосувати"
@@ -102,11 +103,13 @@
   await useAdminStore().getBotsCosts(useDateStore().chosenDatesSerialized)
 
   const updateCostsTable = () => {
-    useAdminStore().getBotsCosts(useDateStore().chosenDatesSerialized)
-    notify({
-      text: 'Успішно оновлено',
-      type: 'success',
-    })
+    if (useDateStore().chosenDates[1] !== null) {
+      useAdminStore().getBotsCosts(useDateStore().chosenDatesSerialized)
+      notify({
+        text: 'Успішно оновлено',
+        type: 'success',
+      })
+    }
   }
   const filters = ref({
     botURI: { value: null, matchMode: FilterMatchMode.STARTS_WITH },

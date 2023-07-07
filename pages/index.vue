@@ -8,7 +8,7 @@
         v-model:filters="filters"
         :value="costsStore.costs"
         class="p-datatable-sm"
-        :paginator="isShownAll"
+        :paginator="!isShownAll"
         :rows="!filterParams.show_all ? 10 : 1000"
         filter-display="row"
         scrollable
@@ -34,7 +34,7 @@
                 @click="exportCosts(filterParams)"
               />
               <Button
-                :label="isShownAll ? 'Показати все' : 'Скрити'"
+                :label="!isShownAll ? 'Показати все' : 'Скрити'"
                 @click="isShownAll = !isShownAll"
               />
             </div>

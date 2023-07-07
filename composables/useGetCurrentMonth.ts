@@ -25,10 +25,17 @@ export const useGetCurrentMonth = () => {
     0
   )
 
+  const firstDayOfLastMonth = new Date(
+    date.getFullYear(),
+    date.getMonth() - 1,
+    1
+  )
+
   return {
     firstDayOfCurrentMonth,
     lastDayOfCurrentMonth,
     firstDaySerialized,
     lastDaySerialized,
+    firstDayOfLastMonth,
   }
 }
